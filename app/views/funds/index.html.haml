@@ -1,0 +1,22 @@
+.invest_root
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Name'
+        =col_header 'Symbol'
+        =col_header 'Israeli Number'
+        =col_header 'Currency'
+        =col_header 'Current Price'
+    %tbody
+      -@shares.each do |share|
+        %tr
+          %td
+            #{share.name}
+          %td
+            #{share.symbol}
+          %td
+            #{share.israeli_number}
+          %td
+            #{share.currency}
+          %td
+            #{share.current_price}

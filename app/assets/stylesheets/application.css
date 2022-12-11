@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+tr.rowcol_1 {
+  background-color: antiquewhite
+}
+
+tr:hover {
+  background-color: cadetblue
+}

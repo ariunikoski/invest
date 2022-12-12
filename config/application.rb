@@ -18,5 +18,9 @@ module InvestServer
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    puts 'config.root = ' + config.root.to_s
+    config.autoload_paths += %W(#{config.root}/lib)
+    Encoding.default_external = Encoding::UTF_8
+    Encoding.default_internal = Encoding::UTF_8
   end
 end

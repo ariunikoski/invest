@@ -1,4 +1,6 @@
 .invest_root
+  %h1
+    Shares
   %table{border: 1}
     %thead
       %tr
@@ -7,16 +9,25 @@
         =col_header 'Israeli Number'
         =col_header 'Currency'
         =col_header 'Current Price'
+        =col_header '#shares'
+        =col_header 'Links'
     %tbody
+      -@toggle = true
       -@shares.each do |share|
-        %tr
+        -@toggle = !@toggle
+        -@rowclass = @toggle ? 'rowcol_1' : 'rowcol_2'
+        %tr{class: @rowclass}
           %td
             #{share.name}
           %td
             #{share.symbol}
           %td
-            #{share.israeli_number}
+            #{share.israeli_number > 0 ? share.israeli_number : ''}
           %td
             #{share.currency}
           %td
             #{share.current_price}
+          %td
+            #{share.holdings.sum(:amount)}
+          %td
+            =get_links share

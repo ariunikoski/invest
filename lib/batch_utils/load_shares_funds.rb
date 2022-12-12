@@ -1,4 +1,7 @@
 module BatchUtils
+require './lib/batch_utils/handlers/share_handler.rb'
+require './lib/batch_utils/handlers/fund_handler.rb'
+require './lib/batch_utils/handlers/holding_handler.rb'
 class LoadSharesFunds
   def initialize filename
     puts 'Ready to load ' + filename
@@ -9,7 +12,19 @@ class LoadSharesFunds
     inval.chomp(remchar).reverse.chomp(remchar).reverse
   end
 
-  def run
+  def import_holdings
+    handle_file(HoldingHandler.new)
+  end
+
+  def import_funds
+    handle_file(FundHandler.new)
+  end
+
+  def import_shares
+    handle_file(ShareHandler.new)
+  end
+  
+  def handle_file handler
     puts 'Now loading ' + @filename
     File.foreach(@filename) do |line|
       #puts 'Handling ' + line
@@ -34,6 +49,7 @@ class LoadSharesFunds
       investing = awk[27]
       puts "name = #{name} account=#{account} israeli_number = #{israeli_number} type = #{type} purchase_value=#{purchase_value} quantity=#{quantity} currency=#{currency} yahoo=#{yahoo} investing = #{investing}"
 
+      handler.handle_line(name, israeli_number, type, account, purchase_value, quantity, currency, yahoo, investing)
       #(8..30).each do |ii|
       #  puts '>>> now doing ', ii
       #  puts 'entry ' + ii.to_s + ' = ' + awk[ii]

@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  linked_to: one
+  linked_to_type: Linked to
+
+two:
+  linked_to: two
+  linked_to_type: Linked to

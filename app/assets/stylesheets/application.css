@@ -21,3 +21,12 @@ tr.rowcol_1 {
 tr:hover {
   background-color: cadetblue
 }
+
+td.number {
+	text-align: right;
+}
+
+td {
+	padding-left: 5px;
+	padding-right: 5px;
+}

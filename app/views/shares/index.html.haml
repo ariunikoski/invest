@@ -16,18 +16,19 @@
       -@shares.each do |share|
         -@toggle = !@toggle
         -@rowclass = @toggle ? 'rowcol_1' : 'rowcol_2'
-        %tr{class: @rowclass}
+        %tr{class: @rowclass, onclick: "getDetails()"}
           %td
             #{share.name}
           %td
             #{share.symbol}
-          %td
+          %td.number
             #{share.israeli_number > 0 ? share.israeli_number : ''}
           %td
             #{share.currency}
-          %td
+          %td.number
             #{share.current_price}
-          %td
+          %td.number
             #{share.holdings.sum(:amount)}
           %td
             =get_links share
+  .details_location{id: 'details_location'}

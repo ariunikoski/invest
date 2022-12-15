@@ -1,34 +1,35 @@
 .invest_root
   %h1
     Shares
-  %table{border: 1}
-    %thead
-      %tr
-        =col_header 'Name'
-        =col_header 'Symbol'
-        =col_header 'Israeli Number'
-        =col_header 'Currency'
-        =col_header 'Current Price'
-        =col_header '#shares'
-        =col_header 'Links'
-    %tbody
-      -@toggle = true
-      -@shares.each do |share|
-        -@toggle = !@toggle
-        -@rowclass = @toggle ? 'rowcol_1' : 'rowcol_2'
-        %tr{class: @rowclass, onclick: "getDetails()"}
-          %td
-            #{share.name}
-          %td
-            #{share.symbol}
-          %td.number
-            #{share.israeli_number > 0 ? share.israeli_number : ''}
-          %td
-            #{share.currency}
-          %td.number
-            #{share.current_price}
-          %td.number
-            #{share.holdings.sum(:amount)}
-          %td
-            =get_links share
-  .details_location{id: 'details_location'}
+  %table{border:0}
+    %tr
+      %td
+        %table{border: 1}
+          %thead
+            %tr
+              =col_header 'Name'
+              =col_header 'Symbol'
+              =col_header 'Israeli Number'
+              =col_header 'Currency'
+              =col_header 'Current Price'
+              =col_header '#shares'
+          %tbody
+            -@toggle = true
+            -@shares.each do |share|
+              -@toggle = !@toggle
+              -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+              %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
+                %td
+                  #{share.name}
+                %td
+                  #{share.symbol}
+                %td.number
+                  #{share.israeli_number > 0 ? share.israeli_number : ''}
+                %td
+                  #{share.currency}
+                %td.number
+                  #{share.current_price}
+                %td.number
+                  #{share.holdings.sum(:amount)}
+      %td
+        .details_location{id: 'details_location'}

@@ -4,7 +4,7 @@ class SharesController < ApplicationController
   end
   
   def show
-    @share='try from here'
+    @share=Share.find(params[:id])
     render partial: 'shares/show'
   end
 end

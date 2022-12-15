@@ -1,4 +1,28 @@
 .details
-  %H1
-    details
-  fred = #{@share}
+  %H2
+    Details For: #{@share.name}
+  =get_links @share
+  %H3
+    Holdings
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Purchase Date'
+        =col_header 'Quantity'
+        =col_header 'Purchase Price'
+        =col_header 'Account'
+    %tbody
+      -@toggle = true
+      -@share.holdings.each do |holding|
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        %tr{class: @rowclass}
+          %td
+            #{holding.purchase_date}
+          %td.number
+            #{holding.amount}
+          %td.number
+            #{holding.cost}
+          %td
+            #{holding.account}
+      

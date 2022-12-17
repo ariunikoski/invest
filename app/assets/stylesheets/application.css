@@ -17,6 +17,7 @@
 th {
 	padding-left: 5px;
 	padding-right: 5px;
+	background-color: coral;
 }
 
 tr.selected {

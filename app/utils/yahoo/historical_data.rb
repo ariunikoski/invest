@@ -1,10 +1,13 @@
 module Yahoo
   require 'rest-client'
   class HistoricalData
-    def initialize(share, symbol, region)
+    def initialize(share)
       @share = share
-      @symbol = symbol
-      @region = region
+      @symbol = share.symbol
+      awk = @share.symbol.split('.')
+      awk[1] = 'US' if awk.length == 1
+      @region = awk[1]
+      puts "Ready to load for #{@symbol} #{@region}"
     end
  
     # Symbol	Region
@@ -13,7 +16,9 @@ module Yahoo
     # ATRY.TA   TA
     # NAB.AX    AX
     # AQN.TO    TO
-    # TODO: calculate symbol and region from share, not via params
+    # Satuday morning - not working????
+    # documentation suggests region is optional - try without
+    # create my own user... in rapid api
     # TODO: add button to screen to run it
     # TODO: add order by for holdings and dividends
     
@@ -23,12 +28,14 @@ module Yahoo
     
     def load
       begin
+        params = {'symbol': @symbol, 'region': @region}
+        puts '>>> params = ', params, params.to_json
         response =  RestClient.get("https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data", {
 		  'content_type': 'json',
 		  'accept': 'json', 
           'X-RapidAPI-Key': 'cefb88ea18msh5dc12cef89546d2p10de4bjsne8e995c4b445',
           'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com',
-          'params': {'symbol': @symbol, 'region': @region}
+          'params': params
         })
       rescue => e
         puts "Failed to get data for: #{@symbol}, #{@region} with #{e}"
@@ -38,8 +45,11 @@ module Yahoo
         puts "Failed to get data for: #{@symbol}, #{@region} with #{response.code}"
         return
       end
-      data = JSON.parse(response.body)
-      handle_dividends(data['eventsData'])
+      puts '>>> empty?', response.body, response.body.empty?
+      if !response.body.empty?
+        data = JSON.parse(response.body)
+        handle_dividends(data['eventsData'])
+      end
     end
     
     def handle_dividends(events)

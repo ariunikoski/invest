@@ -26,3 +26,23 @@
           %td
             #{holding.account}
       
+  %H3
+    Dividends
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'X Date'
+        =col_header 'Payment Date'
+        =col_header 'Amount'
+    %tbody
+      -@toggle = true
+      -@share.dividends.each do |dividend|
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        %tr{class: @rowclass}
+          %td
+            #{dividend.x_date}
+          %td
+            #{dividend.payment_date}
+          %td.number
+            #{dividend.amount}

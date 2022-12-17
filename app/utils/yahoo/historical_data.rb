@@ -7,12 +7,15 @@ module Yahoo
       @region = region
     end
  
-    # TODO test with israel share
-    # TODO: test with aussie share
-    # TODO: test with canadian share
+    # Symbol	Region
+    # ----------------
+    # IBM		US
+    # ATRY.TA   TA
+    # NAB.AX    AX
+    # AQN.TO    TO
     # TODO: calculate symbol and region from share, not via params
     # TODO: add button to screen to run it
-    # TODO: display dividends in details   
+    # TODO: add order by for holdings and dividends
     
     # TODO: think about mechanism for marking guys that need to have this run....
     

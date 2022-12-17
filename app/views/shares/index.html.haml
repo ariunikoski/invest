@@ -24,7 +24,7 @@
                 %td
                   #{share.symbol}
                 %td.number
-                  #{share.israeli_number > 0 ? share.israeli_number : ''}
+                  #{share.israeli_number && share.israeli_number > 0 ? share.israeli_number : ''}
                 %td
                   #{share.currency}
                 %td.number

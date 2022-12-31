@@ -1,0 +1,9 @@
+- key_suffix = "_#{obj.class.name}_#{field_name}_#{obj.id}"
+- data_key = "data#{key_suffix}"
+- field_span_key = "field#{key_suffix}"
+- input_key = "input#{key_suffix}"
+.visible.fullwidth{id: data_key,  ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
+  #{data}
+.hidden{id: field_span_key}
+  %input.column_field{id: input_key, onkeydown: "handleInputChar(event,  #{obj.id}, '#{obj.class.name}', '#{field_name}', '#{data_key}', '#{field_span_key}', '#{input_key}')"}
+  

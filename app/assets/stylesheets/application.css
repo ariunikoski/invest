@@ -47,3 +47,19 @@ div.details {
 	position: absolute;
 	padding-left: 15px;
 }
+
+div.hidden {
+	display: none;
+}
+
+div.fullwidth {
+	width: 100%;
+}
+
+div.visible {
+}
+
+input.column_field {
+	width: 100%;
+	background-color: lightgreen;
+}

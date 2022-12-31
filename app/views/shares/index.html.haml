@@ -27,13 +27,13 @@
               -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
               %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
                 %td
-                  #{share.name}
+                  = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
                 %td
-                  #{share.symbol}
+                  = render :partial => 'shared/field', :locals => { obj: share, data: share.symbol, field_name: 'symbol' }
                 %td.number
-                  #{share.israeli_number && share.israeli_number > 0 ? share.israeli_number : ''}
+                  = render :partial => 'shared/field', :locals => { obj: share, data: share.israeli_number, field_name: 'israeli_number' }
                 %td
-                  #{share.currency}
+                  = render :partial => 'shared/field', :locals => { obj: share, data: share.currency, field_name: 'currency' }
                 %td.number
                   #{format_number(current_price, 2)}
                 %td.number

@@ -1,6 +1,9 @@
 .invest_root
   %h1
     Shares
+  .tools
+    %button{onclick: "getCurrentPrices()"}
+      Get Current Prices
   %table{border:0}
     %tr
       %td
@@ -13,9 +16,13 @@
               =col_header 'Currency'
               =col_header 'Current Price'
               =col_header '#shares'
+              =col_header 'Current Value'
           %tbody
             -@toggle = true
             -@shares.each do |share|
+              -total_holdings = share.holdings.sum(:amount)
+              -current_price = share.current_price
+              -total_value = current_price ? total_holdings * current_price : nil
               -@toggle = !@toggle
               -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
               %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
@@ -28,8 +35,10 @@
                 %td
                   #{share.currency}
                 %td.number
-                  #{share.current_price}
+                  #{format_number(current_price, 2)}
                 %td.number
-                  #{share.holdings.sum(:amount)}
+                  #{format_number(total_holdings)}
+                %td.number
+                  #{format_number(total_value,2)}
       %td
         .details_location{id: 'details_location'}

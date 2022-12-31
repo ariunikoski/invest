@@ -14,4 +14,8 @@ module ShareHelper
 
     end
   end
+  
+  def format_number(num, precision = 0)
+    num ? num.to_fs(:delimited, precision: precision) : nil
+  end
 end

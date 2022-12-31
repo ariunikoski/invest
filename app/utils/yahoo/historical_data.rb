@@ -16,11 +16,13 @@ module Yahoo
     # ATRY.TA   TA
     # NAB.AX    AX
     # AQN.TO    TO
-    # Satuday morning - not working????
     # documentation suggests region is optional - try without
     # create my own user... in rapid api
-    # TODO: add button to screen to run it
     # TODO: add order by for holdings and dividends
+    # TODO: yahoo - get current price and update... this can also set the last dividend payment date
+    
+    # TODO once current price, I can do my own trailing ytd, and then percent of current, and weighted percent against investment - and projected income.
+    # 
     
     # TODO: think about mechanism for marking guys that need to have this run....
     

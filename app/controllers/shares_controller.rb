@@ -16,4 +16,11 @@ class SharesController < ApplicationController
     loader.load
     render partial: 'shares/show'
   end
+  
+  def yahoo_current_prices
+    puts '>>> entered load yahoo current prices'
+    loader = Yahoo::Quotes.new
+    loader.load
+    head :ok
+  end
 end

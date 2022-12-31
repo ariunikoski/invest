@@ -48,3 +48,23 @@ function callYahooHistoricals(shareId) {
     xhr.send();
 	
 }
+
+function getCurrentPrices() {
+    var xhr = new XMLHttpRequest();
+  
+    var url = 'yahoo_current_prices/'
+    xhr.open("GET", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          console.log('>>> success  get current', this.responseText);
+          location.reload()
+        } else {
+		  console.log('get current prices failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+}

@@ -1,4 +1,5 @@
 class SharesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def index
     @shares = Share.order(:name)
   end
@@ -6,6 +7,15 @@ class SharesController < ApplicationController
   def show
     @share=Share.find(params[:id])
     render partial: 'shares/show'
+  end
+  
+  def update
+    puts '>>> update entered!!! Hooray', params
+    share = Share.find(params[:id])
+    return head :bad_request if !share
+    puts '>>> share  = ', share
+	share.update(JSON.parse(params[:Share]))
+    head :ok
   end
   
   def load_yahoo_historicals

@@ -43,11 +43,27 @@ function handleInputChar(event, objId, table_name, field_name, data_key, field_s
 function updateField(objId, table_name, field_name, data_key, field_span_key, input_key) {
 	console.log('>>> going to update: ', objId, table_name, field_name, data_key, field_span_key, input_key)
 	let dataVal = document.getElementById(input_key).value
-	// ### do the table update
-	document.getElementById(data_key).innerText = dataVal
 	
-	makeVisible(data_key)
-	makeInvisible(field_span_key)
+	var xhr = new XMLHttpRequest();
+  
+    var url = `${table_name.toLowerCase()}s/${objId}?${table_name}={"${field_name}":"${dataVal}"}`
+    console.log( '>>> url = ', url)
+    xhr.open("PUT", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        if (this.status !== 200) {
+		  console.log('failure in update')
+		  dataVal = 'Update failed'
+		}
+    	document.getElementById(data_key).innerText = dataVal
+	
+		makeVisible(data_key)
+		makeInvisible(field_span_key)
+      }
+    }
+    // Sending our request 
+    xhr.send();
 }
 
 function cancelUpdateField(data_key, field_span_key) {

@@ -59,6 +59,12 @@ div.fullwidth {
 div.visible {
 }
 
+div.dataForm {
+	border: black solid 1px;
+	padding: 10px;
+	margin: 10px;
+}
+
 input.column_field {
 	width: 100%;
 	background-color: lightgreen;

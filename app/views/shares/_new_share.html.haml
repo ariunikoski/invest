@@ -1,0 +1,14 @@
+.hidden.dataForm{id: 'new_share'}
+  %H3
+    Add New Share
+  %form{name: "new_share",  method: 'post', action: 'shares'}
+    %table
+      = render :partial => 'shared/new_field', :locals => { field_name: 'name'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'symbol'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'israel_number'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'currency'}
+    %button{type: 'button', onclick: 'makeInvisible("new_share")'}
+      Cancel
+    %button{type: 'submit', name: 'submit'}
+      Submit
+      

@@ -9,6 +9,12 @@ class SharesController < ApplicationController
     render partial: 'shares/show'
   end
   
+  def create
+    new_share_params = params.permit(:name, :currency, :israeli_number, :symbol)
+    Share.new(new_share_params).save!
+    redirect_to shares_url
+  end
+  
   def update
     puts '>>> update entered!!! Hooray', params
     share = Share.find(params[:id])

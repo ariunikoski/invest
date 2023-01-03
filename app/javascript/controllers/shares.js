@@ -67,3 +67,7 @@ function getCurrentPrices() {
     // Sending our request 
     xhr.send();
 }
+
+function showShareInputForm() {
+	makeVisible('new_share')
+}

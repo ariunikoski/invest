@@ -32,6 +32,10 @@ tr.indexrow:hover {
   background-color: cadetblue;
 }
 
+td.action_col {
+	text-align: center;
+}
+
 td.number {
 	text-align: right;
 }
@@ -68,4 +72,8 @@ div.dataForm {
 input.column_field {
 	width: 100%;
 	background-color: lightgreen;
+}
+
+img {
+	cursor: pointer;
 }

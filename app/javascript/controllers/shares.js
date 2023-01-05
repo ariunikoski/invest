@@ -71,3 +71,45 @@ function getCurrentPrices() {
 function showShareInputForm() {
 	makeVisible('new_share')
 }
+
+function showHoldingInputForm() {
+	makeVisible('new_holding')
+}
+
+function deleteShare(shareId) {
+    var xhr = new XMLHttpRequest();
+    var url = '/shares/' + shareId
+    xhr.open("DELETE", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          console.log('>>> success  success', this.responseText);
+          location.reload()
+        } else {
+		  console.log('delete share failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+}
+
+function deleteHolding(holdingId) {
+    var xhr = new XMLHttpRequest();
+    var url = '/holdings/' + holdingId
+    xhr.open("DELETE", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          console.log('>>> success  success', this.responseText);
+          location.reload()
+        } else {
+		  console.log('delete holding failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+}

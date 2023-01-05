@@ -15,6 +15,14 @@ class SharesController < ApplicationController
     redirect_to shares_url
   end
   
+  def destroy
+    puts '>>> delete called wioth', params
+    share = Share.find(params[:id].to_i)
+    return head :not_found if !share
+    share.destroy
+    head :ok
+  end
+  
   def update
     puts '>>> update entered!!! Hooray', params
     share = Share.find(params[:id])

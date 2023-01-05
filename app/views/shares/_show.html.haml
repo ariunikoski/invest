@@ -4,6 +4,10 @@
   =get_links @share
   %H3
     Holdings
+  .tools
+    %button{onclick: "showHoldingInputForm()"}
+      Add New Holding
+  = render :partial => 'new_holding', :locals => { klass: 'Share', klass_id: @share.id }
   %table{border: 1}
     %thead
       %tr
@@ -11,6 +15,7 @@
         =col_header 'Quantity'
         =col_header 'Purchase Price'
         =col_header 'Account'
+        =col_header 'Actions'
     %tbody
       -@toggle = true
       -@share.holdings.each do |holding|
@@ -20,11 +25,13 @@
           %td
             #{holding.purchase_date}
           %td.number
-            #{holding.amount}
+            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.amount, field_name: 'amount' }
           %td.number
-            #{holding.cost}
+            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.cost, field_name: 'cost' }
           %td
-            #{holding.account}
+            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
+          %td.action_col
+            = image_tag 'trash_can.png', size: 16, onclick: "deleteHolding(#{holding.id})"
       
   %H3
     Dividends
@@ -36,7 +43,7 @@
         =col_header 'Amount'
     %tbody
       -@toggle = true
-      -@share.dividends.each do |dividend|
+      -@share.dividends.order(x_date: :desc).each do |dividend|
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
         %tr{class: @rowclass}

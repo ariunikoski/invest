@@ -16,6 +16,15 @@ module ShareHelper
   end
   
   def format_number(num, precision = 0)
-    num ? num.to_fs(:delimited, precision: precision) : nil
+    # num ? ActiveSupport::NumberHelper.number_to_delimited(num, :delimited, precision: precision) : nil
+    return '' unless num
+    whole, decimal = num.to_s.split('.')
+    if whole.to_i < -999 || whole.to_i > 999
+      whole.reverse!.gsub!(/(\d{3})(?=\d)/, '\\1,').reverse!
+    end
+    return whole if precision < 1
+    decimal = '00' if !decimal
+    out_decimal = (decimal + '00')[0..1]
+    [whole, out_decimal].compact.join('.')
   end
 end

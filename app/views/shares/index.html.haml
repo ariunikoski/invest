@@ -20,6 +20,7 @@
               =col_header 'Current Price'
               =col_header '#shares'
               =col_header 'Current Value'
+              =col_header 'Actions'
           %tbody
             -@toggle = true
             -@shares.each do |share|
@@ -43,5 +44,7 @@
                   #{format_number(total_holdings)}
                 %td.number
                   #{format_number(total_value,2)}
+                %td.action_col
+                  = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
       %td
         .details_location{id: 'details_location'}

@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   get 'yahoo_current_prices', to: 'shares#yahoo_current_prices'
 
   resources :funds
+  resources :holdings
 end

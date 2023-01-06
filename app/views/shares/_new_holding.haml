@@ -6,6 +6,7 @@
       = render :partial => 'shared/new_field', :locals => { field_name: 'amount'}
       = render :partial => 'shared/new_field', :locals => { field_name: 'cost'}
       = render :partial => 'shared/new_field', :locals => { field_name: 'account'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'purchase_date', klass: 'datepicker' }
       = render :partial => 'shared/hidden_field', :locals => { field_name: 'klass', field_value: klass }
       = render :partial => 'shared/hidden_field', :locals => { field_name: 'klass_id', field_value: klass_id }
     %button{type: 'button', onclick: 'makeInvisible("new_holding")'}

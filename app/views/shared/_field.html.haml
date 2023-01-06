@@ -2,7 +2,6 @@
 - data_key = "data#{key_suffix}"
 - field_span_key = "field#{key_suffix}"
 - input_key = "input#{key_suffix}"
-- #kklass = defined?(klass) ? klass : nil
 .visible.fullwidth{id: data_key,  ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
   #{data || "&nbsp;".html_safe}
 .hidden{id: field_span_key}

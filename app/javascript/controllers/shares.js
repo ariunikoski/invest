@@ -73,6 +73,11 @@ function showShareInputForm() {
 }
 
 function showHoldingInputForm() {
+	purchase_date_field = document.getElementById('purchase_date_field')
+	purchase_date_field.DatePickerX.init({
+		mondayFirst: false,
+		format: 'dd/mm/yy'
+	})
 	makeVisible('new_holding')
 }
 

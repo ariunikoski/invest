@@ -3,6 +3,8 @@ class HoldingsController < ApplicationController
   
   def create
     new_holding_params = params.permit(:amount, :cost, :account, :purchase_date)
+    purchase_date =  new_holding_params["purchase_date"]
+    new_holding_params[:purchase_date] = Date.strptime(purchase_date,'%d/%m/%y')  if purchase_date
     holding = Holding.new(new_holding_params)
     klass = Kernel.const_get(params[:klass])
     obj = klass.find(params[:klass_id])
@@ -24,8 +26,7 @@ class HoldingsController < ApplicationController
     return head :bad_request if !holding
     updater = JSON.parse(params[:Holding])
     purchase_date =  updater["purchase_date"]
-    new_date = Date.strptime(purchase_date,'%d/%m/%y') 
-    updater[:purchase_date] = new_date if purchase_date
+    updater[:purchase_date] = Date.strptime(purchase_date,'%d/%m/%y')  if purchase_date
 	holding.update(updater)
     head :ok
   end

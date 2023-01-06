@@ -23,7 +23,8 @@
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
         %tr{class: @rowclass}
           %td
-            #{holding.purchase_date}
+            - date_string = holding.purchase_date ? holding.purchase_date.strftime('%2d/%2m/%2y') : nil
+            = render :partial => 'shared/field', :locals => { obj: holding, data: date_string, field_name: 'purchase_date', klass: 'datepicker' }
           %td.number
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.amount, field_name: 'amount' }
           %td.number

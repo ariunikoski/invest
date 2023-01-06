@@ -1,7 +1,15 @@
 function turnOnField(source, data_key, field_span_key, input_key) {
 	console.log('>>> double clicked with: ', source, data_key, field_span_key, input_key)
 	let dataVal = document.getElementById(data_key).innerText
-	document.getElementById(input_key).value = dataVal
+	inputElem = document.getElementById(input_key)
+	inputElem.value = dataVal
+	if (inputElem.classList.contains('datepicker')) {
+		console.log('adding datepicker')
+		inputElem.DatePickerX.init({
+			mondayFirst: false,
+			format: 'dd/mm/yy'
+		})
+	}
 	
 	makeInvisible(data_key)
 	makeVisible(field_span_key)

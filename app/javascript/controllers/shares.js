@@ -16,6 +16,7 @@ function getDetails(element, shareId) {
           element.classList.add('selected')
           var elem = document.getElementById('details_location')
           elem.innerHTML = this.responseText
+          launchChart()
         } else {
 		  console.log('failure')
 		}

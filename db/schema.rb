@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_16_084750) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_08_091414) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -20,6 +20,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_16_084750) do
     t.datetime "updated_at", null: false
     t.index ["share_id", "x_date"], name: "index_dividends_on_share_id_and_x_date", unique: true
     t.index ["share_id"], name: "index_dividends_on_share_id"
+  end
+
+  create_table "exchange_rates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "currency_code"
+    t.decimal "exchange_rate", precision: 15, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "funds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

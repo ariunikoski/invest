@@ -1,0 +1,27 @@
+.invest_root
+  %h1
+    Exchange Rates
+  .tools
+    %button{onclick: "loadRates()"}
+      Get Current Exchange Rates
+  %table{border:0}
+    %tr
+      %td
+        %table{border: 1}
+          %thead
+            %tr
+              =col_header 'Currency'
+              =col_header 'Exchange Rate'
+              =col_header 'Last Updates'
+          %tbody
+            -@toggle = true
+            -@rates.each do |rate|
+              -@toggle = !@toggle
+              -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+              %tr{class: @rowclass}
+                %td
+                  #{rate.currency_code}
+                %td.number
+                  #{rate.exchange_rate}
+                %td
+                  #{rate.updated_at}

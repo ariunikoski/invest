@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
   resources :funds
   resources :holdings
+  resources :exchange_rates
+  get 'load_rates', to: 'exchange_rates#load_rates'
 end

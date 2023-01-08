@@ -1,29 +1,18 @@
  function launchChart() {
+	const masterDivId = "tradingview_b3291"
+	const masterDiv = document.getElementById(masterDivId)
+	const origSymbol = masterDiv.dataset.shareSymbol
+	const shareName = masterDiv.dataset.shareName
+	const symbol = convertSymbol(origSymbol)
+	console.log('>>> masterDiv = ', masterDiv)
+	console.log('>>> masterDiv.dataset = ', masterDiv.dataset)
+	console.log('>>> shreName = ', shareName)
+	console.log('>>> symbok = ', symbol)
     new TradingView.MediumWidget({
       "symbols": [
         [
-          "FIBI",
-          "TASE:FIBIH|12M"
-        ],
-        [
-          "Apple",
-          "AAPL|1D"
-        ],
-        [
-          "Google",
-          "GOOGL|1D"
-        ],
-        [
-          "Microsoft",
-          "MSFT|1D"
-        ],
-        [
-          "ANZ",
-          "ASX:ANZ|12M"
-        ],
-        [
-          "TorontoD",
-          "TSX:TD|12M"
+          shareName,
+          `${symbol}|12M`  
         ]
       ]
       ,
@@ -46,6 +35,19 @@
       "valuesTracking": "1",
       "chartType": "line",
       "dateFormat": "dd-MM-yyyy",
-      "container_id": "tradingview_b3291"
+      "container_id": masterDivId
     });
+  }
+  
+  function convertSymbol(inval) {
+	  const awk = inval.split('.')
+	  if (awk.length < 2) return inval
+	  const xlater = {
+		  TA: 'TASE',
+		  AX: 'ASX',
+		  TO: 'TSX'
+	  }
+	  prefix = xlater[awk[1]]
+	  if (!prefix) return `${awk[1]} not found`
+	  return `${prefix}:${awk[0]}`
   }

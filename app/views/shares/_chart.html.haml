@@ -1,7 +1,7 @@
 .tradingview-widget-container
-  %div{id: "tradingview_b3291"}
+  %div{id: "tradingview_b3291", "data-share-id" => share.id, "data-share-symbol" => "#{share.symbol}" ,"data-share-name" => "#{share.name}" }
   .tradingview-widget-copyright
     %a{href: "https://www.tradingview.com/symbols/AAPL/", rel: "noopener", target: "_blank"}
       %span.blue-text
-        Fibi
+        share.name
     by TradingView

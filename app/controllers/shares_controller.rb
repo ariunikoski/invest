@@ -1,6 +1,10 @@
 class SharesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
+    @rates = {}
+    ExchangeRate.all.each do |rate|
+      @rates[rate.currency_code] = rate.exchange_rate
+    end
     @shares = Share.order(:name)
   end
   

@@ -27,4 +27,14 @@ module ShareHelper
     out_decimal = (decimal + '00')[0..1]
     [whole, out_decimal].compact.join('.')
   end
+  
+  def convert_to_nis(rate_table,  currency_code, amount)
+    puts '>>> convert_to_nis: ', rate_table, currency_code, amount
+    converted = currency_code == 'NIS' ? amount : rate_table[currency_code] * (amount || 0)
+    divide_by_100?(currency_code) ? converted/100 : converted
+  end
+  
+  def divide_by_100?(currency_code)
+    currency_code == 'NIS'
+  end
 end

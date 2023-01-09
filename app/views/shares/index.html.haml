@@ -19,14 +19,18 @@
               =col_header 'Currency'
               =col_header 'Current Price'
               =col_header '#shares'
-              =col_header 'Current Value'
+              =col_header 'Value'
+              =col_header 'Value in NIS'
               =col_header 'Actions'
           %tbody
             -@toggle = true
+            -total_total = 0
             -@shares.each do |share|
               -total_holdings = share.holdings.sum(:amount)
               -current_price = share.current_price
               -total_value = current_price ? total_holdings * current_price : nil
+              -nis_val = convert_to_nis(@rates, share.currency, total_value)
+              -total_total = total_total + nis_val
               -@toggle = !@toggle
               -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
               %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
@@ -44,7 +48,11 @@
                   #{format_number(total_holdings)}
                 %td.number
                   #{format_number(total_value,2)}
+                %td.number
+                  #{format_number(nis_val, 2)}
                 %td.action_col
                   = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
       %td
         .details_location{id: 'details_location'}
+  %h2
+    Total in nis: #{format_number(total_total, 2)}

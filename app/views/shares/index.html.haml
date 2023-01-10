@@ -19,6 +19,7 @@
               =col_header 'Currency'
               =col_header 'Current Price'
               =col_header '#shares'
+              =col_header 'Dividend Yield'
               =col_header 'Value'
               =col_header 'Value in NIS'
               =col_header 'Actions'
@@ -46,6 +47,9 @@
                   #{format_number(current_price, 2)}
                 %td.number
                   #{format_number(total_holdings)}
+                %td.number
+                  - ytd = share.div_ytd[:ytd_pcnt]
+                  #{format_number(ytd, 2)}
                 %td.number
                   #{format_number(total_value,2)}
                 %td.number

@@ -7,69 +7,65 @@
     %button{onclick: "showShareInputForm()"}
       Add new Share
   = render :partial => 'new_share'
-  %table{border:0}
-    %tr
-      %td
-        %table{border: 1}
-          %thead
-            %tr
-              =col_header 'Name'
-              =col_header 'Symbol'
-              =col_header 'Israeli Number'
-              =col_header 'Currency'
-              =col_header 'Current Price'
-              =col_header '#shares'
-              =col_header 'Current Dividend Yield'
-              =col_header 'Weighted Dividend Yield'
-              =col_header 'Value'
-              =col_header 'Value in NIS'
-              =col_header 'Actions'
-          %tbody
-            -@toggle = true
-            -total_total = 0
-            -rows_reported = 0
-            -total_ytd = 0
-            -total_weighed = 0
-            -@shares.each do |share|
-              -total_holdings = share.holdings.sum(:amount)
-              -current_price = share.current_price
-              -total_value = current_price ? total_holdings * current_price : nil
-              -nis_val = convert_to_nis(@rates, share.currency, total_value)
-              -total_total = total_total + nis_val
-              -rows_reported = rows_reported + 1
-              -weighed_ytd = share.div_ytd[:weighted_ytd]
-              -ytd = share.div_ytd[:ytd_pcnt]
-              -total_ytd = total_ytd + ytd
-              -total_weighed = total_weighed + weighed_ytd
-              -@toggle = !@toggle
-              -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-              %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
-                %td
-                  = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
-                %td
-                  = render :partial => 'shared/field', :locals => { obj: share, data: share.symbol, field_name: 'symbol' }
-                %td.number
-                  = render :partial => 'shared/field', :locals => { obj: share, data: share.israeli_number, field_name: 'israeli_number' }
-                %td
-                  = render :partial => 'shared/field', :locals => { obj: share, data: share.currency, field_name: 'currency' }
-                %td.number
-                  #{format_number(current_price, 2)}
-                %td.number
-                  #{format_number(total_holdings)}
-                %td.number
-                  #{format_number(ytd, 2)}
-                %td.number
-                  #{format_number(weighed_ytd, 2)}
-                %td.number
-                  #{format_number(total_value,2)}
-                %td.number
-                  #{format_number(nis_val, 2)}
-                %td.action_col
-                  = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
-      %td
-        .details_location{id: 'details_location'}
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Name'
+        =col_header 'Symbol'
+        =col_header 'Israeli Number'
+        =col_header 'Currency'
+        =col_header 'Current Price'
+        =col_header '#shares'
+        =col_header 'Current Dividend Yield'
+        =col_header 'Weighted Dividend Yield'
+        =col_header 'Value'
+        =col_header 'Value in NIS'
+        =col_header 'Actions'
+    %tbody
+      -@toggle = true
+      -total_total = 0
+      -rows_reported = 0
+      -total_ytd = 0
+      -total_weighed = 0
+      -@shares.each do |share|
+        -total_holdings = share.holdings.sum(:amount)
+        -current_price = share.current_price
+        -total_value = current_price ? total_holdings * current_price : nil
+        -nis_val = convert_to_nis(@rates, share.currency, total_value)
+        -total_total = total_total + nis_val
+        -rows_reported = rows_reported + 1
+        -weighed_ytd = share.div_ytd[:weighted_ytd]
+        -ytd = share.div_ytd[:ytd_pcnt]
+        -total_ytd = total_ytd + ytd
+        -total_weighed = total_weighed + weighed_ytd
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
+          %td
+            = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
+          %td
+            = render :partial => 'shared/field', :locals => { obj: share, data: share.symbol, field_name: 'symbol' }
+          %td.number
+            = render :partial => 'shared/field', :locals => { obj: share, data: share.israeli_number, field_name: 'israeli_number' }
+          %td
+            = render :partial => 'shared/field', :locals => { obj: share, data: share.currency, field_name: 'currency' }
+          %td.number
+            #{format_number(current_price, 2)}
+          %td.number
+            #{format_number(total_holdings)}
+          %td.number
+            #{format_number(ytd, 2)}
+          %td.number
+            #{format_number(weighed_ytd, 2)}
+          %td.number
+            #{format_number(total_value,2)}
+          %td.number
+            #{format_number(nis_val, 2)}
+          %td.action_col
+            = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
   %h2
     Summary
   Total in nis: #{format_number(total_total, 2)}
   Avg. Yield: #{format_number(total_ytd/rows_reported, 2)}
   Avg. Weighted Yield: #{format_number(total_weighed/rows_reported, 2)}
+.details_location{id: 'details_location'}

@@ -1,6 +1,9 @@
 .details
   %H2
     Details For: #{@share.name}
+  .tools
+    %button{onclick: "clearDetails()"}
+      Clear
   =get_links @share
   %H3
     Holdings

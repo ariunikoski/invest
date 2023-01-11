@@ -28,6 +28,10 @@ tr.rowcol_1 {
   background-color: antiquewhite;
 }
 
+tr.rowcol_2 {
+  background-color: white;
+}
+
 tr.indexrow:hover {
   background-color: cadetblue;
 }
@@ -46,10 +50,13 @@ td {
 }
 
 div.details {
-	top: 0;
 	text-align: left;
 	position: absolute;
 	padding-left: 15px;
+	width: 740px;
+	max-width: 740px;
+	background-color: ivory;
+	border: black solid 1px;
 }
 
 div.hidden {
@@ -67,6 +74,7 @@ div.dataForm {
 	border: black solid 1px;
 	padding: 10px;
 	margin: 10px;
+	background-color: white;
 }
 
 input.column_field {
@@ -76,4 +84,15 @@ input.column_field {
 
 img {
 	cursor: pointer;
+}
+
+div.details_location {
+	position: absolute;
+	top: 0;
+	right: 740px;
+}
+
+table.info_table {
+	border: black solid 1px;
+	background-color: white;
 }

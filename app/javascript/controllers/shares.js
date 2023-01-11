@@ -119,3 +119,8 @@ function deleteHolding(holdingId) {
     // Sending our request 
     xhr.send();
 }
+
+function clearDetails() {
+	elem = document.getElementById('details_location')
+	elem.innerHTML = ''
+}

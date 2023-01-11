@@ -33,28 +33,7 @@
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteHolding(#{holding.id})"
-      
-  %H3
-    Dividends
-  %table{border: 1}
-    %thead
-      %tr
-        =col_header 'X Date'
-        =col_header 'Payment Date'
-        =col_header 'Amount'
-    %tbody
-      -@toggle = true
-      -@share.dividends.order(x_date: :desc).each do |dividend|
-        -@toggle = !@toggle
-        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-        %tr{class: @rowclass}
-          %td
-            #{dividend.x_date}
-          %td
-            #{dividend.payment_date}
-          %td.number
-            #{dividend.amount}
-
+  = render :partial => 'dividends'    
   %H3
     Chart
   = render :partial => 'chart', :locals => { share: @share }

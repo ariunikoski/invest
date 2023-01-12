@@ -96,3 +96,7 @@ table.info_table {
 	border: black solid 1px;
 	background-color: white;
 }
+
+td.vertical-align {
+	vertical-align: top;
+}

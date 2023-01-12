@@ -16,21 +16,20 @@ class Share < ApplicationRecord
     stop_before = nil
     if dividends.length > 0
       most_recent = dividends.first.x_date
+      # go to the 1st day of the month following the last payment,
+      # so if this month they paid on the 10th and last year this month on the 12th, it wont count both this year and last year
+      # this resolves the rimoni bug 
       stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
     end
     last_date_considered = nil
     total_pcnt = 0
-    puts '>>> most_recent, stop_on', most_recent, stop_on
     dividends.each do |div|
-      puts '>>> now checking: ', div.x_date
       break if div.x_date < stop_on
-      puts '>>> handling it...'
       last_date_considered = div.x_date
       total_div = total_div + div.amount
     end
     
     holdings.each do |holding|
-      puts '>>> holding', holding.amount, holding.cost
       total_holdings = total_holdings + holding.amount
       total_cost = holding.amount * holding.cost + total_cost
       earning = holding.amount * total_div

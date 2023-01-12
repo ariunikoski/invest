@@ -1,45 +1,46 @@
-%H3
+%H2
   Dividends
-%table{border: 1}
-  %thead
-    %tr
-      =col_header 'X Date'
-      =col_header 'Payment Date'
-      =col_header 'Amount'
-  %tbody
-    -@toggle = true
-    -@share.dividends.order(x_date: :desc).each do |dividend|
-      -@toggle = !@toggle
-      -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-      %tr{class: @rowclass}
-        %td
-          #{dividend.x_date}
-        %td
-          #{dividend.payment_date}
-        %td.number
-          #{dividend.amount}
-
-%H4
-  Dividend Calculations
 -div_ytd = @share.div_ytd
-%table.info_table
+%table{border: 0}
   %tr
-    %td
-      Trailing YTD Date Range:
-    %td
-      #{div_ytd[:last_date]} - #{div_ytd[:most_recent]}
-  %tr
-    %td
-      Yearly earnings:
-    %td
-      #{format_number(div_ytd[:yearly_earnings], 2)}
-  %tr
-    %td
-      Avg / Weighed Cost
-    %td
-      #{format_number(div_ytd[:avg_cost], 2)} / #{format_number(div_ytd[:weighted_cost], 2)}
-  %tr
-    %td
-      Yield (current / avg / weighed )
-    %td
-      #{format_number(div_ytd[:ytd_pcnt], 2)} / #{format_number(div_ytd[:avg_ytd], 2)} / #{format_number(div_ytd[:weighted_ytd], 2)}
+    %td.vertical-align
+      %table{border: 1}
+        %thead
+          %tr
+            =col_header 'X Date'
+            =col_header 'Payment Date'
+            =col_header 'Amount'
+        %tbody
+          -@toggle = true
+          -@share.dividends.order(x_date: :desc).each do |dividend|
+            -@toggle = !@toggle
+            -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+            %tr{class: @rowclass}
+              %td
+                #{dividend.x_date}
+              %td
+                #{dividend.payment_date}
+              %td.number
+                #{dividend.amount}
+    %td.vertical-align
+      %table.info_table
+        %tr
+          %td
+            Trailing YTD Date Range:
+          %td
+            #{div_ytd[:last_date]} - #{div_ytd[:most_recent]}
+        %tr
+          %td
+            Yearly earnings:
+          %td
+            #{format_number(div_ytd[:yearly_earnings], 2)}
+        %tr
+          %td
+            Avg / Weighed Cost
+          %td
+            #{format_number(div_ytd[:avg_cost], 2)} / #{format_number(div_ytd[:weighted_cost], 2)}
+        %tr
+          %td
+            Yield (current / avg / weighed )
+          %td
+            #{format_number(div_ytd[:ytd_pcnt], 2)} / #{format_number(div_ytd[:avg_ytd], 2)} / #{format_number(div_ytd[:weighted_ytd], 2)}

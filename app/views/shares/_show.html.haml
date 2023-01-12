@@ -1,42 +1,12 @@
 .details
-  %H2
+  %H1
     Details For: #{@share.name}
   .tools
     %button{onclick: "clearDetails()"}
       Clear
+    %button{onclick: "callYahooHistoricals(#{@share.id});"}
+      Load Yahoo Dividends
   =get_links @share
-  %H3
-    Holdings
-  .tools
-    %button{onclick: "showHoldingInputForm()"}
-      Add New Holding
-  = render :partial => 'new_holding', :locals => { klass: 'Share', klass_id: @share.id }
-  %table{border: 1}
-    %thead
-      %tr
-        =col_header 'Purchase Date'
-        =col_header 'Quantity'
-        =col_header 'Purchase Price'
-        =col_header 'Account'
-        =col_header 'Actions'
-    %tbody
-      -@toggle = true
-      -@share.holdings.each do |holding|
-        -@toggle = !@toggle
-        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-        %tr{class: @rowclass}
-          %td
-            - date_string = holding.purchase_date ? holding.purchase_date.strftime('%2d/%2m/%2y') : nil
-            = render :partial => 'shared/field', :locals => { obj: holding, data: date_string, field_name: 'purchase_date', klass: 'datepicker' }
-          %td.number
-            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.amount, field_name: 'amount' }
-          %td.number
-            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.cost, field_name: 'cost' }
-          %td
-            = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
-          %td.action_col
-            = image_tag 'trash_can.png', size: 16, onclick: "deleteHolding(#{holding.id})"
-  = render :partial => 'dividends'    
-  %H3
-    Chart
   = render :partial => 'chart', :locals => { share: @share }
+  = render :partial => 'dividends'    
+  = render :partial => 'holdings'    

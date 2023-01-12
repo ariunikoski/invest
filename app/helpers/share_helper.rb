@@ -10,7 +10,6 @@ module ShareHelper
         sep = true
         concat content_tag(:button, nil, onclick: "navigator.clipboard.writeText('');navigator.clipboard.writeText('#{link.target_url}');win = window.open('#{link.target_url}','_blank');win.focus()") { link.name }
       end
-      concat content_tag(:button, nil, onclick: "callYahooHistoricals(#{share.id});") { 'Load Yahoo Dividends' }
 
     end
   end
@@ -30,7 +29,7 @@ module ShareHelper
   
   def convert_to_nis(rate_table,  currency_code, amount)
     puts '>>> convert_to_nis: ', rate_table, currency_code, amount
-    converted = currency_code == 'NIS' ? amount : rate_table[currency_code] * (amount || 0)
+    converted = currency_code == 'NIS' ? amount  || 0 : rate_table[currency_code] * (amount || 0)
     divide_by_100?(currency_code) ? converted/100 : converted
   end
   

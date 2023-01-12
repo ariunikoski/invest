@@ -16,14 +16,14 @@ class Share < ApplicationRecord
     stop_before = nil
     if dividends.length > 0
       most_recent = dividends.first.x_date
-      stop_before = most_recent.change(year: most_recent.year - 1)
+      stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
     end
     last_date_considered = nil
     total_pcnt = 0
-    puts '>>> most_recent, stop_before', most_recent, stop_before
+    puts '>>> most_recent, stop_on', most_recent, stop_on
     dividends.each do |div|
       puts '>>> now checking: ', div.x_date
-      break if div.x_date <= stop_before
+      break if div.x_date < stop_on
       puts '>>> handling it...'
       last_date_considered = div.x_date
       total_div = total_div + div.amount

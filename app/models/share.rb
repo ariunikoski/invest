@@ -31,11 +31,11 @@ class Share < ApplicationRecord
     
     holdings.each do |holding|
       total_holdings = total_holdings + holding.amount
-      total_cost = holding.amount * holding.cost + total_cost
+      total_cost = (holding.amount || 0) * (holding.cost || 0) + total_cost
       earning = holding.amount * total_div
-      pcnt = earning * 100 / holding.cost
+      pcnt = earning * 100 / (holding.cost || 0)
       total_pcnt = total_pcnt + pcnt
-      sum_of_costs = sum_of_costs + holding.cost
+      sum_of_costs = sum_of_costs + (holding.cost || 0)
     end
     
     yearly_earnings = total_div * total_holdings 

@@ -28,11 +28,12 @@ class SharesController < ApplicationController
   end
   
   def update
-    puts '>>> update entered!!! Hooray', params
     share = Share.find(params[:id])
     return head :bad_request if !share
-    puts '>>> share  = ', share
-	share.update(JSON.parse(params[:Share]))
+    j_params = JSON.parse(params[:Share])
+    j_params.keys.each { |key| j_params[key] = j_params[key].strip }
+    puts '>>> paramsjson  = ', j_params
+	share.update(j_params)
     head :ok
   end
   

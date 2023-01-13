@@ -34,6 +34,6 @@ module ShareHelper
   end
   
   def divide_by_100?(currency_code)
-    currency_code == 'NIS'
+    currency_code == 'NIS' || currency_code == 'GBP'
   end
 end

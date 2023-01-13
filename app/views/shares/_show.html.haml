@@ -1,12 +1,16 @@
 .details
   %H1
     Details For: #{@share.name}
-  .tools
-    %button{onclick: "clearDetails()"}
-      Clear
-    %button{onclick: "callYahooHistoricals(#{@share.id});"}
-      Load Yahoo Dividends
-  =get_links @share
-  = render :partial => 'chart', :locals => { share: @share }
+  %table{border: 0}
+    %tr
+      %td.vertical-align
+        .tools
+          %button{onclick: "clearDetails()"}
+            Clear
+          %button{onclick: "callYahooHistoricals(#{@share.id});"}
+            Load Yahoo Dividends
+        =get_links @share
+      %td
+        = render :partial => 'chart', :locals => { share: @share }
   = render :partial => 'dividends'    
   = render :partial => 'holdings'    

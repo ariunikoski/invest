@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   
   get '/shares/load_yahoo_historicals/:id', to: 'shares#load_yahoo_historicals'
   get 'yahoo_current_prices', to: 'shares#yahoo_current_prices'
+  get 'shares_by_account', to: 'shares#shares_by_account'
 
   resources :funds
   resources :holdings

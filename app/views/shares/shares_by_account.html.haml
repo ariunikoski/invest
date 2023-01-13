@@ -1,0 +1,13 @@
+.invest_root
+  %h1
+    Shares By Account
+  = render :partial => 'index_header'
+  = render :partial => 'new_share'
+  - @accounts.each do |acc|
+    - account = acc.account
+    %h2
+      In account: #{account}
+      - @shares = Share.joins(:holdings).where(holdings: {account: account}).uniq
+    = render :partial => 'index', :locals => { by_account: true,  account: account}
+    
+.details_location{id: 'details_location'}

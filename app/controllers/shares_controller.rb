@@ -1,10 +1,7 @@
 class SharesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    @rates = {}
-    ExchangeRate.all.each do |rate|
-      @rates[rate.currency_code] = rate.exchange_rate
-    end
+    get_rates
     @shares = Share.order(:name)
   end
   
@@ -51,5 +48,17 @@ class SharesController < ApplicationController
     loader = Yahoo::Quotes.new
     loader.load
     head :ok
+  end
+  
+  def get_rates 
+    @rates = {}
+    ExchangeRate.all.each do |rate|
+      @rates[rate.currency_code] = rate.exchange_rate
+    end
+  end
+ 
+  def shares_by_account
+    get_rates
+    @accounts = Holding.select('DISTINCT account').order(:account)
   end
 end

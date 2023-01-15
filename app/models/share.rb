@@ -3,6 +3,10 @@ class Share < ApplicationRecord
   has_many :holdings, as: :held_by, dependent: :destroy
   has_many :dividends, dependent: :destroy
   
+  def total_holdings(by_account = false, account = nil)
+    by_account ? holdings.where(account: account).sum(:amount) : holdings.sum(:amount)
+  end
+  
   def div_ytd
     @div_ytd ||= calculate_div_ytd
   end
@@ -14,13 +18,7 @@ class Share < ApplicationRecord
     sum_of_costs = 0
     most_recent = nil
     stop_before = nil
-    if dividends.length > 0
-      most_recent = dividends.first.x_date
-      # go to the 1st day of the month following the last payment,
-      # so if this month they paid on the 10th and last year this month on the 12th, it wont count both this year and last year
-      # this resolves the rimoni bug 
-      stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
-    end
+    stop_on = get_stop_on
     last_date_considered = nil
     total_pcnt = 0
     dividends.each do |div|
@@ -68,5 +66,32 @@ class Share < ApplicationRecord
 	  weighted_cost: weighted_cost,
 	  weighted_ytd: weighted_pcnt
 	}
+  end
+ 
+  def get_stop_on
+    stop_on = nil
+    if dividends.length > 0
+      most_recent = dividends.first.x_date
+      # go to the 1st day of the month following the last payment,
+      # so if this month they paid on the 10th and last year this month on the 12th, it wont count both this year and last year
+      # this resolves the rimoni bug 
+      stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
+    end
+    stop_on
+  end 
+ 
+  def projected_income
+    projected = []
+    return projected if holdings.length == 0 || dividends.length == 0
+    stop_on = get_stop_on
+    t_holdings = total_holdings(false)
+    dividends.each do |div|
+      break if div.x_date < stop_on
+      last_date_considered = div.x_date
+      amount = t_holdings * div.amount
+      projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1)
+      projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share }
+    end
+    projected
   end
 end

@@ -19,8 +19,9 @@
       -@rows_reported = 0
       -@total_ytd = 0
       -@total_weighed = 0
+      - account = nil if !defined?(account)
       -@shares.each do |share|
-        -total_holdings = by_account ? share.holdings.where(account: account).sum(:amount) : share.holdings.sum(:amount)
+        -total_holdings = share.total_holdings(by_account, account)
         -current_price = share.current_price
         -total_value = current_price ? total_holdings * current_price : nil
         -nis_val = convert_to_nis(@rates, share.currency, total_value)

@@ -61,4 +61,9 @@ class SharesController < ApplicationController
     get_rates
     @accounts = Holding.select('DISTINCT account').order(:account)
   end
+  
+  def projected_income
+    get_rates
+    @projector = Projector::Projector.new
+  end
 end

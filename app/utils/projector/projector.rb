@@ -7,9 +7,9 @@ module Projector
     end
       
     def project_shares
-      # >>> change to select all
-      get_projection(Share.find_by(symbol: 'CMA'))
-      get_projection(Share.find_by(symbol: 'ATRY.TA'))
+      Share.order(:name).each do |share|
+        get_projection(share)
+      end
 
       keys = @projections.keys.sort
       keys.each do | key|
@@ -32,9 +32,7 @@ module Projector
         bucket.add_projection(op)
       end
       
-      @ordered_months.each do |om|
-        puts '>>> ', om.dump
-      end
+      @ordered_months
     end
    
     def get_projection(share)   

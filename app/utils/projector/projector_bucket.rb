@@ -18,6 +18,18 @@ module Projector
       puts "projections: #{@projections}"
       puts "tot_by_cur: #{@tot_by_cur}"
     end
+    
+    def first_date
+      @first_date
+    end
+    
+    def projections
+      @projections
+    end
+    
+    def tot_by_cur
+      @tot_by_cur
+    end
   end
 end
       

@@ -1,0 +1,73 @@
+= render :partial => 'shared/header', :locals => { current: 'Projected Income' }
+.invest_root
+  %h1
+    Projected Income
+  %p
+    Assuming next year is identical to current year
+  - ordered_months = @projector.project_shares
+  - yearly_tot_nis = 0
+  - ordered_months.each do |om|
+    - # --> dump for date 2024-01-08}
+    - # projections: [{:projected_date=>Mon, 08 Jan 2024, :amount=>0.17176555e6, :share_name=>"Attreau", :share_symbol=>"ATRY.TA", :currency=>"NIS", :type=>:share}, {:projected_date=>Sun, 14 Jan 2024, :amount=>0.25568e3, :share_name=>"CMA", :share_symbol=>"CMA", :currency=>"USD", :type=>:share}]
+    - # tot_by_cur: {"NIS"=>0.17176555e6, "USD"=>0.25568e3}
+    
+    %h4
+      #{om.first_date.strftime('%b %y')}
+    %h5
+      Income
+    %table{border: 1}
+      %thead
+        %tr
+          =col_header 'Date'
+          =col_header 'Share'
+          =col_header 'Symbol'
+          =col_header 'Currency'
+          =col_header 'Amount'
+      %tbody
+        - @toggle = true
+        - om.projections.each do |projection|
+          -@toggle = !@toggle
+          -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+          %tr{class: @rowclass}
+            %td
+              #{projection[:projected_date]}
+            %td
+              #{projection[:share_name]}
+            %td
+              #{projection[:share_symbol]}
+            %td
+              #{projection[:currency]}
+            %td.number
+              #{format_number(projection[:amount], 2)}
+        
+    %h5
+      Total by Currency
+    %table{border: 1}
+      %thead
+        %tr
+          =col_header 'Currency'
+          =col_header 'Total'
+          =col_header 'Total in NIS'
+      %tbody
+        - @toggle = true
+        - tot_by_cur = om.tot_by_cur
+        - tot_this_month_nis = 0
+        - tot_by_cur.keys.sort.each do |curkey|
+          -@toggle = !@toggle
+          -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+          -amount = tot_by_cur[curkey]
+          %tr{class: @rowclass}
+            %td
+              #{curkey}
+            %td.number
+              #{format_number(amount, 2)}
+            %td.number
+              - nis_val = convert_to_nis(@rates, curkey, amount)
+              - tot_this_month_nis = tot_this_month_nis + nis_val
+              #{format_number(nis_val, 2)}
+    %p       
+      Monthly Total NIS: #{format_number(tot_this_month_nis, 2)}
+    %hr
+    - yearly_tot_nis = yearly_tot_nis + tot_this_month_nis
+  %p       
+    Yearly Total NIS: #{format_number(yearly_tot_nis, 2)}

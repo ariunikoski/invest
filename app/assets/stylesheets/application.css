@@ -101,3 +101,14 @@ table.info_table {
 td.vertical-align {
 	vertical-align: top;
 }
+
+sp.pill {
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10px;
+}
+
+div.badge_holder {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

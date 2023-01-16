@@ -16,17 +16,18 @@ class Share < ApplicationRecord
     total_holdings = 0
     total_cost = 0
     sum_of_costs = 0
-    most_recent = nil
     stop_before = nil
-    stop_on = get_stop_on
+    stop_on, most_recent = get_stop_on
     last_date_considered = nil
     total_pcnt = 0
     dividends.each do |div|
       break if div.x_date < stop_on
       last_date_considered = div.x_date
+      puts '>>> last_date_considered = ', last_date_considered
       total_div = total_div + div.amount
     end
     
+    puts '>>> after loop last_date_considered = ', last_date_considered
     holdings.each do |holding|
       total_holdings = total_holdings + holding.amount
       total_cost = (holding.amount || 0) * (holding.cost || 0) + total_cost
@@ -53,9 +54,7 @@ class Share < ApplicationRecord
     price = current_price || 0
     current_pcnt = price > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
     
-    puts '>>> yearkly_earnings', yearly_earnings
-    puts '>>> total holdings', total_holdings
-    puts '>>> total cost', total_cost
+    puts '>>> before cinstuction last_date_considered = ', last_date_considered
     {
 	  most_recent: most_recent,
 	  last_date: last_date_considered,
@@ -70,6 +69,7 @@ class Share < ApplicationRecord
  
   def get_stop_on
     stop_on = nil
+    most_recent = nil
     if dividends.length > 0
       most_recent = dividends.first.x_date
       # go to the 1st day of the month following the last payment,
@@ -77,7 +77,7 @@ class Share < ApplicationRecord
       # this resolves the rimoni bug 
       stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
     end
-    stop_on
+    [stop_on, most_recent]
   end 
  
   def projected_income
@@ -93,5 +93,27 @@ class Share < ApplicationRecord
       projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share }
     end
     projected
+  end
+  
+  def badges
+    @badges ||= calc_badges
+  end
+  
+  def calc_badges
+    hold_badges = []
+    ytd = div_ytd
+    puts '>>> ytd = ', ytd
+    last_date = ytd[:last_date]
+    if last_date
+      test_date = last_date.change(yy: last_date.year + 1)
+      hold_badges << :div_overdue if (test_date < Date.new)
+    end
+    if ytd[:ytd_pcnt] >= 7
+      hold_badges << :really_good_price
+    elsif ytd[:ytd_pcnt] >= 5
+      hold_badges << :good_price
+    end
+    hold_badges << :under_performer if ytd[:weighted_ytd] < 4
+    hold_badges
   end
 end

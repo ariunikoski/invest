@@ -10,6 +10,9 @@
           %button{onclick: "callYahooHistoricals(#{@share.id});"}
             Load Yahoo Dividends
         =get_links @share
+        - @share.badges.each do |badge|
+          .badge_holder
+            = create_pill(badge)
       %td
         = render :partial => 'chart', :locals => { share: @share }
   = render :partial => 'dividends'    

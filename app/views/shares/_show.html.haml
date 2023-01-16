@@ -15,5 +15,7 @@
             = create_pill(badge)
       %td
         = render :partial => 'chart', :locals => { share: @share }
+  = render :partial => 'shared/collapsible_section', :locals => { title: 'dividends' }
   = render :partial => 'dividends'    
+  = render :partial => 'shared/collapsible_section', :locals => { title: 'holdings' }
   = render :partial => 'holdings'    

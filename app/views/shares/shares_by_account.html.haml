@@ -6,9 +6,8 @@
   = render :partial => 'new_share'
   - @accounts.each do |acc|
     - account = acc.account
-    %h2
-      In account: #{account}
-      - @shares = Share.joins(:holdings).where(holdings: {account: account}).order(:name).uniq
+    = render :partial => 'shared/collapsible_section', :locals => { title: "In account: #{account}" }
+    - @shares = Share.joins(:holdings).where(holdings: {account: account}).order(:name).uniq
     = render :partial => 'index', :locals => { by_account: true,  account: account}
     
 .details_location{id: 'details_location'}

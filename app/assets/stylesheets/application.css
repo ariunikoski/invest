@@ -106,9 +106,30 @@ sp.pill {
 	padding-left: 10px;
 	padding-right: 10px;
 	border-radius: 10px;
+	white-space: nowrap;
 }
 
 div.badge_holder {
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+div.collapsible_title {
+	border: black 1px solid;
+	border-radius: 5px;
+	background-color: lightgray;
+	padding: 5px;
+	margin-top: 40px;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	font-weight: bold;
+	font-size: larger;
+}
+
+img.right-align {
+	float: right;
+}
+
+img.hidden {
+	display: none;
 }

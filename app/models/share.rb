@@ -83,7 +83,7 @@ class Share < ApplicationRecord
   def projected_income
     projected = []
     return projected if holdings.length == 0 || dividends.length == 0
-    stop_on = get_stop_on
+    stop_on, most_recent = get_stop_on
     t_holdings = total_holdings(false)
     dividends.each do |div|
       break if div.x_date < stop_on

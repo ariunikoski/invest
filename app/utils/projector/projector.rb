@@ -4,6 +4,7 @@ module Projector
       @projections = {}
       @ordered_projections = []
       @ordered_months = []
+      @yearly_by_cur = ProjectorBucket.new(nil)
     end
       
     def project_shares
@@ -30,9 +31,10 @@ module Projector
           @ordered_months << bucket
         end
         bucket.add_projection(op)
+        @yearly_by_cur.add_projection(op)
       end
       
-      @ordered_months
+      [@ordered_months, @yearly_by_cur]
     end
    
     def get_projection(share)   

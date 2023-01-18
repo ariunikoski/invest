@@ -4,7 +4,7 @@
     Projected Income
   %p
     Assuming next year is identical to current year
-  - ordered_months = @projector.project_shares
+  - ordered_months, yearly_by_cur = @projector.project_shares
   - yearly_tot_nis = 0
   - ordered_months.each do |om|
     - # --> dump for date 2024-01-08}
@@ -40,34 +40,6 @@
             %td.number
               #{format_number(projection[:amount], 2)}
         
-    %h5
-      Total by Currency
-    %table{border: 1}
-      %thead
-        %tr
-          =col_header 'Currency'
-          =col_header 'Total'
-          =col_header 'Total in NIS'
-      %tbody
-        - @toggle = true
-        - tot_by_cur = om.tot_by_cur
-        - tot_this_month_nis = 0
-        - tot_by_cur.keys.sort.each do |curkey|
-          -@toggle = !@toggle
-          -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-          -amount = tot_by_cur[curkey]
-          %tr{class: @rowclass}
-            %td
-              #{curkey}
-            %td.number
-              #{format_number(amount, 2)}
-            %td.number
-              - nis_val = convert_to_nis(@rates, curkey, amount)
-              - tot_this_month_nis = tot_this_month_nis + nis_val
-              #{format_number(nis_val, 2)}
-    %p       
-      Monthly Total NIS: #{format_number(tot_this_month_nis, 2)}
+    = render :partial => 'currency_totals', locals: { title: 'Total By Currency', total_title: 'Monthly Total NIS', tot_by_cur: om.tot_by_cur }
     %hr
-    - yearly_tot_nis = yearly_tot_nis + tot_this_month_nis
-  %p       
-    Yearly Total NIS: #{format_number(yearly_tot_nis, 2)}
+  = render :partial => 'currency_totals', locals: { title: 'Grand Total By Currency', total_title: 'Yearly Total NIS', tot_by_cur: yearly_by_cur.tot_by_cur }

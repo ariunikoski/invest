@@ -2,6 +2,9 @@
 .invest_root
   %h1
     Projected Income
+  .tools
+    %button{onclick: "exportToExcel()"}
+      Export to Excel
   %p
     Assuming next year is identical to current year
   - ordered_months, yearly_by_cur = @projector.project_shares
@@ -10,36 +13,39 @@
     - # --> dump for date 2024-01-08}
     - # projections: [{:projected_date=>Mon, 08 Jan 2024, :amount=>0.17176555e6, :share_name=>"Attreau", :share_symbol=>"ATRY.TA", :currency=>"NIS", :type=>:share}, {:projected_date=>Sun, 14 Jan 2024, :amount=>0.25568e3, :share_name=>"CMA", :share_symbol=>"CMA", :currency=>"USD", :type=>:share}]
     - # tot_by_cur: {"NIS"=>0.17176555e6, "USD"=>0.25568e3}
-    
-    %h4
-      #{om.first_date.strftime('%b %y')}
-    %h5
-      Income
-    %table{border: 1}
-      %thead
-        %tr
-          =col_header 'Date'
-          =col_header 'Share'
-          =col_header 'Symbol'
-          =col_header 'Currency'
-          =col_header 'Amount'
-      %tbody
-        - @toggle = true
-        - om.projections.each do |projection|
-          -@toggle = !@toggle
-          -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-          %tr{class: @rowclass}
-            %td
-              #{projection[:projected_date]}
-            %td
-              #{projection[:share_name]}
-            %td
-              #{projection[:share_symbol]}
-            %td
-              #{projection[:currency]}
-            %td.number
-              #{format_number(projection[:amount], 2)}
-        
-    = render :partial => 'currency_totals', locals: { title: 'Total By Currency', total_title: 'Monthly Total NIS', tot_by_cur: om.tot_by_cur }
-    %hr
+      
+    = render :partial => 'shared/collapsible_section', :locals => { title: "For Month: #{om.first_date.strftime('%b %y')}" }
+    .prediction_contents
+      %h5
+        Income
+      %table{border: 1}
+        %thead
+          %tr
+            =col_header 'Date'
+            =col_header 'Share'
+            =col_header 'Symbol'
+            =col_header 'Currency'
+            =col_header 'Accounts'
+            =col_header 'Amount'
+        %tbody
+          - @toggle = true
+          - om.projections.each do |projection|
+            -@toggle = !@toggle
+            -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+            %tr{class: @rowclass}
+              %td
+                #{projection[:projected_date]}
+              %td
+                #{projection[:share_name]}
+              %td
+                #{projection[:share_symbol]}
+              %td
+                #{projection[:currency]}
+              %td
+                #{projection[:accounts]}
+              %td.number
+                #{format_number(projection[:amount], 2)}
+          
+      = render :partial => 'currency_totals', locals: { title: 'Total By Currency', total_title: 'Monthly Total NIS', tot_by_cur: om.tot_by_cur }
+  %hr
   = render :partial => 'currency_totals', locals: { title: 'Grand Total By Currency', total_title: 'Yearly Total NIS', tot_by_cur: yearly_by_cur.tot_by_cur }

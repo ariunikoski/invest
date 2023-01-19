@@ -124,3 +124,21 @@ function clearDetails() {
 	elem = document.getElementById('details_location')
 	elem.innerHTML = ''
 }
+
+function exportToExcel() {
+    var xhr = new XMLHttpRequest();
+    var url = '/export_projected_income'
+    xhr.open("GET", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          console.log('>>> success  success', this.responseText);
+        } else {
+		  console.log('exportToExcel failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+}

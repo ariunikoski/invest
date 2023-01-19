@@ -66,4 +66,16 @@ class SharesController < ApplicationController
     get_rates
     @projector = Projector::Projector.new
   end
+    
+  def export_projected_income
+    get_rates
+    projector = Projector::Projector.new
+    ordered_months, yearly_by_cur = projector.project_shares
+    ordered_months.each do |om|
+      om.projections.each do |projection|
+        puts '>>> projection = ', projection
+      end
+    end
+    render json: 'halleluya'
+  end
 end

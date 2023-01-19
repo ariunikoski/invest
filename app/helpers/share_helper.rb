@@ -28,7 +28,6 @@ module ShareHelper
   end
   
   def convert_to_nis(rate_table,  currency_code, amount)
-    puts '>>> convert_to_nis: ', rate_table, currency_code, amount
     converted = currency_code == 'NIS' ? amount  || 0 : (rate_table[currency_code] || 0) * (amount || 0)
     divide_by_100?(currency_code) ? converted/100 : converted
   end

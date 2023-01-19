@@ -23,11 +23,9 @@ class Share < ApplicationRecord
     dividends.each do |div|
       break if div.x_date < stop_on
       last_date_considered = div.x_date
-      puts '>>> last_date_considered = ', last_date_considered
       total_div = total_div + div.amount
     end
     
-    puts '>>> after loop last_date_considered = ', last_date_considered
     holdings.each do |holding|
       total_holdings = total_holdings + holding.amount
       total_cost = (holding.amount || 0) * (holding.cost || 0) + total_cost
@@ -54,7 +52,6 @@ class Share < ApplicationRecord
     price = current_price || 0
     current_pcnt = price > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
     
-    puts '>>> before cinstuction last_date_considered = ', last_date_considered
     {
 	  most_recent: most_recent,
 	  last_date: last_date_considered,
@@ -90,9 +87,13 @@ class Share < ApplicationRecord
       last_date_considered = div.x_date
       amount = t_holdings * div.amount
       projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1)
-      projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share }
+      projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share, accounts: account_list }
     end
     projected
+  end
+  
+  def account_list
+    holdings.map{ |hh| hh.account}.uniq.sort.join(',')
   end
   
   def badges
@@ -102,11 +103,10 @@ class Share < ApplicationRecord
   def calc_badges
     hold_badges = []
     ytd = div_ytd
-    puts '>>> ytd = ', ytd
     last_date = ytd[:last_date]
     if last_date
-      test_date = last_date.change(yy: last_date.year + 1)
-      hold_badges << :div_overdue if (test_date < Date.new)
+      test_date = last_date.change(year: last_date.year + 1)
+      hold_badges << :div_overdue if (test_date < Date.today)
     end
     if ytd[:ytd_pcnt] >= 7
       hold_badges << :really_good_price

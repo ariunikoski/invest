@@ -2,7 +2,9 @@ module Yahoo
   require 'rest-client'
   class Quotes
     def initialize
-      @symbols = Share.all.map { |share| share.symbol }.join(',')
+      @symbols_array = Share.all.map { |share| share.symbol }
+      @symbols = @symbols_array.join(',')
+      #@symbols = "WBD,T"
       puts "Ready to get quotes for #{@symbols}"
     end
  
@@ -37,22 +39,44 @@ module Yahoo
       if !response.body.empty?
         data = JSON.parse(response.body)
         handle_quotes(data['quoteResponse']['result'])
+        redo_failures
         puts 'finito'
+      else
+        puts 'Response body was empty'
       end
     end
     
     def handle_quotes(quotes)
+      #puts '>>> handle_quotes calles with ', quotes
+      @successfuls = []
       quotes.each do |quote|
         handle_quote quote
       end
+      #puts ' >>> The following symbols were updated: ', @successfuls
+    end
+    
+    def redo_failures
+      failures = []
+      @symbols_array.each do |symbol|
+        failures.push(symbol) if !@successfuls.include?(symbol)
+      end
+      failures_string = failures.join(',')
+      puts 'The following failed to load: ', failures_string
+      return if failures.length == 0 || failures.length == @symbols_array.length
+      puts 'Going to try again'
+      @symbols_array = failures
+      @symbols = failures_string
+      load
     end
     
     def handle_quote quote
+      #puts '>>> handle_quote called with ', quote
       symbol = quote['symbol']
       value = quote['regularMarketPrice']
       puts "Now handling: #{symbol} #{value}"
       share = Share.find_by(symbol: symbol)
       if share
+        @successfuls.push(symbol)
         share.current_price = value
         share.save
       else

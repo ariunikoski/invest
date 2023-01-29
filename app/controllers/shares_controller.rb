@@ -68,14 +68,20 @@ class SharesController < ApplicationController
   end
     
   def export_projected_income
+    tt = Time.now
+    fname = '../' + tt.strftime("%Y_%m_%d_%T.csv")
+    outf = File.new(fname, "w")
+    outf.puts "date,amount,name,symbol,currency,type,accounts"
     get_rates
     projector = Projector::Projector.new
     ordered_months, yearly_by_cur = projector.project_shares
     ordered_months.each do |om|
       om.projections.each do |projection|
-        puts '>>> projection = ', projection
+        # {:projected_date=>Mon, 15 Jan 2024, :amount=>0.26825e3, :share_name=>"FISI", :share_symbol=>"FISI", :currency=>"USD", :type=>:share, :accounts=>"Balal,Meitav"}
+        outf.puts "#{projection[:projected_date]},#{projection[:amount]},#{projection[:share_name,]},#{projection[:share_symbol]},#{projection[:currency]},#{projection[:type]},#{projection[:accounts].gsub(',',' ')}"
       end
     end
-    render json: 'halleluya'
+    outf.close
+    render json: File.absolute_path(fname)
   end
 end

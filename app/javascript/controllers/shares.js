@@ -133,7 +133,7 @@ function exportToExcel() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          console.log('>>> success  success', this.responseText);
+          alert('Filename = ' + this.responseText);
         } else {
 		  console.log('exportToExcel failure')
 		}

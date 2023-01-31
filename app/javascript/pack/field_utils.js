@@ -79,3 +79,26 @@ function cancelUpdateField(data_key, field_span_key) {
 	makeVisible(data_key)
 	makeInvisible(field_span_key)
 }
+
+function clearLog() {
+	makeInvisible('log-toast')
+	
+    var xhr = new XMLHttpRequest();
+  
+    var url = '/clear_logs'
+    xhr.open("PUT", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+   		  console.log('clear logs success')
+        } else {
+		  console.log(' clear logs failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+	
+}
+

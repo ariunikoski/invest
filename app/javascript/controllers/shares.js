@@ -27,7 +27,6 @@ function getDetails(element, shareId) {
 }
 
 function callYahooHistoricals(shareId) {
-	console.log('>>> callYahooHistoricals calls for: ', shareId)
     var xhr = new XMLHttpRequest();
   
     var url = 'shares/load_yahoo_historicals/' + shareId
@@ -36,7 +35,6 @@ function callYahooHistoricals(shareId) {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          console.log('>>> success ', this.responseText);
           var elem = document.getElementById('details_location')
           elem.innerHTML = this.responseText
         } else {
@@ -58,7 +56,6 @@ function getCurrentPrices() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          console.log('>>> success  get current', this.responseText);
           location.reload()
         } else {
 		  console.log('get current prices failure')
@@ -90,7 +87,6 @@ function deleteShare(shareId) {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          console.log('>>> success  success', this.responseText);
           location.reload()
         } else {
 		  console.log('delete share failure')
@@ -109,7 +105,6 @@ function deleteHolding(holdingId) {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
         if (this.status == 200) {
-          console.log('>>> success  success', this.responseText);
           location.reload()
         } else {
 		  console.log('delete holding failure')

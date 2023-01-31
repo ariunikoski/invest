@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_08_091414) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_29_133913) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -59,6 +59,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_091414) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["linked_to_type", "linked_to_id"], name: "index_links_on_linked_to"
+  end
+
+  create_table "logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "message"
+    t.boolean "displayed"
+    t.string "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "shares", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

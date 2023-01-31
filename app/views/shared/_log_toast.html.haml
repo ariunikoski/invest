@@ -1,0 +1,7 @@
+- logs = Log.where.not(displayed: 1).order(:id)
+- if logs.length > 0
+  .log-toast{id: "log-toast"}
+    = image_tag 'door2.gif', size: 16, class: "right-align", onclick: "clearLog()"
+    -logs.each do |log|
+      .log-message{class: "#{log.level}" }
+        #{log.message}

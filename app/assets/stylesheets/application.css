@@ -133,3 +133,22 @@ img.right-align {
 img.hidden {
 	display: none;
 }
+
+div.log-toast {
+	margin-left: 60px;
+	border: black 1px solid;
+	width: 1500px;
+	min-width: 1500px;
+}
+	
+div.info {
+	background-color: lightgreen;
+}
+	
+div.warn {
+	background-color: yellow;
+}
+	
+div.error {
+	background-color: red;
+}

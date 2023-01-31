@@ -19,6 +19,7 @@ module Yahoo
  #};
 
     def load
+      Log.info("Commencing load of current values - #{@symbols.split(',').length} values to load")
       begin
         params = {'symbols': @symbols, 'region': 'US'}
         response =  RestClient.get("https://yh-finance.p.rapidapi.com/market/v2/get-quotes", {
@@ -30,10 +31,12 @@ module Yahoo
         })
       rescue => e
         puts "Failed to get data for: #{@symbols} with #{e}"
+        Log.error "Failed to get data for: #{@symbols} with #{e}"
         return
       end
       if response.code != 200
         puts "Failed to get data for: #{@symbols} with #{response.code}"
+        Log.error "Failed to get data for: #{@symbols} with #{response.code}"
         return
       end
       if !response.body.empty?
@@ -41,6 +44,7 @@ module Yahoo
         handle_quotes(data['quoteResponse']['result'])
         redo_failures
         puts 'finito'
+        Log.info("Successfully loaded")
       else
         puts 'Response body was empty'
       end
@@ -57,13 +61,19 @@ module Yahoo
     
     def redo_failures
       failures = []
+      Log.info("#{@successfuls.length} loaded")
       @symbols_array.each do |symbol|
         failures.push(symbol) if !@successfuls.include?(symbol)
       end
       failures_string = failures.join(',')
       puts 'The following failed to load: ', failures_string
-      return if failures.length == 0 || failures.length == @symbols_array.length
+      return if failures.length == 0
+      if failures.length == @symbols_array.length
+        Log.error("#{failures} could not be loaded")
+        return
+      end
       puts 'Going to try again'
+      Log.warn("#{failures.length} not loaded - going to try again")
       @symbols_array = failures
       @symbols = failures_string
       load

@@ -152,3 +152,28 @@ div.warn {
 div.error {
 	background-color: red;
 }
+
+span.page_link {
+	padding: 20px;
+	width: 220px;
+	margin-left: -5px;
+	display: inline-block;
+	border: black solid 1px;
+	border-radius: 10px 10px 0px 0px;
+	margin-top: 5px;
+	background-color: whitesmoke;
+	text-align: center;
+}
+
+span.current_link {
+	padding: 20px;
+	width: 220px;
+	margin-left: -5px;
+	display: inline-block;
+	border-top: black solid 1px;
+	border-left: black solid 1px;
+	border-right: black solid 1px;
+	border-radius: 10px 10px 0px 0px;
+	margin-top: 5px;
+	text-align: center;
+}

@@ -18,5 +18,13 @@ module SectorBreakdown
       @industries[industry] = SectorBreakdown::Industry.new if !@industries.include?(industry)
       @industries[industry]
     end
+    
+    def get_industries
+      @industries
+    end
+    
+    def get_totals
+      @totals
+    end
   end
 end

@@ -2,7 +2,7 @@
 - data_key = "data#{key_suffix}"
 - field_span_key = "field#{key_suffix}"
 - input_key = "input#{key_suffix}"
-.visible.fullwidth{id: data_key,  ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
+.visible.fullwidth{id: data_key,  class: (display_klass if defined?(display_klass)), ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
   #{data || "&nbsp;".html_safe}
 .hidden{id: field_span_key}
   %input.column_field{id: input_key, class: (klass if defined?(klass)), onkeydown: "handleInputChar(event,  #{obj.id}, '#{obj.class.name}', '#{field_name}', '#{data_key}', '#{field_span_key}', '#{input_key}')"}

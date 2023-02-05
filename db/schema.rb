@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_29_133913) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_05_072647) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -78,6 +78,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_29_133913) do
     t.decimal "current_price", precision: 15, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comments"
+    t.text "yahoo_summary"
+    t.string "sector"
+    t.string "industry"
   end
 
   add_foreign_key "dividends", "shares"

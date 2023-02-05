@@ -11,6 +11,10 @@ class Share < ApplicationRecord
     @div_ytd ||= calculate_div_ytd
   end
   
+  def get_amount_divider
+    ['GBP', 'NIS'].include?(currency) ? 100 : 1
+  end
+  
   def calculate_div_ytd
     total_div = 0
     total_holdings = 0

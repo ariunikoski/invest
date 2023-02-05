@@ -49,6 +49,29 @@ function callYahooHistoricals(shareId) {
 	
 }
 
+function callYahooSummary(shareId) {
+    var xhr = new XMLHttpRequest();
+  
+    var url = 'shares/load_yahoo_summary/' + shareId
+    showSpinner()
+    xhr.open("GET", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+	    hideSpinner()
+        if (this.status == 200) {
+          var elem = document.getElementById('details_location')
+          elem.innerHTML = this.responseText
+        } else {
+		  console.log('failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+	
+}
+
 function getCurrentPrices() {
     var xhr = new XMLHttpRequest();
   

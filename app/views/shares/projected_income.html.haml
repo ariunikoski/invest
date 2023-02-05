@@ -6,7 +6,7 @@
     %button{onclick: "exportToExcel()"}
       Export to Excel
   %p
-    Assuming next year is identical to current year
+    Assuming next year is identical to current year, and payment date is one month after x-date
   - ordered_months, yearly_by_cur = @projector.project_shares
   - yearly_tot_nis = 0
   - ordered_months.each do |om|

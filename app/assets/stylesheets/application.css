@@ -201,3 +201,27 @@ div.spinner.show {
   visibility: visible;
   opacity: 1;
 }
+
+div.non-table-input {
+	min-width: 20px;
+	border: black solid 1px;
+	padding: 5px;
+	border-radius: 4px;
+	background-color: darkkhaki;
+}
+
+table.single_space_table {
+	border-spacing: 0;
+}
+
+td.single_space_cell {
+	border: black solid 1px;
+}
+
+td.not_first {
+	border-left: 0;
+}
+
+td.bold {
+	font-weight: bold;
+}

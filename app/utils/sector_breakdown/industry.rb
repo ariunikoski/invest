@@ -8,5 +8,9 @@ module SectorBreakdown
       @currencies[currency] = 0 if !@currencies.include?(currency)
       @currencies[currency] = amount + @currencies[currency]
     end
+    
+    def get_currencies
+      @currencies
+    end
   end
 end

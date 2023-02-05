@@ -43,6 +43,15 @@ class SharesController < ApplicationController
     render partial: 'shares/show'
   end
   
+  def load_yahoo_summary
+    puts '>>> started load_yahoo_summary'
+    @share=Share.find(params[:id])
+    puts '>>> share = ', @share
+    loader = Yahoo::Summary.new(@share)
+    loader.load
+    render partial: 'shares/show'
+  end
+  
   def yahoo_current_prices
     puts '>>> entered load yahoo current prices'
     loader = Yahoo::Quotes.new
@@ -65,6 +74,12 @@ class SharesController < ApplicationController
   def projected_income
     get_rates
     @projector = Projector::Projector.new
+  end
+    
+  def breakdown_by_sector
+    calculator = SectorBreakdown::Calculator.new
+    @sectors = calculator.load
+    @grand_totals = calculator.get_grand_total
   end
     
   def export_projected_income

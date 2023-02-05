@@ -9,10 +9,24 @@
             Clear
           %button{onclick: "callYahooHistoricals(#{@share.id});"}
             Load Yahoo Dividends
+          %button{onclick: "callYahooSummary(#{@share.id});"}
+            Load Yahoo Summary
         =get_links @share
         - @share.badges.each do |badge|
           .badge_holder
             = create_pill(badge)
+        .mini_summary
+          %table{border:0}
+            %tr
+              %td
+                Sector:
+              %td
+                = render :partial => 'shared/field', :locals => { obj: @share, data: @share.sector, field_name: 'sector', display_klass: 'non-table-input' }
+            %tr
+              %td
+                Industry:
+              %td
+                = render :partial => 'shared/field', :locals => { obj: @share, data: @share.industry, field_name: 'industry', display_klass: 'non-table-input' }
       %td
         = render :partial => 'chart', :locals => { share: @share }
   = render :partial => 'shared/collapsible_section', :locals => { title: 'dividends' }

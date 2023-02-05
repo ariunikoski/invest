@@ -30,10 +30,12 @@ function callYahooHistoricals(shareId) {
     var xhr = new XMLHttpRequest();
   
     var url = 'shares/load_yahoo_historicals/' + shareId
+    showSpinner()
     xhr.open("GET", url, true);
     
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
+	    hideSpinner()
         if (this.status == 200) {
           var elem = document.getElementById('details_location')
           elem.innerHTML = this.responseText
@@ -51,10 +53,12 @@ function getCurrentPrices() {
     var xhr = new XMLHttpRequest();
   
     var url = 'yahoo_current_prices/'
+    showSpinner()
     xhr.open("GET", url, true);
     
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
+        hideSpinner()
         if (this.status == 200) {
           location.reload()
         } else {
@@ -123,10 +127,12 @@ function clearDetails() {
 function exportToExcel() {
     var xhr = new XMLHttpRequest();
     var url = '/export_projected_income'
+    showSpinner()
     xhr.open("GET", url, true);
     
     xhr.onreadystatechange = function () {
       if (this.readyState == 4) {
+        hideSpinner()
         if (this.status == 200) {
           alert('Filename = ' + this.responseText);
         } else {

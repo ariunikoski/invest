@@ -81,6 +81,11 @@ class SharesController < ApplicationController
     @sectors = calculator.load
     @grand_totals = calculator.get_grand_total
   end
+  
+  def breakdown_by_sector_condensed
+    # same logic, different template
+    breakdown_by_sector
+  end
     
   def export_projected_income
     tt = Time.now

@@ -166,3 +166,11 @@ function exportToExcel() {
     // Sending our request 
     xhr.send();
 }
+
+function getBreakdownBySector() {
+	location.href = '/breakdown_by_sector'
+}
+
+function getBreakdownBySectorCondensed() {
+	location.href = '/breakdown_by_sector_condensed'
+}

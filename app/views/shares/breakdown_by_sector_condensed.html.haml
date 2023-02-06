@@ -1,0 +1,24 @@
+= render :partial => 'shared/header', :locals => { current: 'Breakdown By Sector' }
+.invest_root
+  %h1
+    Breakdown By Sector (Condensed)
+.tools
+  %button{onclick: "getBreakdownBySector()"}
+    Get Detailed Version
+%table.single_space_table
+  %tr
+    %td.single_space_cell.bold
+      Sector
+    %td.single_space_cell.not_first.number.bold
+      AUD
+    %td.single_space_cell.not_first.number.bold
+      CAD
+    %td.single_space_cell.not_first.number.bold
+      GBP
+    %td.single_space_cell.not_first.number.bold
+      NIS
+    %td.single_space_cell.not_first.number.bold
+      USD
+  - @sectors.keys.sort.each do |sector_name|
+    = render :partial => 'single_industry_breakdown', :locals => { industry_name: sector_name, industry: @sectors[sector_name].get_totals }
+  = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Grand Total', industry: @grand_totals.get_totals }

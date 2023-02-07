@@ -225,3 +225,7 @@ td.not_first {
 td.bold {
 	font-weight: bold;
 }
+
+div.blank_spacer {
+	margin-bottom: 20px;
+}

@@ -77,7 +77,8 @@ class SharesController < ApplicationController
   end
     
   def breakdown_by_sector
-    calculator = SectorBreakdown::Calculator.new
+  	get_rates
+    calculator = SectorBreakdown::Calculator.new(@rates)
     @sectors = calculator.load
     @grand_totals = calculator.get_grand_total
   end

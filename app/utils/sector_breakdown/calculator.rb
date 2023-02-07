@@ -1,16 +1,18 @@
 module SectorBreakdown
   class Calculator
-    def initialize
+    def initialize(rates)
       @sectors = {}
-      @grand_total = SectorBreakdown::Sector.new('Grand Total')
+      @rates = rates
+      @grand_total = SectorBreakdown::Sector.new('Grand Total', @rates)
     end
     
     def get_sector(sector)
-      @sectors[sector] = SectorBreakdown::Sector.new(sector) if !@sectors.include?(sector)
+      @sectors[sector] = SectorBreakdown::Sector.new(sector, @rates) if !@sectors.include?(sector)
       @sectors[sector]
     end
     
     def load
+      puts '>>> sector load @rates = ', @rates
       Share.all.each do |share|
         sector = share.sector || 'undefined'
         sector_obj = get_sector(sector)

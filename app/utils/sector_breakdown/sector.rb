@@ -1,9 +1,11 @@
 module SectorBreakdown
   class Sector
-    def initialize(name)
+    def initialize(name, rates)
+      puts '>>> sector initialize: ', rates
       @industries = {}
-      @totals = SectorBreakdown::Industry.new
+      @totals = SectorBreakdown::Industry.new(rates)
       @name = name
+      @rates = rates
     end
     
     def add_share(share, use_grand_total = false)
@@ -15,7 +17,7 @@ module SectorBreakdown
     end
     
     def get_industry(industry)
-      @industries[industry] = SectorBreakdown::Industry.new if !@industries.include?(industry)
+      @industries[industry] = SectorBreakdown::Industry.new(@rates) if !@industries.include?(industry)
       @industries[industry]
     end
     

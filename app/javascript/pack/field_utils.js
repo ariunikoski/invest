@@ -109,3 +109,27 @@ function showSpinner () {
 function hideSpinner() {
   document.getElementById("spinner").classList.remove("show");
 }
+
+function show_inner_tab(elem, tab_id) {
+  tab_headings = elem.parentElement.children
+  console.log('>>> tab_headings:', tab_headings)
+  for (let ii = 0; ii < tab_headings.length; ii++) {
+    const element = tab_headings[ii];
+    console.log('>>> now doing ', element, element.id);
+    removeClass(element.id, "current_link")
+    addClass(element.id, "page_link")
+  }
+  tab_divs = elem.parentElement.parentElement.children
+  for (let ii = 0; ii < tab_divs.length; ii++) {
+    const element = tab_divs[ii];
+    if (element.id && element.id.startsWith("inner_tab")) {
+		console.log(">>> going to hide", element.id)
+		makeInvisible(element.id)
+	}
+  }
+  console.log('>>> tab_divs:', tab_divs)
+  addClass(elem.id, "current_link")
+  removeClass(elem.id, "page_link")
+  
+  makeVisible(tab_id)
+}

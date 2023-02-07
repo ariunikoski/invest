@@ -28,7 +28,14 @@
               %td
                 = render :partial => 'shared/field', :locals => { obj: @share, data: @share.industry, field_name: 'industry', display_klass: 'non-table-input' }
       %td
-        = render :partial => 'chart', :locals => { share: @share }
+        .tab_container
+          .tab_headings
+            = inner_tab("Chart", "Chart")
+            = inner_tab("Chart", "Summary")
+            = inner_tab("Chart", "Notes")
+          = inner_tab_data("Chart", "Chart", 'chart', { share: @share} )
+          = inner_tab_data("Chart", "Summary", 'show_summary', { share: @share} )
+          = inner_tab_data("Chart", "Notes", 'show_notes', { share: @share} )
   = render :partial => 'shared/collapsible_section', :locals => { title: 'dividends' }
   = render :partial => 'dividends'    
   = render :partial => 'shared/collapsible_section', :locals => { title: 'holdings' }

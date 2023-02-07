@@ -176,6 +176,9 @@ span.current_link {
 	border-radius: 10px 10px 0px 0px;
 	margin-top: 5px;
 	text-align: center;
+	background-color: white;
+	position: relative;
+	z-index: 3;
 }
 
 div.spinner {
@@ -232,4 +235,22 @@ div.blank_spacer {
 
 tr.hidden {
 	display: none;
+}
+
+span.small_tab {
+	max-width: 100px;
+	padding: 15px;
+}
+
+div.inner_tab_data {
+	border: black solid 1px;
+	margin-left: -5px;
+	background-color: white;
+	max-height: 400px;
+	min-height: 400px;
+	max-width: 620px;
+	min-width: 620px;
+	position: relative;
+	z-index: 2;
+	margin-top: -3px;
 }

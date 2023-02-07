@@ -13,7 +13,7 @@ module SectorBreakdown
     
     def load
       puts '>>> sector load @rates = ', @rates
-      Share.all.each do |share|
+      Share.all.order(:name).each do |share|
         sector = share.sector || 'undefined'
         sector_obj = get_sector(sector)
         sector_obj.add_share(share)

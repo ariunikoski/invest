@@ -229,3 +229,7 @@ td.bold {
 div.blank_spacer {
 	margin-bottom: 20px;
 }
+
+tr.hidden {
+	display: none;
+}

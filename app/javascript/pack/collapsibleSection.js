@@ -6,18 +6,26 @@ function toggleSection(elem, makeVisible) {
 	console.log('>>> collapsibleIndex', collapsibleIndex)
 	const shareIndex = collapsible.parentElement.children[collapsibleIndex + 1]
 	console.log('>>> chareIndex', shareIndex)
+	toggleNode(shareIndex, elem, makeVisible)
+}
+
+function toggleHiddenRow(elem, makeVisible, rowId) {
+	const node = document.getElementById(rowId)
+	toggleNode(node, elem, makeVisible)
+}
+
+
+function toggleNode(node, callingButton, makeVisible) {
 	if (makeVisible) {
-		shareIndex.classList.remove('hidden')
+		node.classList.remove('hidden')
 	} else {
-		shareIndex.classList.add('hidden')
+		node.classList.add('hidden')
 	}
 	
-	let otherImage = elem.nextElementSibling
+	let otherImage = callingButton.nextElementSibling
 	if (!otherImage) {
-		console.log(">>> trying again")
-		otherImage = elem.previousElementSibling
+		otherImage = callingButton.previousElementSibling
 	}
-	console.log(">>> otherImage", otherImage)
-	elem.classList.add("hidden")
+	callingButton.classList.add("hidden")
 	otherImage.classList.remove("hidden")
 }

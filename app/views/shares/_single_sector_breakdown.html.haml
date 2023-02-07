@@ -1,23 +1,24 @@
 = render :partial => 'shared/collapsible_section', :locals => { title: sector_name }
 - industries = sector.get_industries
-%table.single_space_table
-  %tr
-    %td.single_space_cell.bold
-      Industry
-    %td.single_space_cell.not_first.number.bold
-      AUD
-    %td.single_space_cell.not_first.number.bold
-      CAD
-    %td.single_space_cell.not_first.number.bold
-      GBP
-    %td.single_space_cell.not_first.number.bold
-      NIS
-    %td.single_space_cell.not_first.number.bold
-      USD
-    %td.single_space_cell.not_first.number.bold
-      Total NIS
-  - industries.keys.sort.each do |industry_name|
-    - industry = industries[industry_name]
-    = render :partial => 'single_industry_breakdown', :locals => { industry_name: industry_name, industry: industry }
-  = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Totals', industry: sector.get_totals }
+.single_sector
+  %table.single_space_table
+    %tr
+      %td.single_space_cell.bold
+        Industry
+      %td.single_space_cell.not_first.number.bold
+        AUD
+      %td.single_space_cell.not_first.number.bold
+        CAD
+      %td.single_space_cell.not_first.number.bold
+        GBP
+      %td.single_space_cell.not_first.number.bold
+        NIS
+      %td.single_space_cell.not_first.number.bold
+        USD
+      %td.single_space_cell.not_first.number.bold
+        Total NIS
+    - industries.keys.sort.each do |industry_name|
+      - industry = industries[industry_name]
+      = render :partial => 'single_industry_breakdown', :locals => { industry_name: industry_name, industry: industry, sector_name: sector_name }
+    = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Totals', industry: sector.get_totals, sector_name: sector_name }
   

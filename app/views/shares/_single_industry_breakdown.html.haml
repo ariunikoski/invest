@@ -1,5 +1,8 @@
+- row_id = "#{sector_name}_#{industry_name}"
 %tr
   %td.single_space_cell
+    = image_tag 'arrow2_n.gif', size: 16, class: "hidden", onclick: "toggleHiddenRow(this, false, '#{row_id}')"
+    = image_tag 'arrow2_s.gif', size: 16, onclick: "toggleHiddenRow(this, true, '#{row_id}')"
     #{industry_name}
   %td.single_space_cell.not_first.number
     #{format_number(industry.get_currencies['AUD'], 2)}
@@ -13,3 +16,17 @@
     #{format_number(industry.get_currencies['USD'], 2)}
   %td.single_space_cell.not_first.number
     #{format_number(industry.get_currencies['TOT_NIS'], 2)}
+%tr.hidden{id: "#{row_id}"}
+  %td
+    %table
+      -industry.get_shares.each do |share|
+        %tr
+          %td
+            #{share.name}
+          %td
+            #{share.symbol}
+          %td
+            #{share.currency}
+          %td.number
+            #{format_number(share.total_holdings * share.current_price / share.get_amount_divider ,2)}
+    

@@ -16,6 +16,8 @@ function getDetails(element, shareId) {
           element.classList.add('selected')
           var elem = document.getElementById('details_location')
           elem.innerHTML = this.responseText
+          const key = `data_Share_comments_${shareId}`
+          setTimeout(function() { reformat(key)}, 500)
           launchChart()
         } else {
 		  console.log('failure')
@@ -24,6 +26,13 @@ function getDetails(element, shareId) {
     }
     // Sending our request 
     xhr.send();
+}
+
+function reformat(key) {
+	const elem = document.getElementById(key)
+	const dataVal = elem.innerText.replace(/\n/g,"").replace(/<p>/g,"\n").trimStart()
+	console.log('>>> before [' + dataVal + ']')
+	elem.innerText = dataVal
 }
 
 function callYahooHistoricals(shareId) {

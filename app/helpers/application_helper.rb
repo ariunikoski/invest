@@ -20,8 +20,8 @@ module ApplicationHelper
     "inner_tab_#{name}"
   end
   
-  def inner_tab_data(current, name, partial_name, locals)
+  def inner_tab_data(current, name, partial_name, locals, extra_klass = '')
     klass = (current == name) ? '' : 'hidden'
-    content_tag(:div, render(partial: partial_name, locals: locals), class: "inner_tab_data #{klass}", id: "#{inner_tab_key(name)}")
+    content_tag(:div, render(partial: partial_name, locals: locals), class: "inner_tab_data #{klass} #{extra_klass}", id: "#{inner_tab_key(name)}")
   end
 end

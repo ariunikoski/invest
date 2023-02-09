@@ -254,3 +254,15 @@ div.inner_tab_data {
 	z-index: 2;
 	margin-top: -3px;
 }
+
+div.fill_space {
+	padding: 10px;
+	max-height: inherit;
+	min-height: inherit;
+	box-sizing: border-box;
+}
+
+textarea.column_field {
+	width: 100%;
+	background-color: lightgreen;
+}

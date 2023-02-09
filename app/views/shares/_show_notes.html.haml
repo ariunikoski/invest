@@ -1,1 +1,1 @@
-#{@share.comments}
+= render :partial => 'shared/field', :locals => { obj: @share, data: @share.comments, field_name: 'comments', input_type: 'textarea', display_klass: 'fill_space', field_style: 'max-height: 370px; min-height: 370px'}

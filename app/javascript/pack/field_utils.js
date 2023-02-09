@@ -1,6 +1,7 @@
 function turnOnField(source, data_key, field_span_key, input_key) {
 	console.log('>>> double clicked with: ', source, data_key, field_span_key, input_key)
-	let dataVal = document.getElementById(data_key).innerText
+	let dataVal = document.getElementById(data_key).innerText.replace(/^ /, "")
+	console.log('>>> dataVal[' + dataVal + "]")
 	inputElem = document.getElementById(input_key)
 	inputElem.value = dataVal
 	if (inputElem.classList.contains('datepicker')) {
@@ -36,9 +37,9 @@ function removeClass(id, className) {
   element.classList.remove(className);
 }
 
-function handleInputChar(event, objId, table_name, field_name, data_key, field_span_key, input_key) {
-	console.log('>>> handleInputChar: ', event.keyCode, field_name, objId, table_name, data_key, field_span_key, input_key)
-	if (event.keyCode === 13 || event.keyCode === 9) {
+function handleInputChar(event, objId, table_name, field_name, data_key, field_span_key, input_key, enable_return = true) {
+	const extra_key = enable_return ? 13 : 9
+	if (event.keyCode === extra_key || event.keyCode === 9) {
 		event.preventDefault()
 		updateField(objId, table_name, field_name, data_key, field_span_key, input_key)
 	}
@@ -49,8 +50,11 @@ function handleInputChar(event, objId, table_name, field_name, data_key, field_s
 }
 
 function updateField(objId, table_name, field_name, data_key, field_span_key, input_key) {
-	console.log('>>> going to update: ', objId, table_name, field_name, data_key, field_span_key, input_key)
-	let dataVal = document.getElementById(input_key).value
+	console.log('>>> Going to update: ', objId, table_name, field_name, data_key, field_span_key, input_key)
+	const origDataVal = document.getElementById(input_key).value
+	console.log(">>> origDataVal = ", origDataVal)
+	const dataVal = origDataVal.replace(/\n/g,"<p>")
+	console.log('>>> dataVal = ', dataVal)
 	
 	var xhr = new XMLHttpRequest();
   
@@ -62,9 +66,9 @@ function updateField(objId, table_name, field_name, data_key, field_span_key, in
       if (this.readyState === 4) {
         if (this.status !== 200) {
 		  console.log('failure in update')
-		  dataVal = 'Update failed'
+		  origDataVal = 'Update failed'
 		}
-    	document.getElementById(data_key).innerText = dataVal
+    	document.getElementById(data_key).innerText = origDataVal
 	
 		makeVisible(data_key)
 		makeInvisible(field_span_key)

@@ -17,7 +17,6 @@ class SharesController < ApplicationController
   end
   
   def destroy
-    puts '>>> delete called wioth', params
     share = Share.find(params[:id].to_i)
     return head :not_found if !share
     share.destroy
@@ -28,7 +27,7 @@ class SharesController < ApplicationController
     share = Share.find(params[:id])
     return head :bad_request if !share
     j_params = JSON.parse(params[:Share])
-    j_params.keys.each { |key| j_params[key] = j_params[key].strip }
+    j_params.keys.each { |key| j_params[key] = j_params[key].lstrip.sub(/^[<p>]*/, '') }
     puts '>>> paramsjson  = ', j_params
 	share.update(j_params)
     head :ok

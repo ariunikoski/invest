@@ -34,7 +34,7 @@
             = inner_tab("Chart", "Summary")
             = inner_tab("Chart", "Notes")
           = inner_tab_data("Chart", "Chart", 'chart', { share: @share} )
-          = inner_tab_data("Chart", "Summary", 'show_summary', { share: @share}, 'fill_space' )
+          = inner_tab_data("Chart", "Summary", 'show_summary', { share: @share} )
           = inner_tab_data("Chart", "Notes", 'show_notes', { share: @share})
   = render :partial => 'shared/collapsible_section', :locals => { title: 'dividends' }
   = render :partial => 'dividends'    

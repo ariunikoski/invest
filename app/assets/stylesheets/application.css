@@ -266,3 +266,12 @@ textarea.column_field {
 	width: 100%;
 	background-color: lightgreen;
 }
+
+div.filter_div {
+	border: black solid 1px;
+	background-color: white;
+}
+
+div.checkbox_section {
+	text-align: left;
+}

@@ -7,9 +7,17 @@ module TableHelper
 	 div_overdue: { text: 'div overdue', color: 'cornflowerblue' }
   }
 
-  def col_header(desc)
-    content_tag(:th, class: 'col_header') do
-      desc
+  def col_header(desc, filter_name = nil, image_name = nil)
+    col_header = content_tag(:th, class: 'col_header') do
+      col_header_contents(desc, filter_name, image_name)
+    end
+  end
+
+  def col_header_contents(desc, filter_name, image_name)
+    if filter_name
+      render(partial: filter_name, locals: { desc: desc, image_name: image_name })
+    else
+      return desc
     end
   end
 

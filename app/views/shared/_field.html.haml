@@ -2,7 +2,7 @@
 - data_key = "data#{key_suffix}"
 - field_span_key = "field#{key_suffix}"
 - input_key = "input#{key_suffix}"
-.visible.fullwidth{id: data_key,  class: (display_klass if defined?(display_klass)), ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
+.visible.fullwidth{id: data_key,  class: (display_klass if defined?(display_klass)), tag: "column_#{field_name}", ondblclick: "turnOnField(this, '#{data_key}', '#{field_span_key}', '#{input_key}')"}
   #{data || "&nbsp;".html_safe}
 .hidden{id: field_span_key, class: (display_klass if defined?(display_klass))}
   - if defined?(input_type) && input_type == 'textarea'

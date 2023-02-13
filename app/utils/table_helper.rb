@@ -4,7 +4,8 @@ module TableHelper
 	 good_price: { text: 'good price', color: 'olivedrab' },
 	 really_good_price: { text: 'r.good price', color: 'lightgreen' },
 	 under_performer: { text: 'under prf.', color: 'orangered' },
-	 div_overdue: { text: 'div overdue', color: 'cornflowerblue' }
+	 div_overdue: { text: 'div overdue', color: 'cornflowerblue' },
+	 comments: { text: 'comments', color: 'lightgray' }
   }
 
   def col_header(desc, filter_name = nil, image_name = nil)

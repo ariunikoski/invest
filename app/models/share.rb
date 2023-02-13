@@ -106,18 +106,23 @@ class Share < ApplicationRecord
   
   def calc_badges
     hold_badges = []
+    
     ytd = div_ytd
     last_date = ytd[:last_date]
     if last_date
       test_date = last_date.change(year: last_date.year + 1)
       hold_badges << :div_overdue if (test_date < Date.today)
     end
+    
     if ytd[:ytd_pcnt] >= 7
       hold_badges << :really_good_price
     elsif ytd[:ytd_pcnt] >= 5
       hold_badges << :good_price
     end
+    
     hold_badges << :under_performer if ytd[:weighted_ytd] < 4
+    
+    hold_badges << :comments if comments && comments.length > 0
     hold_badges
   end
 end

@@ -275,3 +275,7 @@ div.filter_div {
 div.checkbox_section {
 	text-align: left;
 }
+
+img.filter {
+	float: right;
+}

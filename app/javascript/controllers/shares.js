@@ -118,6 +118,11 @@ function showHoldingInputForm() {
 function deleteShare(shareId) {
     var xhr = new XMLHttpRequest();
     var url = '/shares/' + shareId
+    var userResponse = confirm("Do you want to delete the share?");
+	if (!userResponse) {
+		return
+	}
+
     xhr.open("DELETE", url, true);
     
     xhr.onreadystatechange = function () {

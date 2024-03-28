@@ -11,6 +11,8 @@
             Load Yahoo Dividends
           %button{onclick: "callYahooSummary(#{@share.id});"}
             Load Yahoo Summary
+          %button{onclick: "deleteShare(#{@share.id});"}
+            Delete Share
         =get_links @share
         - @share.badges.each do |badge|
           .badge_holder

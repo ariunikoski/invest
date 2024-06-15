@@ -90,7 +90,10 @@ class Share < ApplicationRecord
       break if div.x_date < stop_on
       last_date_considered = div.x_date
       amount = t_holdings * div.amount
-      projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1)
+      #projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1, day: day_advance)
+      next_year = div.x_date >> 24
+      projected_date = next_year.next_month
+      puts '>>> prjected ', div.x_date, projected_date if div.x_date.month == 2
       projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share, accounts: account_list }
     end
     projected

@@ -104,4 +104,19 @@ class SharesController < ApplicationController
     outf.close
     render json: File.absolute_path(fname)
   end
+  
+  def load_all_dividends
+    @shares = Share.order(:name)
+    @shares.each do |share|
+      loader = Yahoo::HistoricalData.new(share)
+      loader.load
+      created, duplicated, errors = loader.get_stats
+      message = "#{share.symbol} - #{created} created, #{duplicated} duplicated, #{errors} errors"
+      level = 'warn'
+      level = 'info' if created > 0
+      level = 'error' if errors > 0
+      Log.create_log(level, message)
+    end
+    head :ok
+  end
 end

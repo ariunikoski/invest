@@ -188,3 +188,24 @@ function getBreakdownBySector() {
 function getBreakdownBySectorCondensed() {
 	location.href = '/breakdown_by_sector_condensed'
 }
+
+function loadAllDividends() {
+    var xhr = new XMLHttpRequest();
+    var url = '/load_all_dividends'
+    showSpinner()
+    xhr.open("GET", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        hideSpinner()
+        if (this.status == 200) {
+          location.reload()
+        } else {
+		  console.log('load all dividends failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+	
+}

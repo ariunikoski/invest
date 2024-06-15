@@ -8,6 +8,9 @@ module Yahoo
       awk[1] = 'US' if awk.length == 1
       @region = awk[1]
       puts "Ready to load for #{@symbol} #{@region}"
+      @created = 0
+      @duplicated = 0
+      @errors = 0
     end
  
     # Symbol	Region
@@ -31,7 +34,7 @@ module Yahoo
     def load
       begin
         params = {'symbol': @symbol, 'region': @region}
-        puts '>>> params = ', params, params.to_json
+        # puts '>>> params = ', params, params.to_json
         response =  RestClient.get("https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data", {
 		  'content_type': 'json',
 		  'accept': 'json', 
@@ -47,7 +50,7 @@ module Yahoo
         puts "Failed to get data for: #{@symbol}, #{@region} with #{response.code}"
         return
       end
-      puts '>>> empty?', response.body, response.body.empty?
+      # puts '>>> empty?', response.body, response.body.empty?
       if !response.body.empty?
         data = JSON.parse(response.body)
         handle_dividends(data['eventsData'])
@@ -67,13 +70,21 @@ module Yahoo
       newDiv = Dividend.new(x_date: x_date, amount: dividend['amount'])
       begin
         @share.dividends << newDiv
+        @created  = @created + 1
       rescue => e
         if e.to_s.starts_with?('Mysql2::Error: Duplicate entry')
           puts "Dividend for #{@share.name} on data #{x_date} already exists"
+          @duplicated = @duplicated + 1
         else
           puts 'Create dividend failed with ', e
+          Log.error("Create dividend for #{@symbol} with error  #{e}")
+          @errors = @errors + 1
         end
       end
+    end
+    
+    def get_stats
+      [@created, @duplicated, @errors]
     end
   end
 end

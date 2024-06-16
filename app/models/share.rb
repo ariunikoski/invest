@@ -86,19 +86,28 @@ class Share < ApplicationRecord
     return projected if holdings.length == 0 || dividends.length == 0
     stop_on, most_recent = get_stop_on
     t_holdings = total_holdings(false)
+    first_day, last_day = get_date_range
+    puts '>>> first_day, last_day', first_day, last_day
     dividends.each do |div|
       break if div.x_date < stop_on
       last_date_considered = div.x_date
       amount = t_holdings * div.amount
       #projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1, day: day_advance)
-      next_year = div.x_date >> 24
+      next_year = div.x_date >> 12
       projected_date = next_year.next_month
       puts '>>> prjected ', div.x_date, projected_date if div.x_date.month == 2
-      projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share, accounts: account_list }
+      projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share, accounts: account_list } if projected_date >= first_day && projected_date <= last_day
     end
     projected
   end
   
+  def get_date_range
+    today = Date.today
+    first_of_next_month = Date.new(today.year, today.month, 1) >> 1
+    last_of_current_month_next_year = (Date.new(today.year, today.month, 1) >> 13) - 1
+    [first_of_next_month, last_of_current_month_next_year]
+  end
+
   def account_list
     holdings.map{ |hh| hh.account}.uniq.sort.join(',')
   end

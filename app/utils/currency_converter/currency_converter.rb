@@ -1,14 +1,21 @@
 module CurrencyConverter
   require 'rest-client'
+  
+  #
+  # This has become useless as the bastards want money for converting ILS
+  #
+  
   class CurrencyConverter
     def initialize(currency_code)
       @currency_code = currency_code
     end
 
+# 
     def load
       begin
         params = {'have': @currency_code, 'want': 'ILS', 'amount': '1'}
-        response =  RestClient.get("https://currency-converter-by-api-ninjas.p.rapidapi.com/v1/convertcurrency", {
+        #response =  RestClient.get("https://currency-converter-by-api-ninjas.p.rapidapi.com/v1/convertcurrency", {
+        response =  RestClient.get("https://api.api-ninjas.com/v1/convertcurrency", {
 		  'content_type': 'json',
 		  'accept': 'json', 
           'X-RapidAPI-Key': 'cefb88ea18msh5dc12cef89546d2p10de4bjsne8e995c4b445',
@@ -16,11 +23,11 @@ module CurrencyConverter
           'params': params
         })
       rescue => e
-        puts "Failed to get data for: #{@currency_code}"
+        puts "Failed to get data for: #{@currency_code} with error #{e}"
         return -1
       end
       if response.code != 200
-        puts "Failed to get data for: #{@currency_code}"
+        puts "Failed to get data for: #{@currency_code} with response code #{response.code}"
         return -1
       end
       if !response.body.empty?

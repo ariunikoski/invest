@@ -51,7 +51,7 @@ td {
 
 div.details {
 	text-align: left;
-	position: absolute;
+	position: fixed;
 	padding-left: 15px;
 	width: 900px;
 	max-width: 900;

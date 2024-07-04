@@ -14,7 +14,6 @@ class HoldingsController < ApplicationController
   end
   
   def destroy
-    puts '>>> delete called wioth', params
     holding = Holding.find(params[:id].to_i)
     return head :not_found if !holding
     holding.destroy

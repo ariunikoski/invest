@@ -5,7 +5,6 @@ class ExchangeRatesController < ApplicationController
   end
   
   def load_rates
-    puts '>>> now running load_rates'
     loader = CurrencyConverter::LoadAllCurrencies.new
     loader.load
     head :ok

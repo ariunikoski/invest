@@ -28,31 +28,25 @@ class SharesController < ApplicationController
     return head :bad_request if !share
     j_params = JSON.parse(params[:Share])
     j_params.keys.each { |key| j_params[key] = j_params[key].lstrip.sub(/^[<p>]*/, '') }
-    puts '>>> paramsjson  = ', j_params
 	share.update(j_params)
     head :ok
   end
   
   def load_yahoo_historicals
-    puts '>>> started load_yahoo_historicals'
     @share=Share.find(params[:id])
-    puts '>>> share = ', @share
     loader = Yahoo::HistoricalData.new(@share)
     loader.load
     render partial: 'shares/show'
   end
   
   def load_yahoo_summary
-    puts '>>> started load_yahoo_summary'
     @share=Share.find(params[:id])
-    puts '>>> share = ', @share
     loader = Yahoo::Summary.new(@share)
     loader.load
     render partial: 'shares/show'
   end
   
   def yahoo_current_prices
-    puts '>>> entered load yahoo current prices'
     loader = Yahoo::Quotes.new
     loader.load
     head :ok

@@ -1,0 +1,246 @@
+body {
+  background: white;
+}
+
+
+th.calendar {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: calc(100% / 7);
+}
+
+td.calendar {
+  border: 1px solid black;
+  border-collapse: collapse;
+  vertical-align: top;
+  height: 100px;
+  width: calc(100% / 7);
+}
+
+table.calendar {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+div.allday {
+  background: gold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+}
+
+div.page_header {
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  margin: 10px;
+}
+
+div.dayline {
+}
+
+td.current_day {
+  font-weight: bold;
+  background: burlywood;
+}
+
+td.prev_month {
+  background: bisque;
+}
+
+td.next_month {
+  background: khaki;
+}
+
+td.past_tense {
+  font-style: italic;
+}
+
+div.moreline {
+  font-size: x-small;
+  text-align: center;
+}
+
+div.calendar_today {
+  width: calc((100% * 2/9) - 10px);
+  float: left;
+  height: 434px;
+  display: flex;
+  flex-direction: column;
+}
+
+div.calendar_month {
+  width: calc((100% * 7/9) + 10px);
+  float: left;
+}
+
+div.section_heading {
+  text-align: center;
+  font-weight: bold;
+} 
+
+div.full_cal_display {
+  padding: 5px;
+  border: 1px solid black;
+  flex: 1;
+}
+
+div.full_allday {
+  background: gold;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+span.hours_key {
+  font-weight: bold;
+}
+
+div.weather_display {
+  padding: 5px;
+  border: 1px solid black;
+}
+
+div.today_weather {
+  display: flex;
+  align-items: center;
+}
+
+div.tommorrow_weather {
+  font-size: small;
+  background: lightgray;
+}
+
+div.currently {
+  font-size: small;
+}
+
+div.weather_icon_holder {
+  text-align: center;
+  float: left;
+  width: 100px;
+}
+
+div.weather_text_holder {
+  display: flex;
+  float: left;
+  width: calc(100% - 100px);
+}
+
+div.bottom_part {
+  display: flex;
+  clear: both;
+}
+
+div.bottom_left {
+  float: left;
+  width: 50%;
+  border-right: black 1px solid;
+}
+
+div.bottom_right {
+  float: left;
+  width: 50%;
+  border-left: black 1px solid;
+}
+
+html, body {
+  margin: 0;
+}
+
+td.email_date {
+  width: 86px;
+  max-width: 86px;
+  min-width: 86px;
+}
+
+td.email_from {
+  width: 80px;
+  max-width: 80px;
+  min-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+td.email_subject {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table.email_table {
+  table-layout: fixed;
+  width: 100%;
+  padding-top: 5px;
+}
+
+div.footer {
+  clear: both;
+  background: black;
+  height: 20px;
+}
+
+table.articles {
+  table-layout: fixed;
+  width: 100%;
+  padding-top: 5px;
+}
+
+td.article {
+  padding-left: 5px;
+  padding-right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+div.toast {
+  background: lightsalmon;
+  border: 1px black solid;
+  width: 600px;
+  margin-left: calc(50% - 300px);
+  margin-top: 25px;
+  z-index: 9999;
+  position: fixed;
+  box-shadow: 0 2px 5px;
+  padding: 10px;
+}
+
+/* REMOVE AFTER MERGE */
+div.hidden {
+  display: none;
+}
+
+div.toast_dateline {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
+
+div.close_button_div {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+span.toast_prompt {
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+div.toast_email_body {
+  word-wrap: break-word;
+  max-height: 465px;
+  overflow: hidden;
+  line-height: 1.25;
+  padding-top: 10px;
+}

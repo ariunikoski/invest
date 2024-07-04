@@ -1,0 +1,32 @@
+%head
+  = stylesheet_link_tag 'dashboard'
+  =# javascript_pack_tag 'application'
+  = javascript_include_tag "dashboard/auto_refresh"
+  = javascript_include_tag "dashboard/day_click"
+  
+%body
+  - @cc = Yahoo::Calendar.new
+  - @cc.extract_data
+  - @from_date, @to_date = @cc.get_date_range
+  - @last_month = ''
+  - @this_month = Date.today.month
+  - @prev_month = @this_month - 1
+  - @prev_month = 12 if @prev_month == 0
+  - @next_month = @this_month + 1
+  - @next_month = 1 if @next_month == 13
+  %div{ class: 'toast hidden', id: 'toast' }
+    this is the toast....  v3
+  .page_header
+    #{Time.now.strftime("%A, %B %d, %Y %H:%M")}
+  .calendar_holder
+    .calendar_today
+      = render partial: 'weather_today'
+      = render partial: 'calendar_today'
+    .calendar_month
+      = render partial: 'calendar_month'
+  .bottom_part
+    .bottom_left
+      = render partial: 'emails'
+    .bottom_right
+      = render partial: 'news'
+  .footer

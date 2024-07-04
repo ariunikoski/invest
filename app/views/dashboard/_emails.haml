@@ -1,0 +1,13 @@
+.section_heading
+  Most Recent Emails
+- @mm = Yahoo::Email.new
+.messages
+  %table.email_table
+    - @mm.get_messages.each do |msg|
+      %tr{ data: { mail: msg }, onclick: 'emailClick(this)' }
+        %td.email_date
+          = msg[:date]
+        %td.email_from
+          = msg[:from]
+        %td.email_subject
+          = msg[:subject]

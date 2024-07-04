@@ -1,0 +1,49 @@
+%table.calendar
+  %thead
+    %tr
+      %th.calendar
+        SUN
+      %th.calendar
+        MON
+      %th.calendar
+        TUE
+      %th.calendar
+        WED
+      %th.calendar
+        THU
+      %th.calendar
+        FRI
+      %th.calendar
+        SAT
+  - @curdate = @from_date
+  - (1..4).each do |rows|
+    %tr
+    - (1..7).each do |cols|
+      - td_class = "calendar"
+      - if @curdate == Date.today
+        - td_class = "calendar current_day"
+      -if @curdate.month == @prev_month
+        - td_class = "#{td_class} prev_month"
+      -if @curdate.month == @next_month
+        - td_class = "#{td_class} next_month"
+      -if @curdate < Date.today
+        - td_class = "#{td_class} past_tense"
+      %td{ class: td_class, id: "#{@curdate}", onclick: "handleDayClick('#{@curdate}')" }
+        - abbreviation = @curdate.strftime("%b")
+        - dom = @curdate.day
+        - dayline = "#{dom}"
+        - if abbreviation != @last_month
+          - @last_month = abbreviation
+          - dayline = "#{@last_month} #{dom}"
+        .dayline
+          #{dayline}
+        - @box = @cc.get_box_by_date(@curdate)
+        - if @box
+          - @alldays, @more = @box.get_4_rows
+          - @alldays.each do |allday|
+            .allday
+              #{allday}
+          - if @more
+            .moreline
+              more
+        - @curdate = @curdate + 1

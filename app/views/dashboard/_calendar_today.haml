@@ -1,0 +1,15 @@
+.full_cal_display
+  .section_heading
+    Today's Calendar
+  - today_box = @cc.get_box_by_date(Date.today)
+  - if today_box
+    - today_box.get_alldays.each do |allday|
+      .full_allday
+        #{allday}
+    - timed = today_box.get_timed
+    - timed.keys.sort.each do |key|
+      .full_allday
+        %span.hours_key
+          #{key}
+        %span
+          #{timed[key]}

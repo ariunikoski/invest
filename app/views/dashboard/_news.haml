@@ -1,0 +1,8 @@
+.section_heading
+  Latest News
+%table.articles
+  - @nn = Yahoo::News.new
+  - @nn.get_articles.each do |article|
+    %tr
+      %td.article
+        #{article}

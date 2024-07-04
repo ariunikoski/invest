@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   resources :holdings
   resources :exchange_rates
   get 'load_rates', to: 'exchange_rates#load_rates'
+  
+  get 'dashboard', to: 'dashboard#index'
 end

@@ -1,0 +1,23 @@
+.weather_display
+  .section_heading
+    Weather in Tel Aviv
+  - @ww = Weather::Api.new('Tel Aviv')
+  - today_weather = @ww.forecast_day(Date.today)
+  - tommorrow_weather = @ww.forecast_day(Date.today+1)
+  - if today_weather
+    .today_weather
+      - day = today_weather['day']
+      .weather_text_holder
+        .weather_text
+          %div
+            #{day['condition']['text']}: #{day['mintemp_c']} - #{day['maxtemp_c']}
+          - current = @ww.current
+          .currently
+            Currently: #{current['temp_c']}
+      .weather_icon_holder
+        .weather_icon
+          %img{ src: "#{day['condition']['icon']}", alt: 'today' }
+  - if tommorrow_weather
+    - day = tommorrow_weather['day']
+    .tommorrow_weather
+      Tommorrow: #{day['mintemp_c']} - #{day['maxtemp_c']} #{day['condition']['text']}

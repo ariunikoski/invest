@@ -8,6 +8,7 @@
   %h2
     Summary
   Total in nis: #{format_number(@total_total, 2)}
-  Avg. Yield: #{format_number(@total_ytd/@rows_reported, 2)}
-  Avg. Weighted Yield: #{format_number(@total_weighed/@rows_reported, 2)}
+  - if @rows_reported > 0
+    Avg. Yield: #{format_number(@total_ytd/@rows_reported, 2)}
+    Avg. Weighted Yield: #{format_number(@total_weighed/@rows_reported, 2)}
 .details_location{id: 'details_location'}

@@ -9,6 +9,8 @@
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
+
+#
 default: &default
   adapter: mysql2
   encoding: utf8mb4
@@ -19,7 +21,8 @@ default: &default
 
 development:
   <<: *default
-  database: invest_server_development
+  password:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'Chook99$' : '' %>
+  database:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'invest_server' : 'invest_server_development' %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

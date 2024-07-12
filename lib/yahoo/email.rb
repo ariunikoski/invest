@@ -5,7 +5,12 @@ module Yahoo
   require 'nokogiri'
 
   class Email
-    def initialize
+    def self.email_actions()
+      { get_messages: 'GET_MESSAGES', get_message_body: 'GET_MESSAGE_BODY' }
+    end
+     
+    def initialize(action, email_id = nil)
+      puts '>>> email initialized with: ', action, email_id
       @messages = []
       imap_server = 'imap.mail.yahoo.com'
       username = 'unikoski@yahoo.com'
@@ -19,8 +24,22 @@ module Yahoo
       imap.login(username, password)
 
       # Select the INBOX mailbox
+      throw_error_after_close = false
       imap.select('INBOX')
-
+      case action
+      when Yahoo::Email.email_actions[:get_messages]
+        get_latest_messages(imap)
+      when Yahoo::Email.email_actions[:get_message_body]
+        fetch_mail_body(imap, email_id) 
+      else
+        throw_error_after_close = true
+      end
+      imap.logout
+      imap.disconnect
+      raise ArgumentError, "Invalid action of #{action} received" if throw_error_after_close
+    end  #initialize
+    
+    def get_latest_messages(imap)
       # Search for the most recent emails
       latest_emails = imap.search(['ALL']).last(5)
  
@@ -29,7 +48,6 @@ module Yahoo
         msg_data = imap.fetch(email_id, 'ENVELOPE').first
         msg = msg_data.attr['ENVELOPE']
         
-        mail_body = get_mail_body(imap, email_id)
         encoded_text = msg.subject || ' - No subject -'
         subject = decode_mime_encoded_string(encoded_text)
 
@@ -39,22 +57,23 @@ module Yahoo
         formatted_datetime = datetime.strftime("%Y-%m-%d")
 
         
-        @messages << { from: name, date: formatted_datetime, subject: subject, body: mail_body }
+        @messages << { from: name, date: formatted_datetime, subject: subject, email_id: email_id }
       end
-      imap.logout
-      imap.disconnect
-    end  #initialize
+    end
     
-    def get_mail_body(imap, email_id)
-      return '...later, buddy.'
-      msg = imap.fetch(email_id, 'RFC822').first.attr['RFC822']
+    def fetch_mail_body(imap, email_id)
+      msg = imap.fetch(email_id.to_i, 'RFC822').first.attr['RFC822']
       mail = Mail.read_from_string(msg)
+      @mail_body = read_mail_body(mail)
+    end
+    
+    def read_mail_body(mail)
       if mail.multipart?
         text_part = mail.text_part
         html_part = mail.html_part
+        #return extract_text_from_html(html_part.body.decoded) if html_part
+        return html_part.body.decoded if html_part
         return text_part.body.decoded.force_encoding('UTF-8') if text_part
-        return extract_text_from_html(html_part.body.decoded) if html_part
-        # >>> return html_part.body.decoded if html_part
         return 'Not text or html part found in multipart'
       else
         return mail.body.decoded.force_encoding('UTF-8')
@@ -118,6 +137,10 @@ module Yahoo
       decoded_string.join('')
     end
 
+    def get_mail_body
+      @mail_body
+    end
+    
     def get_messages
       @messages.reverse
     end

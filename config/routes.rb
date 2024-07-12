@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   get 'load_rates', to: 'exchange_rates#load_rates'
   
   get 'dashboard', to: 'dashboard#index'
+  get 'dashboard/load_email_body', to: 'dashboard#load_email_body'
 end

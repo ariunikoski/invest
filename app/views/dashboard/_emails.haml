@@ -1,6 +1,6 @@
 .section_heading
   Most Recent Emails
-- @mm = Yahoo::Email.new
+- @mm = Yahoo::Email.new(Yahoo::Email.email_actions[:get_messages])
 .messages
   %table.email_table
     - @mm.get_messages.each do |msg|

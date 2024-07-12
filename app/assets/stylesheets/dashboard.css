@@ -243,4 +243,5 @@ div.toast_email_body {
   overflow: hidden;
   line-height: 1.25;
   padding-top: 10px;
+  overflow-y: auto;
 }

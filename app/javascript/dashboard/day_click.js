@@ -80,10 +80,65 @@ function createEmailSubjectLine(attributes) {
 function createEmailBody(attributes) {
 	var line = document.createElement('div')
 	line.classList.add('toast_email_body')
-	line.innerText = attributes.getNamedItem('data-mail-body').value
+	line.id = 'email_body'
+	// >>> line.innerText = attributes.getNamedItem('data-mail-body').value
+    line.appendChild(createEmailButton(attributes))
 	return line
 }
 	
+function createEmailButton(attributes) {
+	var button = document.createElement('button');
+	button.innerHTML = 'Load Email Body';
+	button.onclick = (function(email_id, button) {
+    	return function() {
+    		var url = 'dashboard/load_email_body?id=' + encodeURIComponent(email_id);
+       		var email_body_div = document.getElementById('email_body')
+       		email_body_div.innerHTML = 'loading...'
+    		fetch(url)
+        		.then(response => {
+            		if (!response.ok) {
+                		throw new Error('Network response was not ok ' + response.statusText);
+            		}
+            		readStream(response.body).then((responseText) => {
+	            		var email_body_div = document.getElementById('email_body')
+ 		         		email_body_div.innerHTML = responseText
+					})
+         		})
+        		.catch(error => {
+            		alert('There was a problem with your fetch operation: ' + error.message)
+        		})
+    	}
+	})( attributes.getNamedItem('data-mail-email-id').value)
+	return button
+}
+	
+async function readStream(stream) {
+  console.log('>>> readStream commenced v2')
+  const reader = stream.getReader();
+  const decoder = new TextDecoder();
+  let data = '';
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      data += decoder.decode(value, { stream: true });
+    }
+    console.log('>>> Stream complete');
+    console.log('>>> data is ', data);
+  } catch (error) {
+    console.error('Stream reading error:', error);
+    data = 'Stream reading error - see console'
+  } finally {
+    reader.releaseLock();
+  }
+  console.log('>>> about to return', data)
+  return data
+}
+
+
 function createPromptAndVal(attributes, line, promptText, valAttributeName) {
 	var prompt = document.createElement('span')
 	prompt.classList.add('toast_prompt')

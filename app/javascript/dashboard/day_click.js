@@ -52,6 +52,7 @@ window.emailClick = function(theRow) {
   root.appendChild(createEmailDateLine(attributes))
   root.appendChild(createEmailFromLine(attributes))
   root.appendChild(createEmailSubjectLine(attributes))
+  root.appendChild(createEmailBodyToggle())
   root.appendChild(createEmailBody(attributes))
   
   toast.appendChild(root)
@@ -77,11 +78,33 @@ function createEmailSubjectLine(attributes) {
 	return line
 }
 
+function createEmailBodyToggle() {
+	var line = document.createElement('div')
+	line.classList.add('toast_email_body_toggle')
+	line.classList.add('hidden')
+	line.id = 'email_body_toggle'
+	var button = document.createElement('button');
+	button.innerHTML = 'Hide Body';
+	button.onclick = (function(button) {
+    	return function() {
+       		var email_body_div = document.getElementById('email_body')
+			if (button.innerHTML === 'Show Body') {
+				button.innerHTML = 'Hide Body';
+				email_body_div.classList.remove('hidden')
+			} else {
+				button.innerHTML = 'Show Body';
+				email_body_div.classList.add('hidden')
+			}
+		}
+	})(button)
+    line.appendChild(button)
+	return line
+}
+
 function createEmailBody(attributes) {
 	var line = document.createElement('div')
 	line.classList.add('toast_email_body')
 	line.id = 'email_body'
-	// >>> line.innerText = attributes.getNamedItem('data-mail-body').value
     line.appendChild(createEmailButton(attributes))
 	return line
 }
@@ -92,6 +115,8 @@ function createEmailButton(attributes) {
 	button.onclick = (function(email_id, button) {
     	return function() {
     		var url = 'dashboard/load_email_body?id=' + encodeURIComponent(email_id);
+       		var email_body_toggle_div = document.getElementById('email_body_toggle')
+       		email_body_toggle_div.classList.remove('hidden')
        		var email_body_div = document.getElementById('email_body')
        		email_body_div.innerHTML = 'loading...'
     		fetch(url)
@@ -113,7 +138,6 @@ function createEmailButton(attributes) {
 }
 	
 async function readStream(stream) {
-  console.log('>>> readStream commenced v2')
   const reader = stream.getReader();
   const decoder = new TextDecoder();
   let data = '';
@@ -126,15 +150,12 @@ async function readStream(stream) {
       }
       data += decoder.decode(value, { stream: true });
     }
-    console.log('>>> Stream complete');
-    console.log('>>> data is ', data);
   } catch (error) {
     console.error('Stream reading error:', error);
     data = 'Stream reading error - see console'
   } finally {
     reader.releaseLock();
   }
-  console.log('>>> about to return', data)
   return data
 }
 

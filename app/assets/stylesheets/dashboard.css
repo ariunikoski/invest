@@ -245,3 +245,8 @@ div.toast_email_body {
   padding-top: 10px;
   overflow-y: auto;
 }
+
+div.toast_email_body_toggle {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}

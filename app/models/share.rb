@@ -87,7 +87,6 @@ class Share < ApplicationRecord
     stop_on, most_recent = get_stop_on
     t_holdings = total_holdings(false)
     first_day, last_day = get_date_range
-    puts '>>> first_day, last_day', first_day, last_day
     dividends.each do |div|
       break if div.x_date < stop_on
       last_date_considered = div.x_date
@@ -95,7 +94,6 @@ class Share < ApplicationRecord
       #projected_date = div.x_date.change(year: div.x_date.year + 1).advance(months: 1, day: day_advance)
       next_year = div.x_date >> 12
       projected_date = next_year.next_month
-      puts '>>> prjected ', div.x_date, projected_date if div.x_date.month == 2
       projected << { projected_date: projected_date, amount: amount, share_name: name, share_symbol: symbol, currency: currency, type: :share, accounts: account_list } if projected_date >= first_day && projected_date <= last_day
     end
     projected
@@ -121,6 +119,7 @@ class Share < ApplicationRecord
     
     ytd = div_ytd
     last_date = ytd[:last_date]
+    div_overdue = false
     if last_date
       test_date = last_date.change(year: last_date.year + 1)
       hold_badges << :div_overdue if (test_date < Date.today)
@@ -135,6 +134,15 @@ class Share < ApplicationRecord
     hold_badges << :under_performer if ytd[:weighted_ytd] < 4
     
     hold_badges << :comments if comments && comments.length > 0
+    
+    hold_badges << :big_investment if calc_nis_val >= 100000
     hold_badges
+  end
+  
+  def calc_nis_val
+    total_val = total_holdings * (current_price || 0)
+    rc = Rates::RatesCache.instance
+    rates = rc.get_rates
+    rc.convert_to_nis(currency, total_val)
   end
 end

@@ -3,13 +3,17 @@
 %img.filter{ src: "assets/#{image_name}", onclick: "makeVisible('badges_filter')"}
 .filter_div.hidden{id: 'badges_filter'}
   .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }
+    %label.vertical_checkbox{for: 'filter_really_good_price'}
+      = create_pill(:really_good_price)
+  .checkbox_section
     %input.vertical_checkbox{type: 'checkbox', id: 'filter_good_price', checked: true }
     %label.vertical_checkbox{for: 'filter_good_price'}
       = create_pill(:good_price)
   .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }
-    %label.vertical_checkbox{for: 'filter_really_good_price'}
-      = create_pill(:really_good_price)
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_big_investment', checked: true }
+    %label.vertical_checkbox{for: 'filter_big_investment'}
+      = create_pill(:big_investment)
   .checkbox_section
     %input.vertical_checkbox{type: 'checkbox', id: 'filter_under_performer', checked: true }
     %label.vertical_checkbox{for: 'filter_under_performer'}

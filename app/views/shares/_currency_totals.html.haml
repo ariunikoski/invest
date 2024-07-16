@@ -8,6 +8,7 @@
       =col_header 'Total in NIS'
   %tbody
     - @toggle = true
+    - rc = Rates::RatesCache.instance
     - tot_this_month_nis = 0
     - tot_by_cur.keys.sort.each do |curkey|
       -@toggle = !@toggle
@@ -19,7 +20,7 @@
         %td.number
           #{format_number(amount, 2)}
         %td.number
-          - nis_val = convert_to_nis(@rates, curkey, amount)
+          - nis_val = rc.convert_to_nis(curkey, amount)
           - tot_this_month_nis = tot_this_month_nis + nis_val
           #{format_number(nis_val, 2)}
 %p       

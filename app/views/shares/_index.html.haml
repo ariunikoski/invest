@@ -21,11 +21,12 @@
       -@total_ytd = 0
       -@total_weighed = 0
       - account = nil if !defined?(account)
+      - rc = Rates::RatesCache.instance
       -@shares.each do |share|
         -total_holdings = share.total_holdings(by_account, account)
         -current_price = share.current_price
         -total_value = current_price ? total_holdings * current_price : nil
-        -nis_val = convert_to_nis(@rates, share.currency, total_value)
+        -nis_val = rc.convert_to_nis(share.currency, total_value)
         -@total_total = @total_total + nis_val
         -@rows_reported = @rows_reported + 1
         -weighed_ytd = share.div_ytd[:weighted_ytd]

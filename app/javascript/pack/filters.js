@@ -20,6 +20,7 @@ function apply_filter() {
 	
 	const really_good_price = getFlag('filter_really_good_price')
 	const good_price = getFlag('filter_good_price')
+	const big_investment = getFlag('filter_big_investment')
 	const under_performer = getFlag('filter_under_performer')
 	const div_overdue = getFlag('filter_div_overdue')
 	const comments = getFlag('filter_comments')
@@ -31,6 +32,7 @@ function apply_filter() {
 		console.log('>>> ', elem, current_badges)
 		let displayThis = false
 		displayThis = displayThis || hasRelevantBadge(really_good_price, 'really_good_price', current_badges)
+		displayThis = displayThis || hasRelevantBadge(big_investment, 'big_investment', current_badges)
 		displayThis = displayThis || hasRelevantBadge(good_price, 'good_price', current_badges)
 		displayThis = displayThis || hasRelevantBadge(under_performer, 'under_performer', current_badges)
 		displayThis = displayThis || hasRelevantBadge(div_overdue, 'div_overdue', current_badges)

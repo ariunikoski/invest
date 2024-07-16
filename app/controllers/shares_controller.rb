@@ -1,7 +1,6 @@
 class SharesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    get_rates
     @shares = Share.order(:name)
   end
   
@@ -53,14 +52,10 @@ class SharesController < ApplicationController
   end
   
   def get_rates 
-    @rates = {}
-    ExchangeRate.all.each do |rate|
-      @rates[rate.currency_code] = rate.exchange_rate
-    end
+    @rates = Rates::RatesCache.instance.get_rates
   end
  
   def shares_by_account
-    get_rates
     @accounts = Holding.select('DISTINCT account').order(:account)
   end
   
@@ -70,7 +65,7 @@ class SharesController < ApplicationController
   end
     
   def breakdown_by_sector
-  	get_rates
+    get_rates
     calculator = SectorBreakdown::Calculator.new(@rates)
     @sectors = calculator.load
     @grand_totals = calculator.get_grand_total

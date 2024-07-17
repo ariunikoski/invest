@@ -7,6 +7,7 @@ class ExchangeRatesController < ApplicationController
   def load_rates
     loader = CurrencyConverter::LoadAllCurrencies.new
     loader.load
+    Rates::RatesCache.instance.clear_rates
     head :ok
   end
 end

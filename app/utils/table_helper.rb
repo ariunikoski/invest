@@ -5,7 +5,7 @@ module TableHelper
 	 good_price: { text: 'good price', color: 'olivedrab' },
 	 big_investment: { text: 'big investment', color: 'black', text_color: 'white' },
 	 under_performer: { text: 'under prf.', color: 'orangered' },
-	 div_overdue: { text: 'div overdue', color: 'cornflowerblue' },
+	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
 	 comments: { text: 'comments', color: 'lightgray' }
   }
 
@@ -23,10 +23,16 @@ module TableHelper
     end
   end
 
-  def create_pill(pill_type)
+  def create_pill(pill_type, share = nil)
     data = PILL_DATA[pill_type.to_sym]
     text_color = data[:text_color] || 'black'
     #puts '>>> pill_type,' pill_type, data
-    content_tag(:sp, data[:text], class: 'pill', style: "background-color: #{data[:color]}; color: #{text_color}" )
+    tooltip = data[:tooltip] ? send(data[:tooltip], share) : nil
+    content_tag(:sp, data[:text], class: 'pill', style: "background-color: #{data[:color]}; color: #{text_color}", title: tooltip )
+  end
+  
+  def div_overdue(share)
+    return nil unless share
+    "Last dividend received: #{share.get_most_recent_dividend}"
   end
 end

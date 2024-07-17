@@ -99,6 +99,10 @@ class Share < ApplicationRecord
     projected
   end
   
+  def get_most_recent_dividend
+    div_ytd[:most_recent]
+  end
+  
   def get_date_range
     today = Date.today
     first_of_next_month = Date.new(today.year, today.month, 1) >> 1
@@ -119,7 +123,6 @@ class Share < ApplicationRecord
     
     ytd = div_ytd
     last_date = ytd[:last_date]
-    div_overdue = false
     if last_date
       test_date = last_date.change(year: last_date.year + 1)
       hold_badges << :div_overdue if (test_date < Date.today)

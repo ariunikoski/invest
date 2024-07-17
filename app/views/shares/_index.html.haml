@@ -61,4 +61,4 @@
           %td{tag: 'column_badges', data_badges: share.badges}
             - share.badges.each do |badge|
               %sp.badge
-                = create_pill(badge.to_s)
+                = create_pill(badge.to_s, share)

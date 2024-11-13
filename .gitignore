@@ -39,3 +39,7 @@ yarn-debug.log*
 /�
 /.byebug_history
 /x.x
+/exp.sql
+/[database_name].sql
+/[database_name].sql
+/[database_name].sql

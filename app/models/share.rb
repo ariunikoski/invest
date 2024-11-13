@@ -28,7 +28,7 @@ class Share < ApplicationRecord
       break if div.x_date < stop_on
       last_date_considered = div.x_date
       total_div = total_div + div.amount
-    end
+    end if stop_on
     
     holdings.each do |holding|
       total_holdings = total_holdings + holding.amount
@@ -69,14 +69,30 @@ class Share < ApplicationRecord
   end
  
   def get_stop_on
+    today = Date.today
+    earliest = today.prev_month(14)
+    puts '>>> today, earliest', today, earliest
     stop_on = nil
     most_recent = nil
+    # TODO!!!! ADD ORDER BY TO NEXT LINE!
     if dividends.length > 0
       most_recent = dividends.first.x_date
+      puts '>>> most_recent', most_recent
+      if most_recent < earliest
+        puts '>>> exitting'
+        return [nil, nil]
+      end
       # go to the 1st day of the month following the last payment,
       # so if this month they paid on the 10th and last year this month on the 12th, it wont count both this year and last year
       # this resolves the rimoni bug 
       stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
+      puts '>>> stop_on', stop_on
+      if stop_on < earliest
+        puts '>>> resetting stop_on', name
+        stop_on = earliest
+        puts '>>> stop_on is now', stop_on
+        #byebug
+      end
     end
     [stop_on, most_recent]
   end 
@@ -100,7 +116,8 @@ class Share < ApplicationRecord
   end
   
   def get_most_recent_dividend
-    div_ytd[:most_recent]
+    # div_ytd[:most_recent]
+    dividends.order(x_date: :desc).first&.x_date
   end
   
   def get_date_range
@@ -121,11 +138,15 @@ class Share < ApplicationRecord
   def calc_badges
     hold_badges = []
     
+    puts '>>> div_ytd = ', div_ytd
     ytd = div_ytd
     last_date = ytd[:last_date]
     if last_date
       test_date = last_date.change(year: last_date.year + 1)
       hold_badges << :div_overdue if (test_date < Date.today)
+    else
+      hold_badges << :div_overdue
+      hold_badges << :no_div_last_year 
     end
     
     if ytd[:ytd_pcnt] >= 7
@@ -147,5 +168,27 @@ class Share < ApplicationRecord
     rc = Rates::RatesCache.instance
     rates = rc.get_rates
     rc.convert_to_nis(currency, total_val)
+  end
+  
+  def dividends_by_year
+    results = []
+    current_year = nil
+    amount = 0
+    dividends.order(x_date: :desc).each do |dividend|
+      yy = dividend.x_date.year
+      puts '>>> current, divdate, divamount, yy, amount', current_year, dividend.x_date, dividend.amount, yy, amount
+      if yy != current_year
+        if current_year
+          results << { year: current_year, amount: amount }
+          amount = 0
+        end
+        current_year = yy
+      end
+      amount = amount + dividend.amount
+    end
+    if current_year && amount
+      results << { year: current_year, amount: amount }
+    end
+    results
   end
 end

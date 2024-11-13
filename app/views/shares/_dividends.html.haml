@@ -6,7 +6,7 @@
         %table{border: 1}
           %thead
             %tr
-              =col_header 'X Date'
+              =col_header 'X Date',nil,nil,'x-date'
               =col_header 'Payment Date'
               =col_header 'Amount'
           %tbody
@@ -20,7 +20,7 @@
                 %td
                   #{dividend.payment_date}
                 %td.number
-                  #{dividend.amount}
+                  #{format_number(dividend.amount, 2)}
       %td.vertical-align
         %table.info_table
           %tr
@@ -43,3 +43,20 @@
               Yield (current / avg / weighed )
             %td
               #{format_number(div_ytd[:ytd_pcnt], 2)} / #{format_number(div_ytd[:avg_ytd], 2)} / #{format_number(div_ytd[:weighted_ytd], 2)}
+        .sub_detail_container
+          %h2 Summary by year      
+          %table{border: 1}
+            %thead
+              %tr
+                =col_header 'Year'
+                =col_header 'Amount'
+            %tbody
+              -@toggle = true
+              -@share.dividends_by_year.each do |dividend_year|
+                -@toggle = !@toggle
+                -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+                %tr{class: @rowclass}
+                  %td
+                    #{dividend_year[:year]}
+                  %td.number
+                    #{format_number(dividend_year[:amount], 2)}

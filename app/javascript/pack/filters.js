@@ -23,6 +23,7 @@ function apply_filter() {
 	const big_investment = getFlag('filter_big_investment')
 	const under_performer = getFlag('filter_under_performer')
 	const div_overdue = getFlag('filter_div_overdue')
+	const no_div_last_year = getFlag('filter_no_div_last_year')
 	const comments = getFlag('filter_comments')
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
 	console.log('>>> badges_cols', badges_cols)
@@ -36,6 +37,7 @@ function apply_filter() {
 		displayThis = displayThis || hasRelevantBadge(good_price, 'good_price', current_badges)
 		displayThis = displayThis || hasRelevantBadge(under_performer, 'under_performer', current_badges)
 		displayThis = displayThis || hasRelevantBadge(div_overdue, 'div_overdue', current_badges)
+		displayThis = displayThis || hasRelevantBadge(no_div_last_year, 'no_div_last_year', current_badges)
 		displayThis = displayThis || hasRelevantBadge(comments, 'comments', current_badges)
 		if (!displayThis) {
 			const row = elem.closest('tr')

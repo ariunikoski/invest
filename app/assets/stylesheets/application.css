@@ -246,13 +246,14 @@ div.inner_tab_data {
 	border: black solid 1px;
 	margin-left: -5px;
 	background-color: white;
-	max-height: 400px;
-	min-height: 400px;
-	max-width: 620px;
-	min-width: 620px;
+	max-height: 380px;
+	min-height: 380px;
+	max-width: 875px;
+	min-width: 875px;
 	position: relative;
 	z-index: 2;
 	margin-top: -3px;
+	overflow: scroll;
 }
 
 div.fill_space {
@@ -278,4 +279,48 @@ div.checkbox_section {
 
 img.filter {
 	float: right;
+}
+
+th.x-date {
+	min-width: 85px;
+}
+
+div.details_buttons {
+	margin-bottom: 5px;
+}
+
+div.details_pills {
+	display: flex;
+	margin-bottom: 5px;
+}
+
+div.details_pills > div.badge_holder{
+	padding-right: 5px;
+}
+
+div.sector_industry {
+	display: flex;
+	margin-bottom: 5px;
+}
+
+div.sector_industry > div.non-table-input {
+	margin-right: 5px;
+	margin-left: 5px;
+	max-width: 200px;
+}
+
+sp.sector_prompt, sp.industry_prompt {
+	padding-top: 6px;
+}
+
+div.sub_detail_container{
+	text-align: center;
+	border: 1px black solid;
+	margin-top: 10px;
+	padding-bottom: 10px;
+}
+
+div.sub_detail_container > table {
+	margin: 0 auto;
+	margin-bottom: 10px;
 }

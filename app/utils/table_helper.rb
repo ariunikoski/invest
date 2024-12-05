@@ -6,11 +6,13 @@ module TableHelper
 	 big_investment: { text: 'big investment', color: 'black', text_color: 'white' },
 	 under_performer: { text: 'under prf.', color: 'orangered' },
 	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
+	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :div_overdue },
 	 comments: { text: 'comments', color: 'lightgray' }
   }
 
-  def col_header(desc, filter_name = nil, image_name = nil)
-    col_header = content_tag(:th, class: 'col_header') do
+  def col_header(desc, filter_name = nil, image_name = nil, extra_class = nil)
+    classes = "col_header #{extra_class}"
+    col_header = content_tag(:th, class: classes) do
       col_header_contents(desc, filter_name, image_name)
     end
   end

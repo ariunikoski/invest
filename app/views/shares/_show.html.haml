@@ -1,44 +1,36 @@
 .details
   %H1
     Details For: #{@share.name}
-  %table{border: 0}
-    %tr
-      %td.vertical-align
-        .tools
-          %button{onclick: "clearDetails()"}
-            Clear
-          %button{onclick: "callYahooHistoricals(#{@share.id});"}
-            Load Yahoo Dividends
-          %button{onclick: "callYahooSummary(#{@share.id});"}
-            Load Yahoo Summary
-          %button{onclick: "deleteShare(#{@share.id});"}
-            Delete Share
-        =get_links @share
-        - @share.badges.each do |badge|
-          .badge_holder
-            = create_pill(badge)
-        .mini_summary
-          %table{border:0}
-            %tr
-              %td
-                Sector:
-              %td
-                = render :partial => 'shared/field', :locals => { obj: @share, data: @share.sector, field_name: 'sector', display_klass: 'non-table-input' }
-            %tr
-              %td
-                Industry:
-              %td
-                = render :partial => 'shared/field', :locals => { obj: @share, data: @share.industry, field_name: 'industry', display_klass: 'non-table-input' }
-      %td
-        .tab_container
-          .tab_headings
-            = inner_tab("Chart", "Chart")
-            = inner_tab("Chart", "Summary")
-            = inner_tab("Chart", "Notes")
-          = inner_tab_data("Chart", "Chart", 'chart', { share: @share} )
-          = inner_tab_data("Chart", "Summary", 'show_summary', { share: @share} )
-          = inner_tab_data("Chart", "Notes", 'show_notes', { share: @share})
-  = render :partial => 'shared/collapsible_section', :locals => { title: 'dividends' }
-  = render :partial => 'dividends'    
-  = render :partial => 'shared/collapsible_section', :locals => { title: 'holdings' }
-  = render :partial => 'holdings'    
+  .details_buttons
+    %button{onclick: "clearDetails()"}
+      Clear
+    %button{onclick: "callYahooHistoricals(#{@share.id});"}
+      Load Yahoo Dividends
+    %button{onclick: "callYahooSummary(#{@share.id});"}
+      Load Yahoo Summary
+    %button{onclick: "deleteShare(#{@share.id});"}
+      Delete Share
+    =get_links @share
+  .details_pills
+    - @share.badges.each do |badge|
+      .badge_holder
+        = create_pill(badge)
+  .sector_industry
+    %sp.sector_prompt
+      Sector:
+    = render :partial => 'shared/field', :locals => { obj: @share, data: @share.sector, field_name: 'sector', display_klass: 'non-table-input' }
+    %sp.industry_prompt
+      Industry:
+    = render :partial => 'shared/field', :locals => { obj: @share, data: @share.industry, field_name: 'industry', display_klass: 'non-table-input' }
+  .tab_container
+    .tab_headings
+      = inner_tab("Chart", "Chart")
+      = inner_tab("Chart", "Dividends")
+      = inner_tab("Chart", "Holdings")
+      = inner_tab("Chart", "Summary")
+      = inner_tab("Chart", "Notes")
+    = inner_tab_data("Chart", "Chart", 'chart', { share: @share} )
+    = inner_tab_data("Chart", "Dividends", 'dividends', { share: @share} )
+    = inner_tab_data("Chart", "Holdings", 'holdings', { share: @share} )
+    = inner_tab_data("Chart", "Summary", 'show_summary', { share: @share} )
+    = inner_tab_data("Chart", "Notes", 'show_notes', { share: @share})

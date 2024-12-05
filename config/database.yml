@@ -53,6 +53,6 @@ test:
 #
 production:
   <<: *default
-  database: invest_server_production
-  username: invest_server
+  database: <%= ENV["INVEST_SERVER_DATABASE_DATABASE"] %>
+  username: <%= ENV["INVEST_SERVER_DATABASE_USERNAME"] %>
   password: <%= ENV["INVEST_SERVER_DATABASE_PASSWORD"] %>

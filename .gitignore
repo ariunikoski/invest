@@ -44,3 +44,4 @@ yarn-debug.log*
 /exp.sql
 /[database_name].sql
 /ss.diff
+/bup/*

@@ -30,7 +30,8 @@ module ShareHelper
   def reorder_shares(original_shares)
     order_by = params[:order_by]
     retval = original_shares.sort_by(&:p_l_nis) if order_by == 'P_L'
-    retval = original_shares.sort_by(&:p_l_pcnt) if order_by == 'P_L_CNT'
+    retval = original_shares.sort_by(&:p_l_pcnt) if order_by == 'P_L_PCNT'
+    retval = original_shares.sort_by(&:name) if order_by == 'NAME'
     return original_shares unless retval
     retval.reverse! if params[:order_direction] == 'DESC'
     retval

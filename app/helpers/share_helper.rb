@@ -36,4 +36,9 @@ module ShareHelper
     retval.reverse! if params[:order_direction] == 'DESC'
     retval
   end
+
+  def arrow_image_classes(col_order_by)
+    additional = col_order_by == params[:order_by] ? 'current' : ''
+    "arrow_16 #{additional}"
+  end
 end

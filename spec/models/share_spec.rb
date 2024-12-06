@@ -16,7 +16,7 @@ RSpec.describe Share, type: :model do
     it 'calculates the profit or loss correctly' do
       allow(@share).to receive(:total_cost_and_holdings).and_return [400, 4, 3]
       allow(@share).to receive(:current_price).and_return 110
-      expect(@share.p_l).to eq([40, 3])
+      expect(@share.p_l).to eq([40, 3, 10])
     end
   end
 

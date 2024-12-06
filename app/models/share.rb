@@ -194,7 +194,8 @@ class Share < ApplicationRecord
   
   def p_l
     cost, total_holdings, missing_cost_count = total_cost_and_holdings
-    [total_holdings * current_price - cost, missing_cost_count]
+    profit = total_holdings * current_price - cost
+    [profit, missing_cost_count, (profit*100)/cost]
   end
   
   def total_cost_and_holdings

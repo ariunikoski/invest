@@ -324,3 +324,15 @@ div.sub_detail_container > table {
 	margin: 0 auto;
 	margin-bottom: 10px;
 }
+
+tr.holding_total {
+	font-weight: bold;
+}
+
+span.p_l_green {
+	color:lightseagreen;
+}
+
+span.p_l_red {
+	color:red;
+}

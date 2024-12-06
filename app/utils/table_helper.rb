@@ -37,4 +37,12 @@ module TableHelper
     return nil unless share
     "Last dividend received: #{share.get_most_recent_dividend}"
   end
+ 
+  def needs_descending_button(col_order_by)
+    params[:order_by] == col_order_by and params[:order_direction] != 'DESC'
+  end
+ 
+  def calc_sorter_gif(col_order_by)
+    needs_descending_button(col_order_by) ? 'arrow2_s.gif' : 'arrow2_n.gif'
+  end
 end

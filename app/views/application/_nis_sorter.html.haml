@@ -1,0 +1,4 @@
+%span
+  #{desc}
+- order_direction = needs_descending_button('P_L') ? 'DESC' : 'ASC'
+%img.arrow_16{ src: "assets/#{image_name}", onclick: "window.location.href=window.location.pathname + '?order_by=P_L&order_direction=#{order_direction}'"}

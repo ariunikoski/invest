@@ -281,6 +281,12 @@ img.filter {
 	float: right;
 }
 
+img.arrow_16 {
+	float: right;
+	width: 16 px;
+	height: 16px;
+}
+
 th.x-date {
 	min-width: 85px;
 }

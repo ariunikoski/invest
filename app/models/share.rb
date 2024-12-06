@@ -74,9 +74,9 @@ class Share < ApplicationRecord
     puts '>>> today, earliest', today, earliest
     stop_on = nil
     most_recent = nil
-    # TODO!!!! ADD ORDER BY TO NEXT LINE!
-    if dividends.length > 0
-      most_recent = dividends.first.x_date
+    divs = dividends.order(x_date: :desc)
+    if divs.length > 0
+      most_recent = divs.first.x_date
       puts '>>> most_recent', most_recent
       if most_recent < earliest
         puts '>>> exitting'
@@ -190,5 +190,36 @@ class Share < ApplicationRecord
       results << { year: current_year, amount: amount }
     end
     results
+  end
+  
+  def p_l
+    cost, total_holdings, missing_cost_count = total_cost_and_holdings
+    [total_holdings * current_price - cost, missing_cost_count]
+  end
+  
+  def total_cost_and_holdings
+    avg_cost = calc_avg_cost
+    total_cost = 0
+    total_holdings = 0
+    missing_cost_count = 0
+    holdings.each do |holding|
+      missing_cost_count = missing_cost_count + 1 if !holding.cost
+      price = holding.cost || avg_cost
+      total_cost = total_cost + price * holding.amount
+      total_holdings = total_holdings + holding.amount
+    end
+    [total_cost, total_holdings, missing_cost_count]
+  end
+  
+  def calc_avg_cost
+    total_known_cost = 0
+    total_known_cost_holdings = 0
+    holdings.each do |holding|
+      if holding.cost
+        total_known_cost = total_known_cost + holding.cost * holding.amount
+        total_known_cost_holdings = total_known_cost_holdings + holding.amount
+      end
+    end
+    total_known_cost_holdings != 0 ? total_known_cost / total_known_cost_holdings : 0
   end
 end

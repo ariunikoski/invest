@@ -9,10 +9,13 @@
         =col_header 'Purchase Date'
         =col_header 'Quantity'
         =col_header 'Purchase Price'
+        =col_header 'Purchase Cost'
         =col_header 'Account'
         =col_header 'Actions'
     %tbody
       -@toggle = true
+      - total_holding = 0
+      - total_purchase_cost = 0
       -@share.holdings.each do |holding|
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
@@ -22,9 +25,24 @@
             = render :partial => 'shared/field', :locals => { obj: holding, data: date_string, field_name: 'purchase_date', klass: 'datepicker' }
           %td.number
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.amount, field_name: 'amount' }
+            - total_holding = total_holding + holding.amount
           %td.number
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.cost, field_name: 'cost' }
+          %td.number
+            -if holding.cost
+              #{format_number(holding.cost * holding.amount, 2)}
+              - total_purchase_cost = total_purchase_cost + holding.cost * holding.amount
           %td
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteHolding(#{holding.id})"
+      %tr.holding_total
+        %td
+          Total
+        %td.number
+          #{format_number(total_holding, 0)}
+        %td.number
+        %td.number
+          #{format_number(total_purchase_cost, 2)}
+        %td
+        %td.action_col

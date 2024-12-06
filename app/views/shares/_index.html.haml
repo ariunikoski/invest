@@ -12,6 +12,7 @@
         =col_header 'Weighted Dividend Yield'
         =col_header 'Value'
         =col_header 'Value in NIS'
+        =col_header 'P/L in NIS'
         =col_header 'Actions'
         =col_header 'Badges', 'badges_filter', 'funnel.gif'
     %tbody
@@ -27,6 +28,9 @@
         -current_price = share.current_price
         -total_value = current_price ? total_holdings * current_price : nil
         -nis_val = rc.convert_to_nis(share.currency, total_value)
+        -p_l, p_l_missing_count = share.p_l
+        -p_l_nis = rc.convert_to_nis(share.currency, p_l)
+        -puts '>>> showing p_l data fpr ',share.name, p_l, p_l_missing_count, share.currency, p_l_nis
         -@total_total = @total_total + nis_val
         -@rows_reported = @rows_reported + 1
         -weighed_ytd = share.div_ytd[:weighted_ytd]
@@ -56,6 +60,8 @@
             #{format_number(total_value,2)}
           %td.number
             #{format_number(nis_val, 2)}
+          %td.number
+            #{format_number(p_l_nis, 2)}
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
           %td{tag: 'column_badges', data_badges: share.badges}

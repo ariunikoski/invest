@@ -22,8 +22,10 @@
       -@rows_reported = 0
       -@total_ytd = 0
       -@total_weighed = 0
+      -@total_pl = 0
       - account = nil if !defined?(account)
       - rc = Rates::RatesCache.instance
+      -@shares = reorder_shares(@shares)
       -@shares.each do |share|
         -total_holdings = share.total_holdings(by_account, account)
         -current_price = share.current_price
@@ -31,6 +33,7 @@
         -nis_val = rc.convert_to_nis(share.currency, total_value)
         -p_l, p_l_missing_count, p_l_pcnt = share.p_l
         -p_l_nis = rc.convert_to_nis(share.currency, p_l)
+        -@total_pl = @total_pl + p_l_nis
         -p_l_color = p_l < 0 ? 'p_l_red' : 'p_l_green'
         -@total_total = @total_total + nis_val
         -@rows_reported = @rows_reported + 1

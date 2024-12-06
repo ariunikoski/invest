@@ -193,9 +193,22 @@ class Share < ApplicationRecord
   end
   
   def p_l
-    cost, total_holdings, missing_cost_count = total_cost_and_holdings
-    profit = total_holdings * current_price - cost
-    [profit, missing_cost_count, (profit*100)/cost]
+    unless @p_l
+      cost, total_holdings, missing_cost_count = total_cost_and_holdings
+      profit = total_holdings * current_price - cost
+      @p_l = [profit, missing_cost_count, (profit*100)/cost]
+    end
+    @p_l
+  end
+  
+  def p_l_nis
+    profit, missing, pcnt = p_l
+    Rates::RatesCache.instance.convert_to_nis(currency, profit)
+  end
+  
+  def p_l_pcnt
+    profit, missing, pcnt = p_l
+    pcnt
   end
   
   def total_cost_and_holdings

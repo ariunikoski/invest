@@ -1,0 +1,17 @@
+%span
+  #{desc}
+%img.filter{ src: "assets/#{image_name}", onclick: "makeVisible('actions_filter')"}
+.filter_div.hidden{id: 'actions_filter'}
+  %div
+    %form
+      %fieldset
+        %legend Show
+        %label.radio_option
+          %input{ type: "radio", name: "show", value: "all", checked: true, onclick: "filterByFlag('all')" }
+          Show All
+        %label.radio_option
+          %input{ type: "radio", name: "show", value: "flagged", onclick: "filterByFlag('flagged')" }
+          Show Flagged
+        %label.radio_option
+          %input{ type: "radio", name: "show", value: "unflagged", onclick: "filterByFlag('unflagged')" }
+          Show Unflagged

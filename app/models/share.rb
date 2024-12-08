@@ -195,8 +195,12 @@ class Share < ApplicationRecord
   def p_l
     unless @p_l
       cost, total_holdings, missing_cost_count = total_cost_and_holdings
-      profit = total_holdings * current_price - cost
-      @p_l = [profit, missing_cost_count, (profit*100)/cost]
+      if cost && total_holdings && current_price
+        profit = total_holdings * current_price - cost
+        @p_l = [profit, missing_cost_count, (profit*100)/cost]
+      else
+        @p_l = [0, 0, 0]
+      end
     end
     @p_l
   end

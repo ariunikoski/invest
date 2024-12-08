@@ -14,7 +14,7 @@
         =col_header 'Value in NIS'
         =col_header 'P/L in NIS', 'nis_sorter', calc_sorter_gif('P_L')
         =col_header 'P/L %', 'p_l_pcnt_sorter', calc_sorter_gif('P_L_PCNT')
-        =col_header 'Actions'
+        =col_header 'Actions', 'actions_filter', 'funnel.gif'
         =col_header 'Badges', 'badges_filter', 'funnel.gif'
     %tbody
       -@toggle = true
@@ -72,6 +72,7 @@
               #{format_number(p_l_pcnt, 2)}
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
+            %input{ type: 'checkbox', name: 'flag', onclick: "toggleFlag(event)", tag: "row_flag" }
           %td{tag: 'column_badges', data_badges: share.badges}
             - share.badges.each do |badge|
               %sp.badge

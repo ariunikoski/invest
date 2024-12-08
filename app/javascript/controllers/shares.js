@@ -138,6 +138,10 @@ function deleteShare(shareId) {
     xhr.send();
 }
 
+function toggleFlag(event) {
+	event.stopPropagation()
+}
+	
 function deleteHolding(holdingId) {
     var xhr = new XMLHttpRequest();
     var url = '/holdings/' + holdingId
@@ -208,4 +212,8 @@ function loadAllDividends() {
     // Sending our request 
     xhr.send();
 	
+}
+
+function filterByFlag(style) {
+	apply_filter(style) // see: app\javascript\pack\filters.js
 }

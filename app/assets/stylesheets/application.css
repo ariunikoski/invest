@@ -346,3 +346,8 @@ span.p_l_red {
 img.current {
 	border: 3px blue solid;
 }
+
+label.radio_option {
+	display: block;
+	margin-bottom: 8px;
+}

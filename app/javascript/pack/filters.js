@@ -1,4 +1,4 @@
-function apply_filter() {
+function apply_filter(flag_style='all') {
 	const flags = {}
 	flags['AUD'] = getFlag('filter_aud')
 	flags['CAD'] = getFlag('filter_cad')
@@ -6,6 +6,7 @@ function apply_filter() {
 	flags['NIS'] = getFlag('filter_nis')
 	flags['USD'] = getFlag('filter_usd')
 	
+	// filter by currency_cols must be first as it turns everyone on
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
 	for (let ii = 0; ii < currency_cols.length; ii++) {
 		const elem = currency_cols[ii]
@@ -18,6 +19,17 @@ function apply_filter() {
 		}
 	}
 	
+	if (flag_style !== 'all') {
+		const flags = document.querySelectorAll("input[tag='row_flag']");
+		for (let ii = 0; ii < flags.length; ii++) {
+			const elem = flags[ii]
+			const row = elem.closest('tr')
+			if (elem.checked === (flag_style === 'unflagged'))	 {
+  				row.classList.add('hidden');
+			}
+		}
+	}
+	
 	const really_good_price = getFlag('filter_really_good_price')
 	const good_price = getFlag('filter_good_price')
 	const big_investment = getFlag('filter_big_investment')
@@ -26,7 +38,6 @@ function apply_filter() {
 	const no_div_last_year = getFlag('filter_no_div_last_year')
 	const comments = getFlag('filter_comments')
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
-	console.log('>>> badges_cols', badges_cols)
 	for (let ii = 0; ii < badges_cols.length; ii++) {
 		const elem = badges_cols[ii]
 		const current_badges = convertBadgesString(elem.getAttribute('data_badges'))

@@ -2,6 +2,7 @@ class Share < ApplicationRecord
   has_many :links, as: :linked_to, dependent: :destroy
   has_many :holdings, as: :held_by, dependent: :destroy
   has_many :dividends, dependent: :destroy
+  has_many :sales, dependent: :destroy
   
   def total_holdings(by_account = false, account = nil)
     by_account ? holdings.where(account: account).sum(:amount) : holdings.sum(:amount)
@@ -71,27 +72,20 @@ class Share < ApplicationRecord
   def get_stop_on
     today = Date.today
     earliest = today.prev_month(14)
-    puts '>>> today, earliest', today, earliest
     stop_on = nil
     most_recent = nil
     divs = dividends.order(x_date: :desc)
     if divs.length > 0
       most_recent = divs.first.x_date
-      puts '>>> most_recent', most_recent
       if most_recent < earliest
-        puts '>>> exitting'
         return [nil, nil]
       end
       # go to the 1st day of the month following the last payment,
       # so if this month they paid on the 10th and last year this month on the 12th, it wont count both this year and last year
       # this resolves the rimoni bug 
       stop_on = most_recent.change(year: most_recent.year - 1, day: 1).advance(months: 1)
-      puts '>>> stop_on', stop_on
       if stop_on < earliest
-        puts '>>> resetting stop_on', name
         stop_on = earliest
-        puts '>>> stop_on is now', stop_on
-        #byebug
       end
     end
     [stop_on, most_recent]
@@ -138,7 +132,6 @@ class Share < ApplicationRecord
   def calc_badges
     hold_badges = []
     
-    puts '>>> div_ytd = ', div_ytd
     ytd = div_ytd
     last_date = ytd[:last_date]
     if last_date
@@ -176,7 +169,6 @@ class Share < ApplicationRecord
     amount = 0
     dividends.order(x_date: :desc).each do |dividend|
       yy = dividend.x_date.year
-      puts '>>> current, divdate, divamount, yy, amount', current_year, dividend.x_date, dividend.amount, yy, amount
       if yy != current_year
         if current_year
           results << { year: current_year, amount: amount }
@@ -239,5 +231,17 @@ class Share < ApplicationRecord
       end
     end
     total_known_cost_holdings != 0 ? total_known_cost / total_known_cost_holdings : 0
+  end
+  
+  def holdings_by_account
+    hba = {}
+    holdings.each do |holding|
+      ha = hba[holding.account] || { account: holding.account, amount: 0, purchase_cost: 0 }
+      ha[:amount] = ha[:amount] + holding.amount
+      ha[:purchase_cost] = ha[:purchase_cost] + holding.amount*holding.cost
+      hba[holding.account] = ha
+    end
+    
+    hba.sort.map { |key, val| val }
   end
 end

@@ -1,0 +1,22 @@
+.hidden.dataForm{id: 'sell_holding'}
+  %H3
+    Sell Holding
+  %form{name: "sell_holding",  method: 'post', action: 'holdings/sell'}
+    %table
+      = render :partial => 'shared/hidden_field', :locals => { field_name: 'selling_share_id' }
+      = render :partial => 'shared/hidden_field', :locals => { field_name: 'selling_holding_id' }
+      = render :partial => 'shared/read_only_field', :locals => { field_name: 'selling_account', prompt: 'Account' }
+      = render :partial => 'shared/read_only_field', :locals => { field_name: 'selling_purchase_price', prompt: 'Purchase Price' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_sale_date', klass: 'datepicker', prompt: 'Sale Date'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_amount', prompt: 'Quantity' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_sale_price', prompt: 'Sale Price' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_tax_nis', prompt: 'Tax in NIS' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_service_fees_nis', prompt: 'Service Fees NIS' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_service_fees_fc', prompt: 'Service Fees in Currency' }
+    %button{type: 'button', onclick: 'makeInvisible("sell_holding")'}
+      Cancel
+    %button{type: 'submit', name: 'submit'}
+      - #Submit
+    %button{type: 'submit', name: 'submit'}
+      Submit
+      

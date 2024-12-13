@@ -29,5 +29,20 @@ class HoldingsController < ApplicationController
 	holding.update(updater)
     head :ok
   end
+  
+  def sell
+    selling_amount = params[:selling_amount].to_i
+    sale = Sale.create(share_id: params[:selling_share_id],
+      holding_id: params[:selling_holding_id],
+      sale_date: params[:selling_sale_date],
+      amount: selling_amount,
+      sale_price: params[:selling_sale_price],
+      tax_nis: params[:selling_tax_nis],
+      service_fee_nis: params[:selling_service_fees_nis],
+      service_fee_fc: params[:selling_service_fees_fc])
+    holding = sale.holding
+    holding.update(amount: holding.amount - selling_amount, amount_sold: holding.amount_sold || 0 + selling_amount)
+    redirect_to shares_url
+  end
 end
   

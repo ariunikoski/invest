@@ -31,7 +31,6 @@ function getDetails(element, shareId) {
 function reformat(key) {
 	const elem = document.getElementById(key)
 	const dataVal = elem.innerText.replace(/\n/g,"").replace(/<p>/g,"\n").trimStart()
-	console.log('>>> before [' + dataVal + ']')
 	elem.innerText = dataVal
 }
 
@@ -107,11 +106,12 @@ function showShareInputForm() {
 }
 
 function showHoldingInputForm() {
-	purchase_date_field = document.getElementById('purchase_date_field')
-	purchase_date_field.DatePickerX.init({
-		mondayFirst: false,
-		format: 'dd/mm/yy'
-	})
+	initiateDateField('purchase_date_field')
+	//purchase_date_field = document.getElementById('purchase_date_field')
+	//purchase_date_field.DatePickerX.init({
+	//	mondayFirst: false,
+	//	format: 'dd/mm/yy'
+	//})
 	makeVisible('new_holding')
 }
 
@@ -142,7 +142,11 @@ function toggleFlag(event) {
 	event.stopPropagation()
 }
 	
-function deleteHolding(holdingId) {
+function deleteHolding(holdingId, desc) {
+    var userResponse = confirm("Do you want to delete the holding:" + desc +"?");
+	if (!userResponse) {
+		return
+	}
     var xhr = new XMLHttpRequest();
     var url = '/holdings/' + holdingId
     xhr.open("DELETE", url, true);
@@ -158,6 +162,16 @@ function deleteHolding(holdingId) {
     }
     // Sending our request 
     xhr.send();
+}
+
+function sellHolding(holding) {
+	populateFieldValue('selling_holding_id_field', holding.id)
+	populateFieldValue('selling_share_id_field', holding.held_by_id)
+	populateFieldValue('selling_amount_field', holding.amount)
+	populateFieldValue('selling_account_field', holding.account)
+	populateFieldValue('selling_purchase_price_field', holding.cost)
+	initiateDateField('selling_sale_date_field')
+	makeVisible('sell_holding')
 }
 
 function clearDetails() {
@@ -216,4 +230,19 @@ function loadAllDividends() {
 
 function filterByFlag(style) {
 	apply_filter(style) // see: app\javascript\pack\filters.js
+}
+
+function populateFieldValue(field_id, value) {
+	field = document.getElementById(field_id)
+	if (field) {
+		field.value = value
+	}
+}
+
+function initiateDateField(field_id) {
+	date_field = document.getElementById(field_id)
+	date_field.DatePickerX.init({
+		mondayFirst: false,
+		format: 'dd/mm/yy'
+	})
 }

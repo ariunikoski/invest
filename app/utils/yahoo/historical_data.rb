@@ -1,5 +1,7 @@
 module Yahoo
   require 'rest-client'
+  require 'uri'
+  require 'net/http'
   class HistoricalData
     def initialize(share)
       @share = share
@@ -34,27 +36,32 @@ module Yahoo
     def load
       begin
         params = {'symbol': @symbol, 'region': @region}
-        # puts '>>> params = ', params, params.to_json
         response =  RestClient.get("https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data", {
 		  'content_type': 'json',
 		  'accept': 'json', 
           'X-RapidAPI-Key': 'cefb88ea18msh5dc12cef89546d2p10de4bjsne8e995c4b445',
           'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com',
+          'use-ssl': true,
           'params': params
         })
       rescue => e
-        puts "Failed to get data for: #{@symbol}, #{@region} with #{e}"
+        mark_error "Failed to get data for: #{@symbol}, #{@region} with #{e}"
         return
       end
       if response.code != 200
-        puts "Failed to get data for: #{@symbol}, #{@region} with #{response.code}"
+        mark_error "Failed to get data for: #{@symbol}, #{@region} with #{response.code}"
         return
       end
-      # puts '>>> empty?', response.body, response.body.empty?
       if !response.body.empty?
         data = JSON.parse(response.body)
         handle_dividends(data['eventsData'])
       end
+    end
+    
+    def mark_error(message)
+      @errors = @errors + 1
+      puts message
+      Log.error(message)
     end
     
     def handle_dividends(events)

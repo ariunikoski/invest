@@ -4,4 +4,5 @@
       - disp_value = defined?(prompt) ? prompt : field_name
       #{disp_value}:
   %td
-    %input{class: (klass if defined?(klass)), type: "text", id: "#{field_name}_field", name: "#{field_name}"}
+    - input_key = "#{field_name}_field"
+    %input.read_only_field{id: input_key, readonly: true, class: (klass if defined?(klass))}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_05_072647) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_11_130104) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_072647) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "account"
+    t.integer "amount_sold"
     t.index ["held_by_type", "held_by_id"], name: "index_holdings_on_held_by"
   end
 
@@ -69,6 +70,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_072647) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sales", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "share_id", null: false
+    t.bigint "holding_id", null: false
+    t.date "sale_date"
+    t.integer "amount"
+    t.decimal "sale_price", precision: 10, scale: 2
+    t.decimal "tax_nis", precision: 10, scale: 2
+    t.decimal "service_fee_nis", precision: 10, scale: 2
+    t.decimal "service_fee_fc", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["holding_id"], name: "index_sales_on_holding_id"
+    t.index ["share_id"], name: "index_sales_on_share_id"
+  end
+
   create_table "shares", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "symbol"
@@ -85,4 +101,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_072647) do
   end
 
   add_foreign_key "dividends", "shares"
+  add_foreign_key "sales", "holdings"
+  add_foreign_key "sales", "shares"
 end

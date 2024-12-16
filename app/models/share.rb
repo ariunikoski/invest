@@ -135,6 +135,7 @@ class Share < ApplicationRecord
     ytd = div_ytd
     last_date = ytd[:last_date]
     if last_date
+      last_date = last_date.change(day: 28) if last_date.day == 29 && last_date.month == 2
       test_date = last_date.change(year: last_date.year + 1)
       hold_badges << :div_overdue if (test_date < Date.today)
     else

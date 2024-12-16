@@ -1,7 +1,9 @@
+- required = false unless defined?(required)
 %tr
   %td
     %label{for: "#{field_name}_field"}
       - disp_value = defined?(prompt) ? prompt : field_name
+      - disp_value = "#{disp_value} *" if required
       #{disp_value}:
   %td
-    %input{class: (klass if defined?(klass)), type: "text", id: "#{field_name}_field", name: "#{field_name}"}
+    %input{class: (klass if defined?(klass)), type: "text", id: "#{field_name}_field", name: "#{field_name}", required: required }

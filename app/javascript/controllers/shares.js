@@ -164,6 +164,28 @@ function deleteHolding(holdingId, desc) {
     xhr.send();
 }
 
+function deleteSale(saleId, desc) {
+    var userResponse = confirm("Do you want to delete the sale:" + desc +"?");
+	if (!userResponse) {
+		return
+	}
+    var xhr = new XMLHttpRequest();
+    var url = '/sales/' + saleId
+    xhr.open("DELETE", url, true);
+    
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          location.reload()
+        } else {
+		  console.log('delete sale failure')
+		}
+      }
+    }
+    // Sending our request 
+    xhr.send();
+}
+
 function sellHolding(holding) {
 	populateFieldValue('selling_holding_id_field', holding.id)
 	populateFieldValue('selling_share_id_field', holding.held_by_id)

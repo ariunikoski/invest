@@ -4,10 +4,6 @@
 	const origSymbol = masterDiv.dataset.shareSymbol
 	const shareName = masterDiv.dataset.shareName
 	const symbol = convertSymbol(origSymbol)
-	console.log('>>> masterDiv = ', masterDiv)
-	console.log('>>> masterDiv.dataset = ', masterDiv.dataset)
-	console.log('>>> shreName = ', shareName)
-	console.log('>>> symbok = ', symbol)
     new TradingView.MediumWidget({
       "symbols": [
         [

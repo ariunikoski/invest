@@ -23,27 +23,13 @@ module Yahoo
     # AQN.TO    TO
     # documentation suggests region is optional - try without
     # create my own user... in rapid api
-    # TODO: add order by for holdings and dividends
-    # TODO: yahoo - get current price and update... this can also set the last dividend payment date
-    
-    # TODO once current price, I can do my own trailing ytd, and then percent of current, and weighted percent against investment - and projected income.
-    # 
-    
-    # TODO: think about mechanism for marking guys that need to have this run....
-    
-    # TODO: elsewhere - copy first and then open the link
     
     def load
       begin
-        params = {'symbol': @symbol, 'region': @region}
-        response =  RestClient.get("https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data", {
-		  'content_type': 'json',
-		  'accept': 'json', 
-          'X-RapidAPI-Key': 'cefb88ea18msh5dc12cef89546d2p10de4bjsne8e995c4b445',
-          'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com',
-          'use-ssl': true,
-          'params': params
-        })
+        today = Date.today
+        five_years = today.prev_year(5)
+        query = "https://query1.finance.yahoo.com/v8/finance/chart/#{@symbol}?events=div&formatted=true&includeAdjustedClose=true&interval=1d&period1=#{five_years.to_time.to_i}&period2=#{today.to_time.to_i}&symbol=#{@symbol}&userYfid=true&lang=en-US&region=#{@region}"
+        response = RestClient.get(query)
       rescue => e
         mark_error "Failed to get data for: #{@symbol}, #{@region} with #{e}"
         return
@@ -54,26 +40,51 @@ module Yahoo
       end
       if !response.body.empty?
         data = JSON.parse(response.body)
-        handle_dividends(data['eventsData'])
+        if data["chart"]["result"].length != 1
+          mark_error "data['chart']['result'].length was #{data['chart']['result'].length}"
+          return
+        end
+        begin
+          dividends = data["chart"]["result"][0]["events"]["dividends"]
+        rescue => e
+          dividends = nil
+        end
+        if !dividends
+          mark_error "Could not find 'dividends' in #{data}"
+          return
+        end
+        Log.warn("Zero dividends found!") if handle_dividends(dividends) < 1
+      else
+        mark_error "response.body was empty"
       end
     end
     
     def mark_error(message)
       @errors = @errors + 1
       puts message
-      Log.error(message)
+      Log.error("Error found for #{@share.name}")
+      Log.error(message.byteslice(0,255))
     end
     
     def handle_dividends(events)
-      events.each do |event|
-        if event['type'] == 'DIVIDEND'
-          handle_dividend event
-        end
+      dividends_handled = 0
+      events.each do |key, value|
+        dividends_handled = dividends_handled + 1
+        handle_dividend value
       end
+      dividends_handled
     end
     
     def handle_dividend dividend
-      x_date = Time.at(dividend['date']).to_date
+      x_date = Time.at(dividend['date'].to_i).to_date
+      if !x_date
+        mark_error "No x_date in #{dividend.to_json}"
+        return
+      end
+      if !dividend['amount']
+        mark_error "No amount in #{dividend.to_json}"
+        return
+      end
       newDiv = Dividend.new(x_date: x_date, amount: dividend['amount'])
       begin
         @share.dividends << newDiv

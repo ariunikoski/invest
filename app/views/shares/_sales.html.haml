@@ -1,0 +1,82 @@
+.sales_section
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Sale Date'
+        =col_header 'Quantity'
+        =col_header 'Purchase Price'
+        =col_header 'Sale Price'
+        =col_header 'Sale Amount'
+        =col_header 'P/L'
+        =col_header 'P/L %'
+        =col_header 'Tax - NIS'
+        =col_header 'Service Fees - NIS'
+        =col_header 'Service Fees - FC'
+        =col_header 'Actions'
+    - total_amount = 0
+    - total_sales = 0
+    - total_p_l = 0
+    - total_tax_nis = 0
+    - total_service_fee_nis = 0
+    - total_service_fee_fc = 0
+    %tbody
+      -@toggle = true
+      -@share.sales.order(sale_date: :desc).each do |sale|
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        -p_l = sale.amount*(sale.sale_price - sale.holding.cost)
+        -p_l_color = p_l < 0 ? 'p_l_red' : 'p_l_green'
+        -total_amount = total_amount + sale.amount
+        -total_sales = total_sales + sale.amount*sale.sale_price
+        -total_p_l = total_p_l + p_l
+        -total_tax_nis = total_tax_nis + (sale.tax_nis || 0)
+        -total_service_fee_nis = total_service_fee_nis + (sale.service_fee_nis || 0)
+        -total_service_fee_fc = total_service_fee_fc + (sale.service_fee_fc || 0)
+        %tr{class: @rowclass}
+          %td
+            - date_string = sale.sale_date ? sale.sale_date.strftime('%2d/%2m/%2y') : nil
+            = render :partial => 'shared/field', :locals => { obj: sale, data: date_string, field_name: 'sale_date', klass: 'datepicker' }
+          %td.number
+            #{sale.amount}
+          %td.number
+            #{format_number(sale.holding.cost, 2)}
+          %td.number
+            #{format_number(sale.sale_price, 2)}
+          %td.number
+            #{format_number(sale.sale_price * sale.amount, 2)}
+          %td.number
+            %span{class: p_l_color}
+              #{format_number(p_l, 2)}
+          %td.number
+            %span{class: p_l_color}
+              #{format_number((p_l * 100) / (sale.holding.cost * sale.amount), 2)}
+          %td.number
+            #{format_number(sale.tax_nis, 2)}
+          %td.number
+            #{format_number(sale.service_fee_nis, 2)}
+          %td.number
+            #{format_number(sale.service_fee_fc, 2)}
+          %td.action_col
+            = image_tag 'trash_can.png', size: 16, onclick: "deleteSale(#{sale.id}, '#{sale.amount} in #{sale.holding.account}')"
+      -p_l_color = total_p_l < 0 ? 'p_l_red' : 'p_l_green'
+      %tr.holding_total
+        %td
+        %td.number
+          #{total_amount}
+        %td.number
+        %td.number
+        %td.number
+          #{format_number(total_sales, 2)}
+        %td.number
+          %span{class: p_l_color}
+            #{format_number(total_p_l, 2)}
+        %td.number
+        %td.number
+          #{format_number(total_tax_nis, 2)}
+        %td.number
+          #{format_number(total_service_fee_nis, 2)}
+        %td.number
+          #{format_number(total_service_fee_fc, 2)}
+        %td
+- # #<Sale id: 2, share_id: 36, holding_id: 247, sale_date: "0012-12-24", amount: 10, sale_price: 0.1e1, tax_nis: 0.2e1, service_fee_nis: 0.3e1, service_fee_fc: 0.4e1, created_at: "2024-12-12 13:16:23.991141000 +0000", updated_at: "2024-12-12 13:16:23.991141000 +0000">
+            

@@ -31,17 +31,22 @@ class HoldingsController < ApplicationController
   end
   
   def sell
-    selling_amount = params[:selling_amount].to_i
-    sale = Sale.create(share_id: params[:selling_share_id],
-      holding_id: params[:selling_holding_id],
-      sale_date: params[:selling_sale_date],
-      amount: selling_amount,
-      sale_price: params[:selling_sale_price],
-      tax_nis: params[:selling_tax_nis],
-      service_fee_nis: params[:selling_service_fees_nis],
-      service_fee_fc: params[:selling_service_fees_fc])
-    holding = sale.holding
-    holding.update(amount: holding.amount - selling_amount, amount_sold: holding.amount_sold || 0 + selling_amount)
+    if params[:selling_amount].blank? || params[:selling_sale_date].blank? || params[:selling_sale_price].blank?
+      Log.error("Could not process sale: missing mandatory fields")
+    else
+      selling_amount = params[:selling_amount].to_i
+      selling_sale_date = Date.strptime(params[:selling_sale_date],'%d/%m/%y')
+      sale = Sale.create(share_id: params[:selling_share_id],
+        holding_id: params[:selling_holding_id],
+        sale_date: selling_sale_date,
+        amount: selling_amount,
+        sale_price: params[:selling_sale_price],
+        tax_nis: params[:selling_tax_nis],
+        service_fee_nis: params[:selling_service_fees_nis],
+        service_fee_fc: params[:selling_service_fees_fc])
+      holding = sale.holding
+      holding.update(amount: holding.amount - selling_amount, amount_sold: (holding.amount_sold || 0) + selling_amount)
+    end
     redirect_to shares_url
   end
 end

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post 'holdings/sell', to: 'holdings#sell'
 
   resources :funds
+  resources :sales
   resources :holdings
   resources :exchange_rates
   get 'load_rates', to: 'exchange_rates#load_rates'

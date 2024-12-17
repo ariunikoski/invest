@@ -55,7 +55,7 @@
               #{format_number(p_l, 2)}
           %td.number
             %span{class: p_l_color}
-              #{format_number((p_l* 100)/purchase_cost, 2)}
+              #{ holding.amount != 0 ? format_number((p_l* 100)/purchase_cost, 2) : '' }
           %td
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
           %td.action_col
@@ -79,7 +79,7 @@
             #{format_number(total_p_l, 2)}
         %td.number
           %span{class: p_l_color}
-            #{format_number((total_p_l * 100)/ total_purchase_cost, 2)}
+            #{ total_holding != 0 ? format_number((total_p_l * 100)/ total_purchase_cost, 2) : '' }
         %td.action_col
   %H3
     Summary by account
@@ -115,4 +115,4 @@
               #{format_number(p_l, 2)}
           %td.number
             %span{class: p_l_color}
-              #{format_number((p_l * 100)/ ha[:purchase_cost], 2)}
+              #{ha[:amount] != 0 ? format_number((p_l * 100)/ ha[:purchase_cost], 2) : ''}

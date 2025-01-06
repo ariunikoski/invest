@@ -48,14 +48,14 @@ class Share < ApplicationRecord
     weighted_pcnt = 0
     if (holdings.length > 0)
       avg_cost = sum_of_costs / holdings.length
-      avg_pcnt = yearly_earnings * 100 / (avg_cost * total_holdings)
+      avg_pcnt = total_holdings > 0 ? yearly_earnings * 100 / (avg_cost * total_holdings) : 0
     
       weighted_cost = total_cost / total_holdings
-      weighted_pcnt = yearly_earnings *100 / (weighted_cost * total_holdings)
+      weighted_pcnt = total_holdings > 0 ? yearly_earnings *100 / (weighted_cost * total_holdings) : 0
     end
     
     price = current_price || 0
-    current_pcnt = price > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
+    current_pcnt = price > 0  && total_holdings > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
     
     {
 	  most_recent: most_recent,
@@ -188,7 +188,7 @@ class Share < ApplicationRecord
   def p_l
     unless @p_l
       cost, total_holdings, missing_cost_count = total_cost_and_holdings
-      if cost && total_holdings && current_price
+      if cost && (total_holdings > 0) && current_price
         profit = total_holdings * current_price - cost
         @p_l = [profit, missing_cost_count, (profit*100)/cost]
       else

@@ -19,6 +19,16 @@ th {
 	padding-right: 5px;
 	background-color: coral;
 }
+	
+tr.fixed-header th {
+	position: sticky;
+	z-index: 200;
+	top: 0;
+}
+
+tbody.fixed-header {
+	overflow-y: auto;
+}
 
 tr.selected {
 	font-weight: bold;

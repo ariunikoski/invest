@@ -1,7 +1,7 @@
 .share_index
   %table{border: 1}
     %thead
-      %tr
+      %tr.fixed-header
         =col_header 'Name', 'name_sorter', calc_sorter_gif('NAME')
         =col_header 'Symbol'
         =col_header 'Israeli Number'
@@ -16,7 +16,7 @@
         =col_header 'P/L %', 'p_l_pcnt_sorter', calc_sorter_gif('P_L_PCNT')
         =col_header 'Actions', 'actions_filter', 'funnel.gif'
         =col_header 'Badges', 'badges_filter', 'funnel.gif'
-    %tbody
+    %tbody.fixed-header
       -@toggle = true
       -@total_total = 0
       -@rows_reported = 0

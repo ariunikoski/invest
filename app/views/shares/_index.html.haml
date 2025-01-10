@@ -16,6 +16,9 @@
         =col_header 'P/L %', 'p_l_pcnt_sorter', calc_sorter_gif('P_L_PCNT')
         =col_header 'Actions', 'actions_filter', 'funnel.gif'
         =col_header 'Badges', 'badges_filter', 'funnel.gif'
+    %div
+      "handleRowPreselect('#{preselect_klass}', #{preselect_klass_id || 0 }, '#{tab_name}')"
+    %img.hidden{ src: image_path('arrow2_n.gif'), onload: "handleRowPreselect('#{preselect_klass}', #{preselect_klass_id || 0 }, '#{tab_name}')" }
     %tbody.fixed-header
       -@toggle = true
       -@total_total = 0
@@ -43,7 +46,7 @@
         -@total_weighed = @total_weighed + weighed_ytd
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-        %tr{class: @rowclass, onclick: "getDetails(this, #{share.id})"}
+        %tr{class: @rowclass, id: "share_#{share.id}", onclick: "getDetails(this, #{share.id})"}
           %td
             = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
           %td

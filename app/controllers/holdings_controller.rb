@@ -10,7 +10,27 @@ class HoldingsController < ApplicationController
     obj = klass.find(params[:klass_id])
     obj.holdings << holding
     obj.save!
+    
+    Rails.logger.info "Session data size: #{session.to_hash.to_s.bytesize} bytes"
+Rails.logger.info "Session contents: #{session.to_hash.inspect}"
+
+Rails.logger.info "Flash data size: #{flash.to_hash.to_s.bytesize} bytes"
+Rails.logger.info "Flash contents: #{flash.to_hash.inspect}"
+
+    flash[:preselect_klass] = klass.name
+
+Rails.logger.info "Flash data size: #{flash.to_hash.to_s.bytesize} bytes"
+Rails.logger.info "Flash contents: #{flash.to_hash.inspect}"
+    flash[:preselect_klass_id] = obj.id
+
+Rails.logger.info "Flash data size: #{flash.to_hash.to_s.bytesize} bytes"
+Rails.logger.info "Flash contents: #{flash.to_hash.inspect}"
+    flash[:tab_name] = 'Holdings'
+
+Rails.logger.info "Flash data size: #{flash.to_hash.to_s.bytesize} bytes"
+Rails.logger.info "Flash contents: #{flash.to_hash.inspect}"
     redirect_to shares_url
+    #( preselect_klass: klass, preselect_klass_id: obj, tab_name: 'holding' )
   end
   
   def destroy

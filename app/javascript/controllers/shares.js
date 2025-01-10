@@ -1,7 +1,5 @@
 function handleRowPreselect(preselect_klass, preselect_klass_id, tab_name) {
-	alert("called for " + preselect_klass_id + " " + tab_name)
 	if (preselect_klass === 'Share' && preselect_klass_id > 0) {
-		alert("calling it for " + preselect_klass_id + " " + tab_name)
 		var elem = document.getElementById("share_" + preselect_klass_id)
 		getDetails(elem, preselect_klass_id, tab_name)
 	}
@@ -30,9 +28,7 @@ function getDetails(element, shareId, tab_name = null) {
           if (tab_name !== null) {
 			const tabHeaderName = `tab_header_${tab_name}`
 			const tabDivName = `inner_tab_${tab_name}`
-			console.log('>>> going for gold: ', `[${tabHeaderName}]`, tabDivName)
 			const headerElem = document.getElementById(tabHeaderName)
-			console.log('>>> with elem', headerElem)
 			show_inner_tab(headerElem, tabDivName)
 		  }
         } else {

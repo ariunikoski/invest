@@ -613,7 +613,8 @@
                 initOptions = initOptions || {};
 
                 if (initiated) {
-                    return console.error('DatePickerX, init: Date picker has been already initiated.') && false;
+                    // return console.error('DatePickerX, init: Date picker has been already initiated.') && false;
+                    return console.warn('DatePickerX, init: Date picker has been already initiated.') && true;
                 }
                 initiated = true;
 

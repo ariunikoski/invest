@@ -44,7 +44,7 @@
         -@total_weighed = @total_weighed + weighed_ytd
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
-        %tr{class: @rowclass, id: "share_#{share.id}", onclick: "getDetails(this, #{share.id})"}
+        %tr{class: "#{@rowclass} indexRow", id: "share_#{share.id}", onclick: "getDetails(this, #{share.id})"}
           %td
             = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
           %td

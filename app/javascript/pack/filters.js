@@ -63,6 +63,26 @@ function apply_filter(flag_style='all') {
   			row.classList.add('hidden');
 		}
 	}
+	recolourRows('indexRow')
+}
+
+function recolourRows(rowClass) {
+
+	const rows = document.querySelectorAll(`tr.${rowClass}`);
+	var toggle = true
+    for (let ii = 0; ii < rows.length; ii++) {
+        const row = rows[ii];
+        if (!row.classList.contains('hidden')) {
+	        row.classList.remove('rowcol_1', 'rowcol_2');
+        
+        	toggle = !toggle
+        	if (toggle) {
+            	row.classList.add('rowcol_1');
+        	} else {
+            	row.classList.add('rowcol_2');
+        	}
+		}
+    }
 }
 
 function matches_holdings_filters(holdings, zero_holdings, non_zero_holdings) {

@@ -350,6 +350,10 @@ span.p_l_green {
 	color:lightseagreen;
 }
 
+tr:hover span.p_l_green {
+	color: darkgreen;
+}
+
 span.p_l_red {
 	color:red;
 }

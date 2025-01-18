@@ -49,7 +49,6 @@ class Share < ApplicationRecord
     weighted_cost = 0
     weighted_pcnt = 0
     if total_holdings_with_known_cost > 0
-      puts '>>> calculating avg', total_cost, total_holdings_with_known_cost, total_div
       earnings_from_known_cost = total_div * total_holdings_with_known_cost
       avg_cost = total_cost / total_holdings_with_known_cost
       avg_pcnt = earnings_from_known_cost * 100 / total_cost
@@ -59,7 +58,6 @@ class Share < ApplicationRecord
     end
     
     price = current_price || 0
-    # >>> current_pcnt = price > 0  && total_holdings > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
     current_pcnt = price > 0 ? total_div * 100 / price : 0
     
     {

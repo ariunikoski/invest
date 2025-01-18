@@ -18,6 +18,43 @@ RSpec.describe Share, type: :model do
     @d123 = [@d1, @d2, @d3]
   end
   
+  describe 'get_stop_on' do
+    before :each do
+      allow(Date).to receive(:today).and_return(Date.new(2024, 2, 22))
+      @dd1 = Dividend.new(x_date: Date.new(2024, 2, 20))
+    end
+    
+    it 'when earliest is not invoked' do
+      allow(@share).to receive_message_chain(:dividends, :order).and_return [@dd1]
+      stop_on, most_recent = @share.get_stop_on
+      dates_equal = stop_on == Date.new(2023, 3, 1)
+      expect(dates_equal).to eql true
+    end
+    
+    it 'when earliest is invoked' do
+      allow(Date).to receive(:today).and_return(Date.new(2024, 6, 22))
+      allow(@share).to receive_message_chain(:dividends, :order).and_return [@dd1]
+      stop_on, most_recent = @share.get_stop_on
+      dates_equal = stop_on == Date.new(2023, 4, 22)
+      expect(dates_equal).to eql true
+    end
+    
+    it 'when no dividends' do
+      allow(@share).to receive_message_chain(:dividends, :order).and_return []
+      stop_on, most_recent = @share.get_stop_on
+      expect(stop_on).to eql nil
+      expect(most_recent).to eql nil
+    end
+    
+    it 'when most recent is beyond the pale' do
+      allow(Date).to receive(:today).and_return(Date.new(2025, 6, 22))
+      allow(@share).to receive_message_chain(:dividends, :order).and_return [@dd1]
+      stop_on, most_recent = @share.get_stop_on
+      expect(stop_on).to eql nil
+      expect(most_recent).to eql nil
+    end
+  end
+  
   describe 'calculate_div_ytd' do
     before :each do
       allow(@share).to receive(:holdings).and_return @h12
@@ -28,7 +65,6 @@ RSpec.describe Share, type: :model do
 
     it 'with holdings' do
       yy = @share.calculate_div_ytd
-      puts '>>> ytd_pcnt with holdings', yy
       expect(yy[:ytd_pcnt]).to eql 4
       expect(yy[:most_recent]).to eql 200
       expect(yy[:last_date]).to eql 100
@@ -42,7 +78,6 @@ RSpec.describe Share, type: :model do
     it 'with holdings including unknown cost' do
       allow(@share).to receive(:holdings).and_return @h123
       yy = @share.calculate_div_ytd
-      puts '>>> ytd_pcnt with holdings', yy
       expect(yy[:ytd_pcnt]).to eql 4
       expect(yy[:most_recent]).to eql 200
       expect(yy[:last_date]).to eql 100
@@ -56,7 +91,6 @@ RSpec.describe Share, type: :model do
     it 'with no holdings' do
       allow(@share).to receive(:holdings).and_return []
       yy = @share.calculate_div_ytd
-      puts '>>> ytd_pcnt with holdings', yy
       expect(yy[:ytd_pcnt]).to eql 4
       expect(yy[:most_recent]).to eql 200
       expect(yy[:last_date]).to eql 100

@@ -46,6 +46,14 @@ tr.indexrow:hover {
   background-color: cadetblue;
 }
 
+tr.bold_row {
+	font-weight: bold;
+}
+
+tr.scary_row {
+	color: red;
+}
+
 td.action_col {
 	text-align: center;
 }

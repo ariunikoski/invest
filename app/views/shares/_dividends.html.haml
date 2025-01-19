@@ -15,8 +15,6 @@
               -@toggle = !@toggle
               -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
               -@rowclass = "#{@rowclass} bold_row" if dividend.x_date >= div_ytd[:last_date]
-              - puts '>>> badges = ', @share.badges, dividend.x_date, div_ytd[:last_date], (dividend.x_date == div_ytd[:last_date]), @share.badges.include?(:div_overdue)
-              -# byebug if dividend.x_date == div_ytd[:last_date]
               -@rowclass = "#{@rowclass} scary_row" if dividend.x_date == div_ytd[:last_date] && @share.badges.include?(:div_overdue)
               %tr{class: @rowclass}
                 %td

@@ -146,6 +146,9 @@ class Share < ApplicationRecord
       hold_badges << :no_div_last_year 
     end
     
+    div_anal = anal_divs
+    hold_badges << div_anal if div_anal
+    
     if ytd[:ytd_pcnt] >= 7
       hold_badges << :really_good_price
     elsif ytd[:ytd_pcnt] >= 5
@@ -160,6 +163,24 @@ class Share < ApplicationRecord
     hold_badges
   end
   
+  def div_anal
+    pcnt = get_div_analyzer.get_pcnt
+    return :div_up_25 if pcnt >= 25
+    return :div_up if pcnt > 0
+    return :div_down_25 if pcnt <= -25
+    return :div_down if pcnt < 0
+    return nil
+  end
+ 
+  def get_div_analyzer
+    return @div_analyzer if @div_analyzer
+    @div_analyzer = DivAnalyzer::Analyzer.new(Date.today)
+    dividends.each do |div|
+      break unless @div_analyzer.add_div(div.x_date, div.amount)
+    end
+    @div_analyzer
+  end 
+ 
   def calc_nis_val
     total_val = total_holdings * (current_price || 0)
     rc = Rates::RatesCache.instance

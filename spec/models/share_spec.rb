@@ -18,6 +18,65 @@ RSpec.describe Share, type: :model do
     @d123 = [@d1, @d2, @d3]
   end
   
+  describe 'get_div_anaylzer' do
+    it 'should return whatever if already defined' do
+      @share.instance_variable_set(:@div_analyzer, 'whatever')
+      expect(@share.get_div_analyzer).to eql 'whatever'
+    end
+    
+    it 'handle multiple divs' do
+      allow(Date).to receive(:today).and_return(Date.new(2025, 1, 22))
+      divs = []
+      divs << Dividend.new(x_date: Date.today, amount: 77)
+      divs << Dividend.new(x_date: Date.new(2024, 12, 10), amount: 40)
+      divs << Dividend.new(x_date: Date.new(2024, 11, 10), amount: 120)
+      divs << Dividend.new(x_date: Date.new(2023, 11, 10), amount: 200)
+      divs << Dividend.new(x_date: Date.new(2022, 11, 10), amount: 88)
+      divs << Dividend.new(x_date: Date.new(2021, 11, 10), amount: 99)
+      allow(@share).to receive(:dividends).and_return divs
+      da = @share.get_div_analyzer
+      expect(da.get_totals).to eql [160, 200]
+      expect(da.get_pcnt).to eql -20
+    end
+  end
+  
+  describe 'div_anal' do
+    it '50 should return :div_up_25' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return 50
+      expect(@share.div_anal).to eql :div_up_25
+    end
+  
+    it '25 should return :div_up_25' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return 25
+      expect(@share.div_anal).to eql :div_up_25
+    end
+  
+    it '24 should return :div_up' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return 24
+      expect(@share.div_anal).to eql :div_up
+    end
+  
+    it '-50 should return :div_down_25' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return -50
+      expect(@share.div_anal).to eql :div_down_25
+    end
+  
+    it '-25 should return :div_down_25' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return -25
+      expect(@share.div_anal).to eql :div_down_25
+    end
+  
+    it '-24 should return :div_down' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return -24
+      expect(@share.div_anal).to eql :div_down
+    end
+  
+    it '0 should return nil' do
+      allow(@share).to receive_message_chain(:get_div_analyzer, :get_pcnt).and_return 0
+      expect(@share.div_anal).to eql nil
+    end
+  end
+  
   describe 'get_stop_on' do
     before :each do
       allow(Date).to receive(:today).and_return(Date.new(2024, 2, 22))

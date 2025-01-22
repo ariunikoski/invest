@@ -7,6 +7,10 @@ module TableHelper
 	 under_performer: { text: 'under prf.', color: 'orangered' },
 	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
 	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :div_overdue },
+	 div_up_25: { text: 'div up a lot', color: 'lightgreen', tooltip: :div_anal },
+	 div_up: { text: 'div up', color: 'olivedrab', tooltip: :div_anal },
+	 div_down: { text: 'div down', color: 'orange', tooltip: :div_anal },
+	 div_down_25: { text: 'div down a lot', color: 'orangered', tooltip: :div_anal },
 	 comments: { text: 'comments', color: 'lightgray' }
   }
 
@@ -36,6 +40,16 @@ module TableHelper
   def div_overdue(share)
     return nil unless share
     "Last dividend received: #{share.get_most_recent_dividend}"
+  end
+ 
+  def div_anal(share)
+    return nil unless share
+    aa = share.get_div_analyzer
+    dd = aa.get_dates
+    tt = aa.get_totals
+    "pcnt = #{sprintf('%.2f', aa.get_pcnt)}\n" + 
+      "#{dd[:start_period_a].strftime('%d/%m/%y')} - #{dd[:end_period_a].strftime('%d/%m/%y')}: #{tt[0]}\n" +
+      "#{dd[:start_period_b].strftime('%d/%m/%y')} - #{dd[:end_period_b].strftime('%d/%m/%y')}: #{tt[1]}"
   end
  
   def needs_descending_button(col_order_by)

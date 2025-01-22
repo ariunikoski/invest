@@ -146,8 +146,8 @@ class Share < ApplicationRecord
       hold_badges << :no_div_last_year 
     end
     
-    div_anal = anal_divs
-    hold_badges << div_anal if div_anal
+    anal_badge = div_anal
+    hold_badges << anal_badge if anal_badge
     
     if ytd[:ytd_pcnt] >= 7
       hold_badges << :really_good_price

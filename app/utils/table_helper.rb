@@ -7,10 +7,10 @@ module TableHelper
 	 under_performer: { text: 'under prf.', color: 'orangered' },
 	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
 	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :div_overdue },
-	 div_up_25: { text: 'div up a lot', color: 'lightgreen', tooltip: :div_anal },
-	 div_up: { text: 'div up', color: 'olivedrab', tooltip: :div_anal },
-	 div_down: { text: 'div down', color: 'orange', tooltip: :div_anal },
-	 div_down_25: { text: 'div down a lot', color: 'orangered', tooltip: :div_anal },
+	 div_up_25: { text: 'div up a lot', color: 'cyan', tooltip: :div_anal },
+	 div_up: { text: 'div up', color: 'darkcyan', tooltip: :div_anal },
+	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal },
+	 div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white' },
 	 comments: { text: 'comments', color: 'lightgray' }
   }
 

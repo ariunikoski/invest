@@ -41,6 +41,11 @@ function apply_filter(flag_style='all') {
 	const no_div_last_year = getFlag('filter_no_div_last_year')
 	const comments = getFlag('filter_comments')
 	
+	const div_up_25 = getFlag('filter_div_up_25')
+	const div_up = getFlag('filter_div_up')
+	const div_down_25 = getFlag('filter_div_down_25')
+	const div_down = getFlag('filter_div_down')
+	
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
 	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
 	for (let ii = 0; ii < badges_cols.length; ii++) {
@@ -57,6 +62,11 @@ function apply_filter(flag_style='all') {
 		  displayThis = displayThis || hasRelevantBadge(div_overdue, 'div_overdue', current_badges)
 		  displayThis = displayThis || hasRelevantBadge(no_div_last_year, 'no_div_last_year', current_badges)
 		  displayThis = displayThis || hasRelevantBadge(comments, 'comments', current_badges)
+		  
+		  displayThis = displayThis || hasRelevantBadge(div_up_25, 'div_up_25', current_badges)
+		  displayThis = displayThis || hasRelevantBadge(div_up, 'div_up', current_badges)
+		  displayThis = displayThis || hasRelevantBadge(div_down_25, 'div_down_25', current_badges)
+		  displayThis = displayThis || hasRelevantBadge(div_down, 'div_down', current_badges)
 		}
 		if (!displayThis) {
 			const row = elem.closest('tr')

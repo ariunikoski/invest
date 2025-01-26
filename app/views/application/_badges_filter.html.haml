@@ -31,5 +31,20 @@
     %label.vertical_checkbox{for: 'filter_comments'}
       = create_pill(:comments)
   .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up_25', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_up_25)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_up)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down_25', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_down_25)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_down)
   %button.filter{onclick: 'apply_filter()'}
     Apply

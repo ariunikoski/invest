@@ -6,7 +6,7 @@ module TableHelper
 	 big_investment: { text: 'big investment', color: 'black', text_color: 'white' },
 	 under_performer: { text: 'under prf.', color: 'orangered' },
 	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
-	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :div_overdue },
+	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :no_div_last_year },
 	 div_up_25: { text: 'div up a lot', color: 'cyan', tooltip: :div_anal },
 	 div_up: { text: 'div up', color: 'darkcyan', tooltip: :div_anal },
 	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal },
@@ -38,6 +38,12 @@ module TableHelper
   end
   
   def div_overdue(share)
+    return nil unless share
+    "Last dividend received: #{share.get_most_recent_dividend}\n" +
+      "Div Overdue: #{share.div_ytd[:last_date]}"
+  end
+  
+  def no_div_last_year(share)
     return nil unless share
     "Last dividend received: #{share.get_most_recent_dividend}"
   end

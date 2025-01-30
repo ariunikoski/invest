@@ -1,6 +1,6 @@
 %span
   #{desc}
-%img.filter{ src: "assets/#{image_name}", onclick: "makeVisible('badges_filter')"}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('badges_filter')"}
 .filter_div.hidden{id: 'badges_filter'}
   .checkbox_section
     %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }

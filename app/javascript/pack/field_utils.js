@@ -15,6 +15,10 @@ function turnOnField(source, data_key, field_span_key, input_key) {
 	document.getElementById(input_key).focus()
 }
 
+function toggleVisible(id) {
+	hasClass(id, 'hidden') ? makeVisible(id) : makeInvisible(id)
+}
+
 function makeVisible(id) {
 	removeClass(id, 'hidden')
 	addClass(id, 'visible')
@@ -33,6 +37,11 @@ function addClass(id, className) {
 function removeClass(id, className) {
   var element = document.getElementById(id);
   element.classList.remove(className);
+}
+
+function hasClass(id, klass) {
+    const element = document.getElementById(id);
+    return element ? element.classList.contains(klass) : false;
 }
 
 function handleInputChar(event, objId, table_name, field_name, data_key, field_span_key, input_key, enable_return = true) {

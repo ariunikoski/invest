@@ -1,16 +1,16 @@
 module TableHelper
 
   PILL_DATA = {
-	 really_good_price: { text: 'r.good price', color: 'lightgreen' },
-	 good_price: { text: 'good price', color: 'olivedrab' },
-	 big_investment: { text: 'big investment', color: 'black', text_color: 'white' },
-	 under_performer: { text: 'under prf.', color: 'orangered' },
-	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue },
-	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :no_div_last_year },
-	 div_up_25: { text: 'div up a lot', color: 'cyan', tooltip: :div_anal },
-	 div_up: { text: 'div up', color: 'darkcyan', tooltip: :div_anal },
-	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal },
-	 div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white' },
+	 really_good_price: { text: 'r.good price', color: 'lightgreen', description: 'Projected yield >= 7%'},
+	 good_price: { text: 'good price', color: 'olivedrab', description: 'Projected yield >= 5%'},
+	 big_investment: { text: 'big investment', color: 'black', text_color: 'white', description: 'Total investement >= NIS 100,000' },
+	 under_performer: { text: 'under prf.', color: 'orangered', description: 'Weighted yield <= 4%'},
+	 div_overdue: { text: 'div overdue', color: 'cornflowerblue', tooltip: :div_overdue, description: 'Dividend overdue'},
+	 no_div_last_year: { text: 'no div last year', color: 'orange', tooltip: :no_div_last_year, description: 'No dividend last year'},
+	 div_up_25: { text: 'div up a lot', color: 'cyan', tooltip: :div_anal, description: 'Dividend YTD up by 25% or more'},
+	 div_up: { text: 'div up', color: 'darkcyan', tooltip: :div_anal, description: 'Dividend YTD (< 25%)'},
+	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal, description: 'Dividend YTD down (< 25%)'},
+	 div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white', description: 'Dividend YTD down by 25% or more'},
 	 comments: { text: 'comments', color: 'lightgray' }
   }
 
@@ -32,8 +32,15 @@ module TableHelper
   def create_pill(pill_type, share = nil)
     data = PILL_DATA[pill_type.to_sym]
     text_color = data[:text_color] || 'black'
-    #puts '>>> pill_type,' pill_type, data
-    tooltip = data[:tooltip] ? send(data[:tooltip], share) : nil
+    share_tooltip = data[:tooltip] ? send(data[:tooltip], share) : nil
+    tooltip = data[:description] || nil
+    if share_tooltip
+      if tooltip
+        tooltip = tooltip + "\n\n" + share_tooltip
+      else
+        tooltip = share_tooltip
+      end
+    end
     content_tag(:sp, data[:text], class: 'pill', style: "background-color: #{data[:color]}; color: #{text_color}", title: tooltip )
   end
   

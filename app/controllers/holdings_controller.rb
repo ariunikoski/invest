@@ -42,6 +42,7 @@ class HoldingsController < ApplicationController
         amount: selling_amount,
         sale_price: params[:selling_sale_price],
         tax_nis: params[:selling_tax_nis],
+        tax_fc: params[:selling_tax_fc],
         service_fee_nis: params[:selling_service_fees_nis],
         service_fee_fc: params[:selling_service_fees_fc])
       holding = sale.holding

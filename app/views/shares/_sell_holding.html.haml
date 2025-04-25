@@ -11,6 +11,7 @@
       = render :partial => 'shared/new_field', :locals => { field_name: 'selling_amount', prompt: 'Quantity', required: true }
       = render :partial => 'shared/new_field', :locals => { field_name: 'selling_sale_price', prompt: 'Sale Price', required: true }
       = render :partial => 'shared/new_field', :locals => { field_name: 'selling_tax_nis', prompt: 'Tax in NIS' }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'selling_tax_fc', prompt: 'Tax in Currency' }
       = render :partial => 'shared/new_field', :locals => { field_name: 'selling_service_fees_nis', prompt: 'Service Fees NIS' }
       = render :partial => 'shared/new_field', :locals => { field_name: 'selling_service_fees_fc', prompt: 'Service Fees in Currency' }
     %button{type: 'button', onclick: 'makeInvisible("sell_holding")'}

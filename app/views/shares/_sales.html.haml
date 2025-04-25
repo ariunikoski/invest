@@ -10,6 +10,7 @@
         =col_header 'P/L'
         =col_header 'P/L %'
         =col_header 'Tax - NIS'
+        =col_header 'Tax - FC'
         =col_header 'Service Fees - NIS'
         =col_header 'Service Fees - FC'
         =col_header 'Actions'
@@ -17,6 +18,7 @@
     - total_sales = 0
     - total_p_l = 0
     - total_tax_nis = 0
+    - total_tax_fc = 0
     - total_service_fee_nis = 0
     - total_service_fee_fc = 0
     %tbody
@@ -30,6 +32,7 @@
         -total_sales = total_sales + sale.amount*sale.sale_price
         -total_p_l = total_p_l + p_l
         -total_tax_nis = total_tax_nis + (sale.tax_nis || 0)
+        -total_tax_fc = total_tax_fc + (sale.tax_fc || 0)
         -total_service_fee_nis = total_service_fee_nis + (sale.service_fee_nis || 0)
         -total_service_fee_fc = total_service_fee_fc + (sale.service_fee_fc || 0)
         %tr{class: @rowclass}
@@ -53,6 +56,8 @@
           %td.number
             #{format_number(sale.tax_nis, 2)}
           %td.number
+            #{format_number(sale.tax_fc, 2)}
+          %td.number
             #{format_number(sale.service_fee_nis, 2)}
           %td.number
             #{format_number(sale.service_fee_fc, 2)}
@@ -74,6 +79,8 @@
         %td.number
         %td.number
           #{format_number(total_tax_nis, 2)}
+        %td.number
+          #{format_number(total_tax_fc, 2)}
         %td.number
           #{format_number(total_service_fee_nis, 2)}
         %td.number

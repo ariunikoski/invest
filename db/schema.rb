@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_11_130104) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_18_085417) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -81,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_130104) do
     t.decimal "service_fee_fc", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "tax_fc", precision: 10, scale: 2
     t.index ["holding_id"], name: "index_sales_on_holding_id"
     t.index ["share_id"], name: "index_sales_on_share_id"
   end

@@ -31,7 +31,7 @@ test:
   <<: *default
   database: invest_server_test
   username: tester
-  password: chook99
+  password:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'Chook99$' : 'chook99' %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

@@ -20,11 +20,12 @@ class Share < ApplicationRecord
     total_div = 0
     total_holdings = 0
     total_cost = 0
-    sum_of_costs = 0
     stop_before = nil
     stop_on, most_recent = get_stop_on
     last_date_considered = nil
     total_pcnt = 0
+    total_holdings_with_known_cost = 0
+    # default scope for dividends is x_date desc
     dividends.each do |div|
       break if div.x_date < stop_on
       last_date_considered = div.x_date
@@ -33,29 +34,31 @@ class Share < ApplicationRecord
     
     holdings.each do |holding|
       total_holdings = total_holdings + holding.amount
-      total_cost = (holding.amount || 0) * (holding.cost || 0) + total_cost
-      earning = holding.amount * total_div
-      pcnt = earning * 100 / (holding.cost || 0)
-      total_pcnt = total_pcnt + pcnt
-      sum_of_costs = sum_of_costs + (holding.cost || 0)
+      if (holding.amount || 0)  > 0 && (holding.cost || 0) > 0
+        earning = holding.amount * total_div
+        total_cost = holding.amount * holding.cost  + total_cost
+        pcnt = earning * 100 / holding.cost
+        total_pcnt = total_pcnt + pcnt
+        total_holdings_with_known_cost = total_holdings_with_known_cost + holding.amount
+      end
     end
-    
+
     yearly_earnings = total_div * total_holdings 
-    
     avg_cost = 0
     avg_pcnt = 0
     weighted_cost = 0
     weighted_pcnt = 0
-    if (holdings.length > 0)
-      avg_cost = sum_of_costs / holdings.length
-      avg_pcnt = yearly_earnings * 100 / (avg_cost * total_holdings)
+    if total_holdings_with_known_cost > 0
+      earnings_from_known_cost = total_div * total_holdings_with_known_cost
+      avg_cost = total_cost / total_holdings_with_known_cost
+      avg_pcnt = earnings_from_known_cost * 100 / total_cost
     
-      weighted_cost = total_cost / total_holdings
-      weighted_pcnt = yearly_earnings *100 / (weighted_cost * total_holdings)
+      weighted_cost = total_cost / total_holdings_with_known_cost
+      weighted_pcnt = total_div * 100 / weighted_cost
     end
     
     price = current_price || 0
-    current_pcnt = price > 0 ? yearly_earnings * 100 / (price * total_holdings) : 0
+    current_pcnt = price > 0 ? total_div * 100 / price : 0
     
     {
 	  most_recent: most_recent,
@@ -143,6 +146,9 @@ class Share < ApplicationRecord
       hold_badges << :no_div_last_year 
     end
     
+    anal_badge = div_anal
+    hold_badges << anal_badge if anal_badge
+    
     if ytd[:ytd_pcnt] >= 7
       hold_badges << :really_good_price
     elsif ytd[:ytd_pcnt] >= 5
@@ -157,6 +163,24 @@ class Share < ApplicationRecord
     hold_badges
   end
   
+  def div_anal
+    pcnt = get_div_analyzer.get_pcnt
+    return :div_up_25 if pcnt >= 25
+    return :div_up if pcnt > 0
+    return :div_down_25 if pcnt <= -25
+    return :div_down if pcnt < 0
+    return nil
+  end
+ 
+  def get_div_analyzer
+    return @div_analyzer if @div_analyzer
+    @div_analyzer = DivAnalyzer::Analyzer.new(Date.today)
+    dividends.each do |div|
+      break unless @div_analyzer.add_div(div.x_date, div.amount)
+    end
+    @div_analyzer
+  end 
+ 
   def calc_nis_val
     total_val = total_holdings * (current_price || 0)
     rc = Rates::RatesCache.instance
@@ -188,7 +212,7 @@ class Share < ApplicationRecord
   def p_l
     unless @p_l
       cost, total_holdings, missing_cost_count = total_cost_and_holdings
-      if cost && total_holdings && current_price
+      if cost && (total_holdings > 0) && current_price
         profit = total_holdings * current_price - cost
         @p_l = [profit, missing_cost_count, (profit*100)/cost]
       else

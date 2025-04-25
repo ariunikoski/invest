@@ -19,6 +19,16 @@ th {
 	padding-right: 5px;
 	background-color: coral;
 }
+	
+tr.fixed-header th {
+	position: sticky;
+	z-index: 200;
+	top: 0;
+}
+
+tbody.fixed-header {
+	overflow-y: auto;
+}
 
 tr.selected {
 	font-weight: bold;
@@ -34,6 +44,14 @@ tr.rowcol_2 {
 
 tr.indexrow:hover {
   background-color: cadetblue;
+}
+
+tr.bold_row {
+	font-weight: bold;
+}
+
+tr.scary_row {
+	color: red;
 }
 
 td.action_col {
@@ -58,6 +76,7 @@ div.details {
 	background-color: ivory;
 	border: black solid 1px;
 	padding-bottom: 15px;
+	z-index: 300;
 }
 
 div.hidden {
@@ -337,6 +356,10 @@ tr.holding_total {
 
 span.p_l_green {
 	color:lightseagreen;
+}
+
+tr:hover span.p_l_green {
+	color: darkgreen;
 }
 
 span.p_l_red {

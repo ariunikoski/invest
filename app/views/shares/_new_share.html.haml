@@ -3,10 +3,10 @@
     Add New Share
   %form{name: "new_share",  method: 'post', action: 'shares'}
     %table
-      = render :partial => 'shared/new_field', :locals => { field_name: 'name'}
-      = render :partial => 'shared/new_field', :locals => { field_name: 'symbol'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'name', required: true }
+      = render :partial => 'shared/new_field', :locals => { field_name: 'symbol', required: true }
       = render :partial => 'shared/new_field', :locals => { field_name: 'israeli_number'}
-      = render :partial => 'shared/new_field', :locals => { field_name: 'currency'}
+      = render :partial => 'shared/new_field', :locals => { field_name: 'currency', required: true }
     %button{type: 'button', onclick: 'makeInvisible("new_share")'}
       Cancel
     %button{type: 'submit', name: 'submit'}

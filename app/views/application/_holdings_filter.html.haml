@@ -1,0 +1,14 @@
+%span
+  #{desc}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('holdings_filter')"}
+.filter_div.hidden{id: 'holdings_filter'}
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'zero_holdings', checked: true }
+    %label.vertical_checkbox{for: 'zero_holdings'}
+      Zero Holdings
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'non_zero_holdings', checked: true }
+    %label.vertical_checkbox{for: 'non_zero_holdings'}
+      Non Zero Holdings
+  %button.filter{onclick: 'apply_filter()'}
+    Apply

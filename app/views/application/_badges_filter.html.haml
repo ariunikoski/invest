@@ -1,6 +1,6 @@
 %span
   #{desc}
-%img.filter{ src: "assets/#{image_name}", onclick: "makeVisible('badges_filter')"}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('badges_filter')"}
 .filter_div.hidden{id: 'badges_filter'}
   .checkbox_section
     %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }
@@ -31,5 +31,20 @@
     %label.vertical_checkbox{for: 'filter_comments'}
       = create_pill(:comments)
   .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up_25', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_up_25)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_up)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down_25', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_down_25)
+  .checkbox_section
+    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down', checked: true }
+    %label.vertical_checkbox{for: 'filter_comments'}
+      = create_pill(:div_down)
   %button.filter{onclick: 'apply_filter()'}
     Apply

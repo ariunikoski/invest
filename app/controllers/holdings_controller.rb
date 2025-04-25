@@ -10,12 +10,20 @@ class HoldingsController < ApplicationController
     obj = klass.find(params[:klass_id])
     obj.holdings << holding
     obj.save!
+
+    flash[:preselect_klass] = klass.name
+    flash[:preselect_klass_id] = obj.id
+    flash[:tab_name] = 'Holdings'
     redirect_to shares_url
   end
   
   def destroy
     holding = Holding.find(params[:id].to_i)
     return head :not_found if !holding
+
+    flash[:preselect_klass] = holding.held_by_type
+    flash[:preselect_klass_id] = holding.held_by_id
+    flash[:tab_name] = 'Holdings'
     holding.destroy
     head :ok
   end
@@ -48,6 +56,10 @@ class HoldingsController < ApplicationController
       holding = sale.holding
       holding.update(amount: holding.amount - selling_amount, amount_sold: (holding.amount_sold || 0) + selling_amount)
     end
+
+    flash[:preselect_klass] = 'Share'
+    flash[:preselect_klass_id] = params[:selling_share_id]
+    flash[:tab_name] = 'Holdings'
     redirect_to shares_url
   end
 end

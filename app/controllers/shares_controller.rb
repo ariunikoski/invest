@@ -1,6 +1,8 @@
 class SharesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
+    puts '>>> params', params
+    puts '>>> flash', flash.to_json
     @shares = Share.order(:name)
   end
   

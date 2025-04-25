@@ -14,7 +14,7 @@
   .details_pills
     - @share.badges.each do |badge|
       .badge_holder
-        = create_pill(badge)
+        = create_pill(badge, @share)
   .sector_industry
     %sp.sector_prompt
       Sector:

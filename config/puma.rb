@@ -44,7 +44,7 @@ plugin :tmp_restart
 
 if ENV['RAILS_ENV'] == 'production'
   ssl_bind '0.0.0.0', '3001', {
-    key: '/home/a_unikoski/invest/key.pem',
-    cert: '/home/a_unikoski/invest/cert.pem'
+    key: 'config/ssl/server.key',
+    cert: 'config/ssl/server.crt'
   }
 end

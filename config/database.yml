@@ -55,6 +55,10 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV["INVEST_SERVER_DATABASE_DATABASE"] %>
-  username: <%= ENV["INVEST_SERVER_DATABASE_USERNAME"] %>
-  password: <%= ENV["INVEST_SERVER_DATABASE_PASSWORD"] %>
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: 5
+  database: invest_server_production
+  host: 10.0.0.14
+  username: invest-prod
+  password: prodProd66^^

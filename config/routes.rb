@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'export_projected_income', to: 'shares#export_projected_income'
   put 'clear_logs', to: 'logs#clear_logs'
   post 'holdings/sell', to: 'holdings#sell'
+  post "shares/change_holder", to: "shares#change_holder", as: :shares_change_holder
 
   resources :funds
   resources :sales

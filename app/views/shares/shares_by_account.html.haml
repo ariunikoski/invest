@@ -6,8 +6,11 @@
   = render :partial => 'new_share'
   - @accounts.each do |acc|
     - account = acc.account
-    = render :partial => 'shared/collapsible_section', :locals => { title: "In account: #{account}" }
     - @shares = Share.joins(:holdings).where(holdings: {account: account}).order(:name).uniq
-    = render :partial => 'index', :locals => { by_account: true,  account: account}
+    - puts '>>> shares count', @shares.size
+    - if @shares.size > 0
+      = render :partial => 'shared/collapsible_section', :locals => { title: "In account: #{account}" }
+      - fh = flash.to_h
+      = render :partial => 'index', :locals => { by_account: true, account: account, preselect_klass: fh['preselect_klass'], preselect_klass_id: fh['preselect_klass_id'], tab_name: fh['tab_name'] }
     
 .details_location{id: 'details_location'}

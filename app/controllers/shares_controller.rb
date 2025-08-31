@@ -1,8 +1,6 @@
 class SharesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    puts '>>> params', params
-    puts '>>> flash', flash.to_json
     @shares = Share.order(:name)
   end
   
@@ -109,5 +107,10 @@ class SharesController < ApplicationController
       Log.create_log(level, message)
     end
     head :ok
+  end
+
+  def change_holder
+    session[:holder_id] = params[:id]
+    redirect_to shares_url
   end
 end

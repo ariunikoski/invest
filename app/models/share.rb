@@ -3,7 +3,24 @@ class Share < ApplicationRecord
   has_many :holdings, as: :held_by, dependent: :destroy
   has_many :dividends, dependent: :destroy
   has_many :sales, dependent: :destroy
+  belongs_to :holder
   
+
+  before_validation :set_holder_from_current, on: :create
+
+  default_scope do
+    if Current.holder.present?
+      where(holder_id: Current.holder.id)
+    else
+      all
+    end
+  end
+
+  def set_holder_from_current
+    # Only assign if not already explicitly set
+    self.holder ||= Current.holder
+  end
+
   def total_holdings(by_account = false, account = nil)
     by_account ? holdings.where(account: account).sum(:amount) : holdings.sum(:amount)
   end

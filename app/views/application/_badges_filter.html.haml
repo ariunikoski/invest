@@ -1,50 +1,73 @@
 %span
   #{desc}
 %img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('badges_filter')"}
-.filter_div.hidden{id: 'badges_filter'}
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }
-    %label.vertical_checkbox{for: 'filter_really_good_price'}
-      = create_pill(:really_good_price)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_good_price', checked: true }
-    %label.vertical_checkbox{for: 'filter_good_price'}
-      = create_pill(:good_price)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_big_investment', checked: true }
-    %label.vertical_checkbox{for: 'filter_big_investment'}
-      = create_pill(:big_investment)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_under_performer', checked: true }
-    %label.vertical_checkbox{for: 'filter_under_performer'}
-      = create_pill(:under_performer)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_overdue', checked: true }
-    %label.vertical_checkbox{for: 'filter_div_overdue'}
-      = create_pill(:div_overdue)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_no_div_last_year', checked: true }
-    %label.vertical_checkbox{for: 'filter_no_div_last_year'}
-      = create_pill(:no_div_last_year)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_comments', checked: true }
-    %label.vertical_checkbox{for: 'filter_comments'}
-      = create_pill(:comments)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up_25', checked: true }
-    %label.vertical_checkbox{for: 'filter_comments'}
-      = create_pill(:div_up_25)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up', checked: true }
-    %label.vertical_checkbox{for: 'filter_comments'}
-      = create_pill(:div_up)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down_25', checked: true }
-    %label.vertical_checkbox{for: 'filter_comments'}
-      = create_pill(:div_down_25)
-  .checkbox_section
-    %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down', checked: true }
-    %label.vertical_checkbox{for: 'filter_comments'}
-      = create_pill(:div_down)
-  %button.filter{onclick: 'apply_filter()'}
+.filter_div.hidden.badges_filter_div{id: 'badges_filter'}
+  .badge_filter_spacer
+    xxx
+  .badge_filter_opt_prompt
+    Must Be
+  .badge_filter_opt_prompt
+    Must Not Be
+  .badge_filter_opt_prompt
+    Anything
+  - get_badge_filters.each do |entry|
+    .badge_filters_row
+      .badge_filters{ style: "display: flex; gap: 1em;" }
+        - text = entry.is_a?(Array) ? entry.join(" / ") : entry
+        - id_base = entry.is_a?(Array) ? entry.join("_OR_") : entry
+        - id_safe = id_base.gsub(" ", "_").gsub('.','_')
+        .badge_filter{ id: "badge_filter_#{id_safe}", style: "display: inline-flex; align-items: center; gap: 0.5em;" }
+          %span.badge_filter_prompt= text
+          - ["Must Be", "Must Not Be", "Anything"].each do |choice|
+            %label.radio_option_wrapper
+              = radio_button_tag "badge_filter_#{id_safe}", choice, (choice == "Anything")
+              - # = choice
+  %button.filter.top_spacer_5px{onclick: 'apply_filter()'}
     Apply
+
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_really_good_price', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_really_good_price'}
+- #       = create_pill(:really_good_price)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_good_price', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_good_price'}
+- #       = create_pill(:good_price)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_big_investment', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_big_investment'}
+- #       = create_pill(:big_investment)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_under_performer', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_under_performer'}
+- #       = create_pill(:under_performer)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_overdue', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_div_overdue'}
+- #       = create_pill(:div_overdue)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_no_div_last_year', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_no_div_last_year'}
+- #       = create_pill(:no_div_last_year)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_comments', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_comments'}
+- #       = create_pill(:comments)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up_25', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_comments'}
+- #       = create_pill(:div_up_25)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_up', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_comments'}
+- #       = create_pill(:div_up)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down_25', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_comments'}
+- #       = create_pill(:div_down_25)
+- #   .checkbox_section
+- #     %input.vertical_checkbox{type: 'checkbox', id: 'filter_div_down', checked: true }
+- #     %label.vertical_checkbox{for: 'filter_comments'}
+- #       = create_pill(:div_down)
+- #   %button.filter{onclick: 'apply_filter()'}
+- #     Apply

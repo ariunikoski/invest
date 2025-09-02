@@ -389,3 +389,55 @@ form.holder_combo {
 	padding-bottom: 5px;
 	border: 1px black, solid;
 }
+
+.badge_filter {
+	display: flex;
+	gap: 5px;
+}
+
+span.badge_filter_prompt {
+	min-width: 200px;
+	max-width: 200px;
+	text-align: right;
+	padding-right: 20px;
+}
+
+.badge_filter_spacer {
+	min-width: 200px;
+	max-width: 200px;
+	display: inline-block;
+	visibility: hidden;
+	padding-top: 30px;
+}
+
+.badge_filter_opt_prompt {
+	min-width: 70px;
+	max-width: 70px;
+	min-height: 40px;
+	display: inline-block;
+	border: 1px black solid;
+	margin-right: -5px;
+	vertical-align: bottom;
+	align-content: center;
+}
+
+.badges_filter_div {
+	min-width: 460px;
+	padding-bottom: 5px;
+}
+
+label.radio_option_wrapper {
+  border: 1px solid black;
+  margin-right: -9px;
+  min-width: 70px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+label.radio_option_wrapper:hover {
+  background-color: moccasin;
+}
+
+button.top_spacer_5px {
+	margin-top: 5px;
+}

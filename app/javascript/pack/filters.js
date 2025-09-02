@@ -1,3 +1,17 @@
+const badgeFilterParams = {
+	badge_filter_r_good_price: 'really_good_price',
+	badge_filter_r_good_price_OR_good_price: ['really_good_price', 'good_price'],
+	badge_filter_big_investment: 'big_investment',
+	badge_filter_under_prf_: 'under_performer',
+	badge_filter_div_overdue: 'div_overdue',
+	badge_filter_no_div_last_year: 'no_div_last_year',
+	badge_filter_div_up_a_lot: 'div_up_25',
+	badge_filter_div_up_a_lot_OR_div_up: ['div_up_25', 'div_up'],
+	badge_filter_div_down_a_lot: 'div_down_25',
+	badge_filter_div_down_a_lot_OR_div_down: ['div_down_25', 'div_down'],
+	badge_filter_comments: 'comments',
+}
+
 function apply_filter(flag_style='all') {
 	const flags = {}
 	flags['AUD'] = getFlag('filter_aud')
@@ -30,54 +44,71 @@ function apply_filter(flag_style='all') {
 		}
 	}
 	
-	const zero_holdings = getFlag('zero_holdings')
-	const non_zero_holdings = getFlag('non_zero_holdings')
-	
-	const really_good_price = getFlag('filter_really_good_price')
-	const good_price = getFlag('filter_good_price')
-	const big_investment = getFlag('filter_big_investment')
-	const under_performer = getFlag('filter_under_performer')
-	const div_overdue = getFlag('filter_div_overdue')
-	const no_div_last_year = getFlag('filter_no_div_last_year')
-	const comments = getFlag('filter_comments')
-	
-	const div_up_25 = getFlag('filter_div_up_25')
-	const div_up = getFlag('filter_div_up')
-	const div_down_25 = getFlag('filter_div_down_25')
-	const div_down = getFlag('filter_div_down')
-	
+	const filters = getBadgeFilters();
+	console.log(filters);
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
-	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
 	for (let ii = 0; ii < badges_cols.length; ii++) {
 		const elem = badges_cols[ii]
 		const current_badges = convertBadgesString(elem.getAttribute('data_badges'))
-		
-		let displayThis = false
-		if (matches_holdings_filters(holdings_cols[ii].innerText.trim(), zero_holdings, non_zero_holdings)) {
-		  // i.e. dont check the badges if it already failed holdings
-		  displayThis = displayThis || hasRelevantBadge(really_good_price, 'really_good_price', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(big_investment, 'big_investment', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(good_price, 'good_price', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(under_performer, 'under_performer', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(div_overdue, 'div_overdue', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(no_div_last_year, 'no_div_last_year', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(comments, 'comments', current_badges)
-		  
-		  displayThis = displayThis || hasRelevantBadge(div_up_25, 'div_up_25', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(div_up, 'div_up', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(div_down_25, 'div_down_25', current_badges)
-		  displayThis = displayThis || hasRelevantBadge(div_down, 'div_down', current_badges)
-		}
-		if (!displayThis) {
+        console.log('>>> ------------------------------------------')
+		if (badgeFilterMethodsSayHide(filters, current_badges)) {
 			const row = elem.closest('tr')
   			row.classList.add('hidden');
-		}
+  		}
 	}
 	recolourRows('indexRow')
 }
 
-function recolourRows(rowClass) {
+function getBadgeFilters() {
+  const result = {};
+  const filters = document.querySelectorAll('.badge_filter');
 
+  filters.forEach(filter => {
+    const filterId = filter.id; // e.g. "badge_filter_Red_OR_Blue"
+    const selected = filter.querySelector('input[type="radio"]:checked');
+    result[filterId] = selected ? selected.value : null;
+  });
+
+  return result;
+}
+
+function badgeFilterMethodsSayHide(filters, current_badges) {
+  console.log('>>> entered badgeFilterMethodsSayHide', filters, current_badges)
+  for (const [badgeFilterName, value] of Object.entries(filters)) {
+	console.log('>>> badgeFilterName, Value', badgeFilterName, value)
+	if (value === 'Anything') {
+		continue;
+	}
+	console.log('>>> gogin to params')
+	const lookingFor = badgeFilterParams[badgeFilterName]
+	console.log*('>>> badgeFilterName, lookingFor', badgeFilterName, lookingFor)
+	const contains = calculateBadgesContains(lookingFor, current_badges)
+	console.log('>>> contains = ', contains)
+	const needsToHide = value === 'Must Be' ? !contains : contains
+	if (needsToHide) {
+		return true
+	}
+  }
+  console.log('>>> ==========================================')
+  return false
+}
+
+function calculateBadgesContains(lookingFor, current_badges) {
+	console.log('>>> calculateBdgesContains: looking for', lookingFor)
+	if (Array.isArray(lookingFor)) {
+		console.log('>>> lookingFor is Array')
+		let contains = false
+		for (const lookingForOne of lookingFor) {
+			contains = contains || current_badges.includes(lookingForOne)
+		}
+		return contains
+	} else {
+		console.log('>>> lookingFor is not Array')
+		return current_badges.includes(lookingFor)
+	}
+}
+
+function recolourRows(rowClass) {
 	const rows = document.querySelectorAll(`tr.${rowClass}`);
 	var toggle = true
     for (let ii = 0; ii < rows.length; ii++) {

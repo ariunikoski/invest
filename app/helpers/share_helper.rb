@@ -41,4 +41,31 @@ module ShareHelper
     additional = col_order_by == params[:order_by] ? 'current' : ''
     "arrow_16 #{additional}"
   end
+  
+  def get_badge_filters
+    badge_filters = []
+    badge_filters << badge_text_for(:really_good_price)
+    badge_filters << [badge_text_for(:really_good_price), badge_text_for(:good_price)]
+    badge_filters << badge_text_for(:big_investment)
+    badge_filters << badge_text_for(:under_performer)
+    badge_filters << badge_text_for(:div_overdue)
+    badge_filters << badge_text_for(:no_div_last_year)
+    badge_filters << badge_text_for(:div_up_25)
+    badge_filters << [badge_text_for(:div_up_25), badge_text_for(:div_up)]
+    badge_filters << badge_text_for(:div_down_25)
+    badge_filters << [badge_text_for(:div_down_25), badge_text_for(:div_down)]
+    badge_filters << badge_text_for(:comments)
+    badge_filters
+  end
+
+  def badge_text_for(badge_type)
+    PILL_DATA[badge_type][:text]
+  end
+  
+  # >>> PILL_DATA = {
+	 # >>> div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal, description: 'Dividend YTD down (< 25%)'},
+	 # >>> div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white', description: 'Dividend YTD down by 25% or more'},
+	 # >>> comments: { text: 'comments', color: 'lightgray' }
+  # >>> }
+
 end

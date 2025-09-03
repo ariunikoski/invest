@@ -33,6 +33,7 @@ function apply_filter(flag_style='all') {
 		}
 	}
 	
+	// filter by flag style
 	if (flag_style !== 'all') {
 		const flags = document.querySelectorAll("input[tag='row_flag']");
 		for (let ii = 0; ii < flags.length; ii++) {
@@ -44,18 +45,29 @@ function apply_filter(flag_style='all') {
 		}
 	}
 	
+	// zero holdings
+	const zero_holdings = getFlag('zero_holdings')
+	const non_zero_holdings = getFlag('non_zero_holdings')
+	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
+	for (let ii = 0; ii < holdings_cols.length; ii++) {
+		const elem = holdings_cols[ii]
+		if (!matches_holdings_filters(elem.innerText.trim(), zero_holdings, non_zero_holdings)) {
+			const row = elem.closest('tr')
+  			row.classList.add('hidden');
+  		}
+	}
+	
 	const filters = getBadgeFilters();
-	console.log(filters);
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
 	for (let ii = 0; ii < badges_cols.length; ii++) {
 		const elem = badges_cols[ii]
 		const current_badges = convertBadgesString(elem.getAttribute('data_badges'))
-        console.log('>>> ------------------------------------------')
 		if (badgeFilterMethodsSayHide(filters, current_badges)) {
 			const row = elem.closest('tr')
   			row.classList.add('hidden');
   		}
 	}
+	
 	recolourRows('indexRow')
 }
 
@@ -73,37 +85,28 @@ function getBadgeFilters() {
 }
 
 function badgeFilterMethodsSayHide(filters, current_badges) {
-  console.log('>>> entered badgeFilterMethodsSayHide', filters, current_badges)
   for (const [badgeFilterName, value] of Object.entries(filters)) {
-	console.log('>>> badgeFilterName, Value', badgeFilterName, value)
 	if (value === 'Anything') {
 		continue;
 	}
-	console.log('>>> gogin to params')
 	const lookingFor = badgeFilterParams[badgeFilterName]
-	console.log*('>>> badgeFilterName, lookingFor', badgeFilterName, lookingFor)
 	const contains = calculateBadgesContains(lookingFor, current_badges)
-	console.log('>>> contains = ', contains)
 	const needsToHide = value === 'Must Be' ? !contains : contains
 	if (needsToHide) {
 		return true
 	}
   }
-  console.log('>>> ==========================================')
   return false
 }
 
 function calculateBadgesContains(lookingFor, current_badges) {
-	console.log('>>> calculateBdgesContains: looking for', lookingFor)
 	if (Array.isArray(lookingFor)) {
-		console.log('>>> lookingFor is Array')
 		let contains = false
 		for (const lookingForOne of lookingFor) {
 			contains = contains || current_badges.includes(lookingForOne)
 		}
 		return contains
 	} else {
-		console.log('>>> lookingFor is not Array')
 		return current_badges.includes(lookingFor)
 	}
 }

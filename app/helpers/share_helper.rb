@@ -61,11 +61,4 @@ module ShareHelper
   def badge_text_for(badge_type)
     PILL_DATA[badge_type][:text]
   end
-  
-  # >>> PILL_DATA = {
-	 # >>> div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal, description: 'Dividend YTD down (< 25%)'},
-	 # >>> div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white', description: 'Dividend YTD down by 25% or more'},
-	 # >>> comments: { text: 'comments', color: 'lightgray' }
-  # >>> }
-
 end

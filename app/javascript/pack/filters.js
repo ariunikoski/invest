@@ -12,70 +12,84 @@ const badgeFilterParams = {
 	badge_filter_comments: 'comments',
 }
 
-function apply_filter(flag_style='all') {
-	const flags = {}
-	flags['AUD'] = getFlag('filter_aud')
-	flags['CAD'] = getFlag('filter_cad')
-	flags['GBP'] = getFlag('filter_gbp')
-	flags['NIS'] = getFlag('filter_nis')
-	flags['USD'] = getFlag('filter_usd')
+function apply_filter() {
+	const currencyFlags = {}
+	const flag_style = document.getElementById('actions_filter').dataset.rowFlagFilterVal;
+
+	currencyFlags['AUD'] = getFlag('filter_aud')
+	currencyFlags['CAD'] = getFlag('filter_cad')
+	currencyFlags['GBP'] = getFlag('filter_gbp')
+	currencyFlags['NIS'] = getFlag('filter_nis')
+	currencyFlags['USD'] = getFlag('filter_usd')
 	
-	// filter by currency_cols must be first as it turns everyone on
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
-	for (let ii = 0; ii < currency_cols.length; ii++) {
-		const elem = currency_cols[ii]
-		const val = elem.innerText.trimStart().trimEnd().trimEnd()
-		const row = elem.closest('tr')
-		// first filter, make everything visible first
-		row.classList.remove('hidden')
-		if (!flags[val]) {
-  			row.classList.add('hidden');
-		}
-	}
+	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
+	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
+	const rowFlags = document.querySelectorAll("input[tag='row_flag']");
 	
-	// filter by flag style
-	if (flag_style !== 'all') {
-		const flags = document.querySelectorAll("input[tag='row_flag']");
-		for (let ii = 0; ii < flags.length; ii++) {
-			const elem = flags[ii]
-			const row = elem.closest('tr')
-			if (elem.checked === (flag_style === 'unflagged'))	 {
-  				row.classList.add('hidden');
-			}
-		}
-	}
-	
-	// zero holdings
 	const zero_holdings = getFlag('zero_holdings')
 	const non_zero_holdings = getFlag('non_zero_holdings')
-	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
-	for (let ii = 0; ii < holdings_cols.length; ii++) {
-		const elem = holdings_cols[ii]
-		if (!matches_holdings_filters(elem.innerText.trim(), zero_holdings, non_zero_holdings)) {
-			const row = elem.closest('tr')
+	const badgeFilters = getBadgeFilters();
+	
+	
+	for (let ii = 0; ii < currency_cols.length; ii++) {
+		let hideThis = false
+		hideThis = applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags)
+		hideThis = applyRowFlagFilter(hideThis, ii, rowFlags, flag_style)
+		hideThis = applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings)
+		hideThis = applyBadgesFilter(hideThis, ii, badges_cols, badgeFilters)
+		
+		const elem = currency_cols[ii]
+		const row = elem.closest('tr')
+		if (hideThis) {
   			row.classList.add('hidden');
+		} else {
+			row.classList.remove('hidden')
+		}
+	}
+}
+	
+function applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags) {
+	const elem = currency_cols[ii]
+	const val = elem.innerText.trimStart().trimEnd().trimEnd()
+	if (!currencyFlags[val]) {
+  		hideThis = true
+	}
+	return hideThis
+}
+	
+function applyRowFlagFilter(hideThis, ii, rowFlags, flag_style) {
+	if (flag_style !== 'all') {
+		const elem = rowFlags[ii]
+		if (elem.checked === (flag_style === 'unflagged'))	 {
+  			hideThis = true
   		}
 	}
+	return hideThis
+}
 	
-	const filters = getBadgeFilters();
-	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
-	for (let ii = 0; ii < badges_cols.length; ii++) {
-		const elem = badges_cols[ii]
-		const current_badges = convertBadgesString(elem.getAttribute('data_badges'))
-		if (badgeFilterMethodsSayHide(filters, current_badges)) {
-			const row = elem.closest('tr')
-  			row.classList.add('hidden');
-  		}
+function applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings) {
+	const elem = holdings_cols[ii]
+	if (!matches_holdings_filters(elem.innerText.trim(), zero_holdings, non_zero_holdings)) {
+		hideThis = true
 	}
+	return hideThis
+}
 	
-	recolourRows('indexRow')
+function applyBadgesFilter(hideThis, ii, badges_cols, badgeFilters) {
+	const elem = badges_cols[ii]
+	const current_badges = convertBadgesString(elem.getAttribute('data_badges'))
+	if (badgeFilterMethodsSayHide(badgeFilters, current_badges)) {
+		hideThis = true
+	}
+	return hideThis
 }
 
 function getBadgeFilters() {
   const result = {};
-  const filters = document.querySelectorAll('.badge_filter');
+  const badgeFilters = document.querySelectorAll('.badge_filter');
 
-  filters.forEach(filter => {
+  badgeFilters.forEach(filter => {
     const filterId = filter.id; // e.g. "badge_filter_Red_OR_Blue"
     const selected = filter.querySelector('input[type="radio"]:checked');
     result[filterId] = selected ? selected.value : null;
@@ -84,8 +98,8 @@ function getBadgeFilters() {
   return result;
 }
 
-function badgeFilterMethodsSayHide(filters, current_badges) {
-  for (const [badgeFilterName, value] of Object.entries(filters)) {
+function badgeFilterMethodsSayHide(badgeFilters, current_badges) {
+  for (const [badgeFilterName, value] of Object.entries(badgeFilters)) {
 	if (value === 'Anything') {
 		continue;
 	}

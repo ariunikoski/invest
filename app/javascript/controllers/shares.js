@@ -263,7 +263,9 @@ function loadAllDividends() {
 }
 
 function filterByFlag(style) {
-	apply_filter(style) // see: app\javascript\pack\filters.js
+	var element = document.getElementById('actions_filter');
+	element.dataset.rowFlagFilterVal = style;
+	apply_filter() // see: app\javascript\pack\filters.js
 }
 
 function populateFieldValue(field_id, value) {

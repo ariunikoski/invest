@@ -16,7 +16,7 @@ module TableHelper
 
   def col_header(desc, filter_name = nil, image_name = nil, extra_class = nil)
     classes = "col_header #{extra_class}"
-    col_header = content_tag(:th, class: classes) do
+    col_header = content_tag(:th, class: classes, onclick: "sortTable(event, this)") do
       col_header_contents(desc, filter_name, image_name)
     end
   end

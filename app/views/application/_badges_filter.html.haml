@@ -1,6 +1,6 @@
 %span
   #{desc}
-%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('badges_filter')"}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible(event, 'badges_filter')"}
 .filter_div.hidden.badges_filter_div{id: 'badges_filter'}
   .badge_filter_spacer
     xxx

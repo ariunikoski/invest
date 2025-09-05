@@ -15,7 +15,8 @@ function turnOnField(source, data_key, field_span_key, input_key) {
 	document.getElementById(input_key).focus()
 }
 
-function toggleVisible(id) {
+function toggleVisible(event, id) {
+	event.stopPropagation();
 	hasClass(id, 'hidden') ? makeVisible(id) : makeInvisible(id)
 }
 

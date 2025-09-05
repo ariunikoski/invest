@@ -1,7 +1,7 @@
 %span
   #{desc}
-%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('actions_filter')"}
-.filter_div.hidden{id: 'actions_filter'}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible(event, 'actions_filter')"}
+.filter_div.hidden{id: 'actions_filter', data: { row_flag_filter_val: 'all' } }
   %div
     %form
       %fieldset

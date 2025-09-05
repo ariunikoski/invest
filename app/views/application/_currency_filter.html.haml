@@ -1,6 +1,6 @@
 %span
   #{desc}
-%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible('currency_filter')"}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible(event, 'currency_filter')"}
 .filter_div.hidden{id: 'currency_filter'}
   .checkbox_section
     %input.vertical_checkbox{type: 'checkbox', id: 'filter_aud', checked: true }

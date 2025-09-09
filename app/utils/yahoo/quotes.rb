@@ -51,12 +51,10 @@ module Yahoo
     end
     
     def handle_quotes(quotes)
-      #puts '>>> handle_quotes calles with ', quotes
       @successfuls = []
       quotes.each do |quote|
         handle_quote quote
       end
-      #puts ' >>> The following symbols were updated: ', @successfuls
     end
     
     def redo_failures
@@ -80,7 +78,6 @@ module Yahoo
     end
     
     def handle_quote quote
-      #puts '>>> handle_quote called with ', quote
       symbol = quote['symbol']
       value = quote['regularMarketPrice']
       puts "Now handling: #{symbol} #{value}"

@@ -10,11 +10,9 @@ module Yahoo
     end
      
     def initialize(action, email_id = nil)
-      puts '>>> email initialized with: ', action, email_id
       @messages = []
       imap_server = 'imap.mail.yahoo.com'
       username = 'unikoski@yahoo.com'
-      #password = 'hya531GY'
       password = 'mmowoaxpiheqqldi'
 
       # Connect to the IMAP server

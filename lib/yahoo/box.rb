@@ -1,19 +1,16 @@
 module Yahoo
   class Box
     def initialize(date)
-      puts '>>> new box created', date
       @date = date
       @alldays = []
       @timed = {}
     end
     
     def add_allday(summary)
-      puts '>>> adding allday', summary
       @alldays << summary
     end
     
     def add_timed(summary, from_time, to_time)
-      puts '>>> adding timed', summary, from_time, to_time
       key = "#{from_time}-#{to_time}"
       while @timed.include?(key) do
         key = key + '.'
@@ -53,9 +50,7 @@ module Yahoo
         
         
     def dump
-      puts '>>> dumping alldays'   
       @alldays.each { |allday| puts allday }
-      puts '>>> dumping timed'   
       @timed.keys.sort.each do |key|
         puts "#{key} #{@timed[key]}"
       end

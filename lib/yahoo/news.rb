@@ -12,13 +12,8 @@ module Yahoo
       begin
         feed = RSS::Parser.parse(URI.open(@feed_url), validate: false)
    
-        #puts "Recent articles from Yahoo World RSS News Feed:"
-        #puts "--------------------------------------------------"
   
         feed.items.first(5).each_with_index do |item, index|
-          puts ">>> #{index + 1}. #{item.title}"
-          #puts "   Link: #{item.link}"
-          #puts "--------------------------------------------------"
           articles << item.title
         end
       rescue StandardError => e

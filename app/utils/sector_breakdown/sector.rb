@@ -1,7 +1,6 @@
 module SectorBreakdown
   class Sector
     def initialize(name, rates)
-      puts '>>> sector initialize: ', rates
       @industries = {}
       @totals = SectorBreakdown::Industry.new(rates)
       @name = name

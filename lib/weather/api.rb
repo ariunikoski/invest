@@ -35,7 +35,6 @@ module Weather
     
     def forecast_day(date)
       forecast['forecastday'].each do |fday|
-        puts '>>> ', fday['date']
         date_key = date.to_s
         return fday if fday['date'] == date_key
       end

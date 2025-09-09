@@ -12,7 +12,6 @@ module SectorBreakdown
     end
     
     def load
-      puts '>>> sector load @rates = ', @rates
       Share.all.order(:name).each do |share|
         sector = share.sector || 'undefined'
         sector_obj = get_sector(sector)

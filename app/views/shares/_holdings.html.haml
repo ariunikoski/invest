@@ -95,7 +95,6 @@
     %tbody
       -@toggle = true
       -@share.holdings_by_account.each do |ha|
-        - puts '>>> ha  = ', ha
         - current_value = (share.current_price || 0) * ha[:amount]
         - p_l = current_value - ha[:purchase_cost]
         - p_l_color = p_l < 0 ? 'p_l_red' : 'p_l_green'

@@ -27,16 +27,6 @@ module ShareHelper
     [whole, out_decimal].compact.join('.')
   end
   
-  # >>> def reorder_shares(original_shares)
-  # >>>   order_by = params[:order_by]
-  # >>>   retval = original_shares.sort_by(&:p_l_nis) if order_by == 'P_L'
-  # >>>   retval = original_shares.sort_by(&:p_l_pcnt) if order_by == 'P_L_PCNT'
-  # >>>   retval = original_shares.sort_by(&:name) if order_by == 'NAME'
-  # >>>   return original_shares unless retval
-  # >>>   retval.reverse! if params[:order_direction] == 'DESC'
-  # >>>   retval
-  # >>> end
-
   def arrow_image_classes(col_order_by)
     additional = col_order_by == params[:order_by] ? 'current' : ''
     "arrow_16 #{additional}"

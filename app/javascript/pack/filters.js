@@ -31,25 +31,13 @@ function apply_filter() {
 	const non_zero_holdings = getFlag('non_zero_holdings')
 	const badgeFilters = getBadgeFilters();
 	
-	console.log('>>> currency_cols', currency_cols)
-	console.log('>>> holdings_cols', holdings_cols)
-	console.log('>>> badges_cols', badges_cols)
-	console.log('>>> rowFlags', rowFlags)
-	console.log('>>> zero_holdings', zero_holdings)
-	console.log('>>> non_zero_holdings', non_zero_holdings)
-	console.log('>>> badgeFilters', badgeFilters)
 	for (let ii = 0; ii < currency_cols.length; ii++) {
 		let hideThis = false
-		console.log('>>> BEFORE hideThis', hideThis)
 		hideThis = applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags)
-		console.log('>>> AA hideThis', hideThis)
 		hideThis = applyRowFlagFilter(hideThis, ii, rowFlags, flag_style)
-		console.log('>>> BB hideThis', hideThis)
 		hideThis = applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings)
-		console.log('>>> CC hideThis', hideThis)
 		hideThis = applyBadgesFilter(hideThis, ii, badges_cols, badgeFilters)
 		
-		console.log('>>> hideThis', hideThis)
 		const elem = currency_cols[ii]
 		const row = elem.closest('tr')
 		if (hideThis) {
@@ -70,10 +58,8 @@ function applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags) {
 }
 	
 function applyRowFlagFilter(hideThis, ii, rowFlags, flag_style) {
-	console.log('>>> applyRowFlag hideThis, ii, flag_style', hideThis, ii, flag_style)
 	if (flag_style !== 'all') {
 		const elem = rowFlags[ii]
-		console.log('>>> elem.checked', elem.checked)
 		if (elem.checked === (flag_style === 'unflagged'))	 {
   			hideThis = true
   		}
@@ -82,7 +68,6 @@ function applyRowFlagFilter(hideThis, ii, rowFlags, flag_style) {
 }
 	
 function applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings) {
-	console.log('>>> appyHoldingsFilter, hideThis, ii, zero_holdings, non_zero_holdings', hideThis, ii, zero_holdings, non_zero_holdings)
 	const elem = holdings_cols[ii]
 	if (!matches_holdings_filters(elem.innerText.trim(), zero_holdings, non_zero_holdings)) {
 		hideThis = true
@@ -158,7 +143,6 @@ function recolourRows(rowClass) {
 }
 
 function matches_holdings_filters(holdings, zero_holdings, non_zero_holdings) {
-	console.log('>>> matches: holdings, zero, non_zero', holdings, zero_holdings, non_zero_holdings)
 	if (holdings === "0") {
 		return zero_holdings
 	} else {

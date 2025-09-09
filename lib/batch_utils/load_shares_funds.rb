@@ -35,7 +35,6 @@ class LoadSharesFunds
         awk << remove_leading_trailing(eee, ' ')
       end
 
-      #puts '>>> awk = ', awk
       name = awk[0]
       next if name.empty?
 
@@ -50,10 +49,6 @@ class LoadSharesFunds
       puts "name = #{name} account=#{account} israeli_number = #{israeli_number} type = #{type} purchase_value=#{purchase_value} quantity=#{quantity} currency=#{currency} yahoo=#{yahoo} investing = #{investing}"
 
       handler.handle_line(name, israeli_number, type, account, purchase_value, quantity, currency, yahoo, investing)
-      #(8..30).each do |ii|
-      #  puts '>>> now doing ', ii
-      #  puts 'entry ' + ii.to_s + ' = ' + awk[ii]
-      #end
     end
   end
 end

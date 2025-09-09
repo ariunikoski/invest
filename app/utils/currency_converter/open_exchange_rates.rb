@@ -16,7 +16,6 @@ module CurrencyConverter
         request["accept"] = 'application/json'
 
         response = http.request(request)
-        puts '>>> response.code', response.code
       rescue => e
         puts "Failed to get data with error #{e}"
         Log.error "Failed to get data with error #{e}"
@@ -30,7 +29,6 @@ module CurrencyConverter
       if !response.body.empty?
         @rates = JSON.parse(response.body)['rates']
         @rates['USD'] = 1
-        puts ' >>> response = ', @rates
         #return data["new_amount"]
       end 
     end

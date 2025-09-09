@@ -1,11 +1,7 @@
 function toggleSection(elem, makeVisible) {
-	console.log('>>> entered', elem, makeVisible)
 	const collapsible = elem.parentElement.parentElement
-	console.log('>>> collapsible', collapsible)
 	const collapsibleIndex = Array.prototype.indexOf.call(collapsible.parentElement.children, collapsible);
-	console.log('>>> collapsibleIndex', collapsibleIndex)
 	const shareIndex = collapsible.parentElement.children[collapsibleIndex + 1]
-	console.log('>>> chareIndex', shareIndex)
 	toggleNode(shareIndex, elem, makeVisible)
 }
 

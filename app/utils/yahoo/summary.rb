@@ -26,12 +26,10 @@ module Yahoo
       end
       if !response.body.empty?
         data = JSON.parse(response.body)
-        #puts '>>> response', response.body
         sp = data['summaryProfile']
         industry = sp['industry']
         sector = sp['sector']
         longBusinessSummary = sp['longBusinessSummary']
-        puts '>>> got ', sector, industry, longBusinessSummary
         @share.sector = sector
         @share.industry = industry
         @share.yahoo_summary = longBusinessSummary

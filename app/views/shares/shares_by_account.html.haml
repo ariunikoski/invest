@@ -7,7 +7,6 @@
   - @accounts.each do |acc|
     - account = acc.account
     - @shares = Share.joins(:holdings).where(holdings: {account: account}).order(:name).uniq
-    - puts '>>> shares count', @shares.size
     - if @shares.size > 0
       = render :partial => 'shared/collapsible_section', :locals => { title: "In account: #{account}" }
       - fh = flash.to_h

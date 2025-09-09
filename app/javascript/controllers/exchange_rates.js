@@ -9,10 +9,8 @@ function loadRates() {
       if (this.readyState == 4) {
 		hideSpinner()
         if (this.status == 200) {
-          console.log('>>> success  load_rates', this.responseText);
           location.reload()
         } else {
-		  console.log('load_rates')
 		}
       }
     }

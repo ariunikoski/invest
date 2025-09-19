@@ -72,4 +72,39 @@ module TableHelper
   def calc_sorter_gif(col_order_by)
     needs_descending_button(col_order_by) ? 'arrow2_s.gif' : 'arrow2_n.gif'
   end
+
+  def string_to_pill_color(str)
+    # Create a hash from the string
+    hash = 0
+    str.each_char do |char|
+      hash = char.ord + ((hash << 5) - hash)
+    end
+
+    # Extract RGB components
+    r = (hash >> 16) & 0xff
+    g = (hash >> 8) & 0xff
+    b = hash & 0xff
+
+    [r, g, b]
+  end
+
+  def string_to_text_color(r, g, b, str)
+    # what text color to put on the r, g, b background
+
+    # Compute luminance (perceived brightness)
+    luminance = (0.299 * r + 0.587 * g + 0.114 * b)
+  
+    text_color = luminance > 186 ? "black" : "white" # threshold 186 works well
+    text_color
+    # "background-color: rgb(#{r}, #{g}, #{b}); color: #{text_color}; " \
+    # "padding: 0.3em 0.8em; border-radius: 9999px; display: inline-block;"
+  end
+
+  def create_holding_pill(holding)
+    text = holding[:account]
+    r, g, b = string_to_pill_color(text)
+    text_color = string_to_text_color(r, g, b, text)
+    tooltip = holding[:amount]
+    content_tag(:sp, text, class: 'pill', style: "background-color: rgb(#{r}, #{g}, #{b}); color: #{text_color};", title: "Total holdings: #{tooltip}")
+  end
 end

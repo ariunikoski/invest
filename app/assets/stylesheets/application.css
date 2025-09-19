@@ -441,3 +441,9 @@ label.radio_option_wrapper:hover {
 button.top_spacer_5px {
 	margin-top: 5px;
 }
+
+div.accounts_filter_list {
+	width: max-content;
+	text-align: justify;
+	padding: 5px;
+}

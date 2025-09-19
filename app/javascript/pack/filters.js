@@ -24,12 +24,15 @@ function apply_filter() {
 	
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
 	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
+	const accounts_cols = document.querySelectorAll("td[tag='column_accounts']");
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
 	const rowFlags = document.querySelectorAll("input[tag='row_flag']");
+	
 	
 	const zero_holdings = getFlag('zero_holdings')
 	const non_zero_holdings = getFlag('non_zero_holdings')
 	const badgeFilters = getBadgeFilters();
+	const accountFilters = getAccountFilterStates();
 	
 	for (let ii = 0; ii < currency_cols.length; ii++) {
 		let hideThis = false
@@ -37,6 +40,7 @@ function apply_filter() {
 		hideThis = applyRowFlagFilter(hideThis, ii, rowFlags, flag_style)
 		hideThis = applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings)
 		hideThis = applyBadgesFilter(hideThis, ii, badges_cols, badgeFilters)
+		hideThis = applyAccountsFilter(hideThis, ii, accounts_cols, accountFilters)
 		
 		const elem = currency_cols[ii]
 		const row = elem.closest('tr')
@@ -47,7 +51,30 @@ function apply_filter() {
 		}
 	}
 }
-	
+
+function getAccountFilterStates() {
+  const result = {};
+
+  // Look through all filter divs
+  document.querySelectorAll(".accounts_filter_list input[type='checkbox']").forEach(cb => {
+    result[cb.value] = cb.checked;
+  });
+
+  return result;
+}
+
+function applyAccountsFilter(hideThis, ii, accounts_cols, accountFilters) {
+	const elem = accounts_cols[ii]
+    spans = elem.querySelectorAll("sp")
+	for( spi = 0; spi < spans.length; spi++) {
+	  span = spans[spi]
+      if (accountFilters[span.textContent.trim()]) {
+		return hideThis
+	  }
+	}
+	return true
+}
+
 function applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags) {
 	const elem = currency_cols[ii]
 	const val = elem.innerText.trimStart().trimEnd().trimEnd()

@@ -1,0 +1,7 @@
+%span
+  #{desc}
+%img.filter{ src: "assets/#{image_name}", onclick: "toggleVisible(event, 'accounts_filter')"}
+.filter_div.hidden{id: 'accounts_filter'}
+  .accounts_filter_list
+  %button.filter.top_spacer_5px{onclick: 'apply_filter()'}
+    Apply

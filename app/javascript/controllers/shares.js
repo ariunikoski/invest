@@ -282,3 +282,56 @@ function initiateDateField(field_id) {
 		format: 'dd/mm/yy'
 	})
 }
+
+function populateAccountFilters() {
+  document.querySelectorAll("table.shares_table").forEach(table => {
+    const headerCells = table.querySelectorAll("thead th");
+
+    // Find the index of the header with class "accounts_col"
+    let accountColIndex = -1;
+    headerCells.forEach((th, i) => {
+      if (th.classList.contains("accounts_col")) {
+        accountColIndex = i;
+      }
+    });
+
+    if (accountColIndex === -1) return; // no accounts_col found in this table
+    // Collect all span values in that column
+    let values = new Set();
+    table.querySelectorAll("tbody tr").forEach(row => {
+      const cell = row.cells[accountColIndex];
+      if (!cell) return;
+      cell.querySelectorAll("sp").forEach(span => {
+        values.add(span.textContent.trim());
+      });
+    });
+
+    // Sort values
+    const sorted = Array.from(values).sort();
+
+    // Find the filter container div
+    const filterDiv = headerCells[accountColIndex].querySelector(".accounts_filter_list");
+    if (!filterDiv) return;
+
+    // Clear existing
+    filterDiv.innerHTML = "";
+
+    // Add checkboxes
+    sorted.forEach(val => {
+      const label = document.createElement("label");
+      label.style.display = "block"; // one per line (optional)
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.name = val;
+      checkbox.value = val;
+      checkbox.checked = true; // initially set to true
+
+      label.appendChild(checkbox);
+      label.append(" " + val);
+      filterDiv.appendChild(label);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", populateAccountFilters);

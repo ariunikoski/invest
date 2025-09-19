@@ -1,5 +1,5 @@
 .share_index
-  %table{border: 1}
+  %table.shares_table{border: 1}
     %thead
       %tr.fixed-header
         =col_header 'Name'
@@ -14,6 +14,7 @@
         =col_header 'Value in NIS'
         =col_header 'P/L in NIS'
         =col_header 'P/L %'
+        =col_header 'Accounts', 'accounts_filter', 'funnel.gif', 'accounts_col'
         =col_header 'Actions', 'actions_filter', 'funnel.gif'
         =col_header 'Badges', 'badges_filter', 'funnel.gif'
     %img.hidden{ src: image_path('arrow2_n.gif'), onload: "handleRowPreselect('#{preselect_klass}', #{preselect_klass_id || 0 }, '#{tab_name}')" }
@@ -71,6 +72,9 @@
           %td.number
             %span{class: p_l_color}
               #{format_number(p_l_pcnt, 2)}
+          %td{tag: 'column_accounts'}
+            - share.holdings_by_account.each do |account|
+              = create_holding_pill(account)
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteShare(#{share.id})"
             %input{ type: 'checkbox', name: 'flag', onclick: "toggleFlag(event)", tag: "row_flag" }

@@ -15,13 +15,13 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
+  username: ari
   password:
   host: localhost
 
 development:
   <<: *default
-  password:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'Chook99$' : '' %>
+  password:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'Chook99$' : 'chook99' %>
   database:  <%= `hostname`.strip == 'unikoski-HP-Laptop-14-ck0xxx' ? 'invest_server' : 'invest_server_development' %>
 
 # Warning: The database defined as "test" will be erased and

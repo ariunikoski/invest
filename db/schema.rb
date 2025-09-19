@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_18_085417) do
+ActiveRecord::Schema[7.0].define(version: 2025_08_31_004441) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -35,6 +35,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_18_085417) do
     t.integer "israeli_number"
     t.string "currency"
     t.decimal "current_price", precision: 15, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "holders", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "name"
+    t.text "colour"
+    t.boolean "default"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -99,6 +107,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_18_085417) do
     t.text "yahoo_summary"
     t.string "sector"
     t.string "industry"
+    t.bigint "holder_id", null: false
+    t.index ["holder_id"], name: "index_shares_on_holder_id"
   end
 
   add_foreign_key "dividends", "shares"

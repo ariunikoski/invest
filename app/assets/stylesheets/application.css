@@ -447,3 +447,17 @@ div.accounts_filter_list {
 	text-align: justify;
 	padding: 5px;
 }
+
+div.env_line {
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: x-large;
+}
+
+span.env_text {
+	background: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 1px black solid;
+}

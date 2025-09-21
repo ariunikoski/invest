@@ -9,7 +9,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     
-    <%= favicon_link_tag asset_path('yl_u_arr.gif') %>
+    <%= favicon_link_tag asset_path(Rails.env.production? ? 'yl_u_arr_production.gif' : 'yl_u_arr.gif') %>
     <%= javascript_include_tag "controllers/shares" %>
     <%= javascript_include_tag "controllers/exchange_rates" %>
     <%= javascript_include_tag "pack/field_utils" %>

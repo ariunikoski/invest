@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "shares#index"
   resources :shares
-  
+ 
+  # config/routes.rb
+  post "/set_timezone", to: "timezones#set"
+
   get '/shares/load_yahoo_historicals/:id', to: 'shares#load_yahoo_historicals'
   get '/shares/load_yahoo_summary/:id', to: 'shares#load_yahoo_summary'
   get 'yahoo_current_prices', to: 'shares#yahoo_current_prices'

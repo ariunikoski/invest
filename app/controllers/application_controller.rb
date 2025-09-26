@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_holder
+  before_action :set_time_zone
+
+  def set_time_zone
+    Time.zone = session[:time_zone] if session[:time_zone].present?
+  end
 
   def set_current_holder
     if session[:holder_id].present?

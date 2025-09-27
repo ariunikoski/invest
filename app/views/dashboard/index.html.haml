@@ -16,7 +16,7 @@
   %div{ class: 'toast hidden', id: 'toast' }
     this is the toast....  v3
   .page_header
-    #{Time.now.strftime("%A, %B %d, %Y %H:%M")}
+    = Time.zone.now.strftime("%A, %B %d, %Y %H:%M")
   .calendar_holder
     .calendar_today
       = render partial: 'weather_today'

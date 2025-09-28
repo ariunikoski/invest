@@ -29,4 +29,11 @@ Rails.application.routes.draw do
   
   get 'dashboard', to: 'dashboard#index'
   get 'dashboard/load_email_body', to: 'dashboard#load_email_body'
+
+  resources :tokens, only: [:index, :destroy]
+
+  get  "/login",  to: "sessions#new"
+  post "/login",  to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
+
 end

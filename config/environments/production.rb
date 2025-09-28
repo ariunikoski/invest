@@ -93,4 +93,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   config.verify_email_ssl = true
+  
+  # AUTHENTIATION
+  config.require_authentication = true
 end

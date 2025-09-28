@@ -1,0 +1,18 @@
+%h2 Active Devices / Sessions
+
+%table
+  %thead
+    %tr
+      %th Device
+      %th IP Address
+      %th Last Used
+      %th Actions
+  %tbody
+    - current_cookie = cookies.signed[:auth_token]
+    - @tokens.each do |token|
+      %tr{ class: ("current-device" if token.value == current_cookie) }
+        %td= token.device_name
+        %td= token.ip_address
+        %td= token.last_used_at.strftime("%Y-%m-%d %H:%M")
+        %td
+          = button_to "Revoke", token_path(token), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm"

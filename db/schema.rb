@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_08_31_004441) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_28_085221) do
   create_table "dividends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.date "x_date"
@@ -111,7 +111,29 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_31_004441) do
     t.index ["holder_id"], name: "index_shares_on_holder_id"
   end
 
+  create_table "tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "value", null: false
+    t.string "device_name"
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+    t.index ["value"], name: "index_tokens_on_value", unique: true
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
   add_foreign_key "dividends", "shares"
   add_foreign_key "sales", "holdings"
   add_foreign_key "sales", "shares"
+  add_foreign_key "tokens", "users"
 end

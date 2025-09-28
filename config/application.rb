@@ -24,5 +24,8 @@ module InvestServer
     config.autoload_paths += %W(#{config.root}/lib)
     Encoding.default_external = Encoding::UTF_8
     Encoding.default_internal = Encoding::UTF_8
+
+    # AUTHENTICATION
+    config.require_authentication = ENV["REQUIRE_AUTH"].present?
   end
 end

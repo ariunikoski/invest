@@ -206,4 +206,107 @@ RSpec.describe Share, type: :model do
       expect(received).to eql 0
     end
   end
+
+  describe 'alert_mechanism' do
+    class DA_ARRAY
+      def initialize
+        @alerts = []
+      end
+
+      def create(params)
+        @alerts << params
+      end
+
+      def add(da)
+        @alerts << da
+      end
+
+      def get_alerts
+        @alerts
+      end
+    end
+
+    class DA
+      def initialize
+        @status = "NEW"
+      end
+
+      def set_type(type)
+        @type = type
+      end
+
+      def set_status(status)
+        @status = status
+      end
+
+      def update!(params)
+        set_status(params[:alert_status]) if params[:alert_status]
+      end
+
+      def alert_status
+        @status
+      end
+
+      def alert_type
+        @type
+      end
+    end
+
+    before :each do
+      @alerts = DA_ARRAY.new
+      allow(@share).to receive(:review_expired_ignored_alerts)
+      allow(@share).to receive(:active_alerts).and_return []
+      allow(@share).to receive(:alerts).and_return @alerts
+      allow(@share).to receive(:badges).and_return []
+    end
+
+    it 'should create DIV UP A LOT alert' do
+      allow(@share).to receive(:badges).and_return [:div_up_25]
+      @share.do_all_alerts
+      expect(@share.alerts.get_alerts).to eql [{alert_type: "DIV UP A LOT", alert_status: "NEW"}]
+    end
+
+    it 'should create DIV DOWN A LOT, DIV OVERDUE, NO DIV LAST YEAR alerts' do
+      allow(@share).to receive(:badges).and_return [:div_down_25, :div_overdue, :no_div_last_year, :should_be_ignored]
+      @share.do_all_alerts
+      found_down = false
+      found_overdue = false
+      found_last_year = false
+      found_others = false
+      @share.alerts.get_alerts.each do |ally|
+        if ally == {alert_type: "DIV DOWN A LOT", alert_status: "NEW"}
+          found_down = true
+        elsif ally == {alert_type: "DIV OVERDUE", alert_status: "NEW"}
+          found_overdue = true
+        elsif ally == {alert_type: "NO DIV LAST YEAR", alert_status: "NEW"}
+          found_last_year = true
+        else
+          found_others = true
+        end
+      end
+      expect(found_down).to be true
+      expect(found_overdue).to be true
+      expect(found_last_year).to be true
+      expect(found_others).to be false
+    end
+
+    it 'should mark alert as FINISHED' do
+      allow(@share).to receive(:active_alerts).and_return @alerts.get_alerts
+      ally = DA.new
+      ally.set_type "DIV OVERDUE"
+      @alerts.add(ally)
+      @share.do_all_alerts
+      expect(ally.alert_status).to eql "FINISHED"
+    end
+
+    it 'should mark alert as FINISHED even when not NEW' do
+      allow(@share).to receive(:active_alerts).and_return @alerts.get_alerts
+      ally = DA.new
+      ally.set_type "DIV OVERDUE"
+      ally.set_status "IGNORE"
+      @alerts.add(ally)
+      @share.do_all_alerts
+      expect(ally.alert_status).to eql "FINISHED"
+    end
+  end
 end

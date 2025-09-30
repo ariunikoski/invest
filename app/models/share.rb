@@ -2,6 +2,7 @@ class Share < ApplicationRecord
   has_many :links, as: :linked_to, dependent: :destroy
   has_many :holdings, as: :held_by, dependent: :destroy
   has_many :dividends, dependent: :destroy
+  has_many :alerts, dependent: :destroy
   has_many :sales, dependent: :destroy
   belongs_to :holder
   
@@ -285,5 +286,57 @@ class Share < ApplicationRecord
     end
     
     hba.sort.map { |key, val| val }
+  end
+
+  def active_alerts
+    alerts.reload.where.not(alert_status: "FINISHED")
+  end
+
+  def do_all_alerts
+    review_expired_ignored_alerts
+    act_alerts = active_alerts
+    do_alert :div_overdue, "DIV OVERDUE", act_alerts
+    do_alert :no_div_last_year, "NO DIV LAST YEAR", act_alerts
+    do_alert :div_up_25, "DIV UP A LOT", act_alerts
+    do_alert :div_down_25, "DIV DOWN A LOT", act_alerts
+  end
+
+  def do_alert badge_code, alert_type, act_alerts
+    has_badge = badges.include?(badge_code)
+    has_alert, the_alert = find_alert_by_type(alert_type, act_alerts)
+    switcher = badge_alert_string has_badge, has_alert
+    case switcher
+    when "YY" #badge has matching alert - do nothing
+    when "YN" #has badge but no alert
+      alerts.create(alert_type: alert_type, alert_status: "NEW")
+    when "NY" #has the alert but not the badge
+      the_alert.update!(alert_status: "FINISHED")
+    when "NN" #doesnt have and didnt have - do nothing
+    else
+      Logger::Error "Invalid switcher in do_alert of #{switcher} on share #{id} #{name}"
+    end
+  end
+
+  def find_alert_by_type(type_string, alerts_collection)
+    alert = alerts_collection.find { |a| a.alert_type == type_string }
+    if alert
+      [true, alert]
+    else
+      [false, nil]
+    end
+  end
+
+  def badge_alert_string(has_badge, has_alert)
+    "#{has_badge ? 'Y' : 'N'}#{has_alert ? 'Y' : 'N'}"
+  end
+
+  def review_expired_ignored_alerts
+    expired_ignore_alerts.update_all(alert_status: "RENEW")
+  end
+
+  # Returns alerts with alert_status = "IGNORE_UNTIL" and ignore_until before today
+  def expired_ignore_alerts
+    alerts.reload.where(alert_status: "IGNORE_UNTIL")
+          .where("ignore_until < ?", Date.today)
   end
 end

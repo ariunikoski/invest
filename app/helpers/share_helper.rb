@@ -45,6 +45,7 @@ module ShareHelper
     badge_filters << badge_text_for(:div_down_25)
     badge_filters << [badge_text_for(:div_down_25), badge_text_for(:div_down)]
     badge_filters << badge_text_for(:comments)
+    badge_filters << badge_text_for(:alerts)
     badge_filters
   end
 

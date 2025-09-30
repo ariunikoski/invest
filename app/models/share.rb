@@ -178,6 +178,8 @@ class Share < ApplicationRecord
     hold_badges << :comments if comments && comments.length > 0
     
     hold_badges << :big_investment if calc_nis_val >= 100000
+
+    hold_badges << :alerts if has_new_or_renew_alerts?
     hold_badges
   end
   
@@ -339,4 +341,10 @@ class Share < ApplicationRecord
     alerts.reload.where(alert_status: "IGNORE_UNTIL")
           .where("ignore_until < ?", Date.today)
   end
+
+  # Returns true if this share has any alerts with status NEW or RENEW
+  def has_new_or_renew_alerts?
+    alerts.where(alert_status: ["NEW", "RENEW"]).exists?
+  end
+
 end

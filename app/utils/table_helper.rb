@@ -11,7 +11,8 @@ module TableHelper
 	 div_up: { text: 'div up', color: 'darkcyan', tooltip: :div_anal, description: 'Dividend YTD (< 25%)'},
 	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal, description: 'Dividend YTD down (< 25%)'},
 	 div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white', description: 'Dividend YTD down by 25% or more'},
-	 comments: { text: 'comments', color: 'lightgray' }
+	 comments: { text: 'comments', color: 'lightgray' },
+   alerts: {text: 'alerts', color: 'darkgoldenrod', description: 'Has NEW or RENEW alerts'}
   }
 
   def col_header(desc, filter_name = nil, image_name = nil, extra_class = nil)

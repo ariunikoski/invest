@@ -10,6 +10,7 @@ const badgeFilterParams = {
 	badge_filter_div_down_a_lot: 'div_down_25',
 	badge_filter_div_down_a_lot_OR_div_down: ['div_down_25', 'div_down'],
 	badge_filter_comments: 'comments',
+	badge_filter_alerts: 'alerts'
 }
 
 function apply_filter() {

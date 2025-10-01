@@ -1,0 +1,25 @@
+.alerts_section
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Type'
+        =col_header 'Status'
+        =col_header 'Ignore Until'
+        =col_header 'Created'
+        =col_header 'Modified'
+    %tbody
+      -@share.alerts.order(id: :desc).each do |alert|
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        -@rowclass = "#{@rowclass} alert_style_#{alert.alert_status.downcase}"
+        %tr{class: @rowclass}
+          %td
+            #{alert.alert_type}
+          %td
+            #{alert.alert_status}
+          %td
+            #{alert.ignore_until}
+          %td
+            #{alert.created_at.in_time_zone.strftime("%Y-%m-%d %H:%M:%S")}
+          %td
+            #{alert.updated_at.in_time_zone.strftime("%Y-%m-%d %H:%M:%S")}

@@ -257,7 +257,7 @@ tr.hidden {
 }
 
 span.small_tab {
-	max-width: 100px;
+	max-width: 80px;
 	padding: 15px;
 }
 
@@ -470,4 +470,17 @@ span.env_text {
 	padding-left: 5px;
 	padding-right: 5px;
 	border: 1px black solid;
+}
+
+tr.alert_style_new {
+	font-weight: bold;
+}
+
+tr.alert_style_renew {
+	font-weight: bold;
+}
+
+tr.alert_style_finished {
+	text-decoration: line-through;
+	color: lightgray;
 }

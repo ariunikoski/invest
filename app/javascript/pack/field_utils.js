@@ -1,4 +1,4 @@
-function turnOnField(source, data_key, field_span_key, input_key) {
+function turnOnField(source, data_key, field_span_key, input_key, doClick = false) {
 	let dataVal = document.getElementById(data_key).innerText.replace(/^ /, "")
 	inputElem = document.getElementById(input_key)
 	inputElem.value = dataVal
@@ -6,13 +6,19 @@ function turnOnField(source, data_key, field_span_key, input_key) {
 		console.log('adding datepicker')
 		inputElem.DatePickerX.init({
 			mondayFirst: false,
-			format: 'dd/mm/yy'
+			format: 'dd/mm/yy',
+			position: "bottom"
 		})
 	}
 	
 	makeInvisible(data_key)
 	makeVisible(field_span_key)
-	document.getElementById(input_key).focus()
+	console.log('>>> setting focus to ', input_key, doClick)
+	if (doClick) {
+		document.getElementById(input_key).click()
+	} else {
+		document.getElementById(input_key).focus()
+	}
 }
 
 function toggleVisible(event, id) {

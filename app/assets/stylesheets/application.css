@@ -79,6 +79,10 @@ div.details {
 	z-index: 300;
 }
 
+input.hidden {
+	display: none;
+}
+
 div.hidden {
 	display: none;
 }
@@ -483,4 +487,13 @@ tr.alert_style_renew {
 tr.alert_style_finished {
 	text-decoration: line-through;
 	color: lightgray;
+}
+
+tr.alert_style_updated {
+	font-style: italic;
+	color: red;
+}
+
+td.datepicker_holder {
+	z-index: 100;
 }

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   put 'clear_logs', to: 'logs#clear_logs'
   post 'holdings/sell', to: 'holdings#sell'
   post "shares/change_holder", to: "shares#change_holder", as: :shares_change_holder
+  post "/alerts/set_alert_status", to: "alerts#set_alert_status", as: :set_alert_status
+
 
   resources :funds
   resources :sales

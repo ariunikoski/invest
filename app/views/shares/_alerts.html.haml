@@ -4,6 +4,7 @@
       %tr
         =col_header 'Type'
         =col_header 'Status'
+        =col_header 'Change Status'
         =col_header 'Ignore Until'
         =col_header 'Created'
         =col_header 'Modified'
@@ -15,8 +16,16 @@
         %tr{class: @rowclass}
           %td
             #{alert.alert_type}
-          %td
+          %td{id: "old_status_#{alert.id}"}
             #{alert.alert_status}
+          %td.datepicker_holder
+            - unless alert.alert_status == "FINISHED"
+              = select_tag "alert_status_#{alert.id}",
+              options_for_select([["No Change", "NO_CHANGE"]] + ["REVIEWED", "IGNORE", "IGNORE_UNTIL"].map { |s| [s.split('_').map(&:capitalize).join, s] },
+              selected: "NO_CHANGE"),
+              class: "form-control", onchange: "changeAlertStatus(this)"
+              -# = render :partial => 'shared/new_field', :locals => { field_name: "ignore_until_#{alert.id}", klass: 'datepicker'}
+              %input{class: "datepicker hidden", type: "text", id: "ignore_until_#{alert.id}_field", name: "ignore_until_#{alert.id}"}
           %td
             #{alert.ignore_until}
           %td

@@ -13,7 +13,6 @@ function turnOnField(source, data_key, field_span_key, input_key, doClick = fals
 	
 	makeInvisible(data_key)
 	makeVisible(field_span_key)
-	console.log('>>> setting focus to ', input_key, doClick)
 	if (doClick) {
 		document.getElementById(input_key).click()
 	} else {

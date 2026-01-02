@@ -335,14 +335,10 @@ function populateAccountFilters() {
 }
 
 function markAlertStatusChange(statusChanger, selectedValue) {
-  console.log(">>> markAlertStatusChange with statusChanger, selectedValue", statusChanger, selectedValue, statusChanger.id)
   const id_val = statusChanger.id.replace(/^alert_status_/, "");
-  console.log(">>> id_val = ", id_val)
   const statusCol = document.getElementById(`old_status_${id_val}`)
-  console.log(">>> statusCol = ", statusCol)
   statusCol.innerText = selectedValue
   const row = statusCol.parentElement
-  console.log(">>> row = ", row)
   row.classList.remove("alert_style_new")
   row.classList.remove("alert_style_renew")
   row.classList.remove("alert_style_finished")
@@ -369,17 +365,13 @@ function markAlertStatusChange(statusChanger, selectedValue) {
 }
 
 function changeAlertStatus(statusChanger) {
-  console.log(">>> changeAlertStatus called with ", statusChanger, statusChanger.name, statusChanger.value)
   const selectedValue = statusChanger.value;
   const alertId = statusChanger.name.split('_').pop(); // assumes name like alert_status_123
 
   if (selectedValue === "IGNORE_UNTIL") {
-    console.log('>>> yowser', alertId)
     const data_key = `ignore_until_${alertId}_field`
     
-    console.log('>>> attempting to show it....', data_key)
     setTimeout(() => {
-      console.log('>>> after one sec')
       turnOnField(null, data_key, data_key, data_key, true)
     }, 1000);
 

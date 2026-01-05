@@ -2,10 +2,10 @@ module CurrencyConverter
   require 'uri'
   require 'net/http'
   class OpenExchangeRates
-    def initialize
+    def initialize(silent = false)
       @rates = {}
       begin
-        puts 'Loading all exchange rates via OpenExchangeRates'
+        puts 'Loading all exchange rates via OpenExchangeRates' unless silent
         app_id = '65120f06978e42ac96db10666a60ba3e'
         url = URI("https://openexchangerates.org/api/latest.json?app_id=#{app_id}&show_alternative=false")
   

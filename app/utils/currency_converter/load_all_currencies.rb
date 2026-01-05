@@ -1,11 +1,11 @@
 module CurrencyConverter
   require 'rest-client'
   class LoadAllCurrencies
-    def load
-      oer = OpenExchangeRates.new
+    def load(silent = false)
+      oer = OpenExchangeRates.new(silent)
       rates = ExchangeRate.all
       rates.each do |rate|
-        puts 'Now doing ' + rate.currency_code
+        puts 'Now doing ' + rate.currency_code unless silent
         er = oer.get_rate(rate.currency_code)
         if er
           Log.info("Got rate for #{rate.currency_code} - setting it to #{er}")

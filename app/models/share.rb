@@ -297,10 +297,12 @@ class Share < ApplicationRecord
   def do_all_alerts
     review_expired_ignored_alerts
     act_alerts = active_alerts
+    # TODO turn this into a two way table so I can get PILL_DATA from the alert, then just go over the table
     do_alert :div_overdue, "DIV OVERDUE", act_alerts
     do_alert :no_div_last_year, "NO DIV LAST YEAR", act_alerts
     do_alert :div_up_25, "DIV UP A LOT", act_alerts
     do_alert :div_down_25, "DIV DOWN A LOT", act_alerts
+    # TODO alerts for really good buy and underperforming
   end
 
   def do_alert badge_code, alert_type, act_alerts

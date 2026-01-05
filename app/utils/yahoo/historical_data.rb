@@ -3,13 +3,14 @@ module Yahoo
   require 'uri'
   require 'net/http'
   class HistoricalData
-    def initialize(share)
+    def initialize(share, silent = false)
       @share = share
+      @silent = silent
       @symbol = share.symbol
       awk = @share.symbol.split('.')
       awk[1] = 'US' if awk.length == 1
       @region = awk[1]
-      puts "Ready to load for #{@symbol} #{@region}"
+      puts "Ready to load for #{@symbol} #{@region}" unless @silent
       @created = 0
       @duplicated = 0
       @errors = 0
@@ -61,7 +62,7 @@ module Yahoo
     
     def mark_error(message)
       @errors = @errors + 1
-      puts message
+      puts message unless @silent
       Log.error("Error found for #{@share.name}")
       Log.error(message.byteslice(0,255))
     end
@@ -91,10 +92,10 @@ module Yahoo
         @created  = @created + 1
       rescue => e
         if e.to_s.starts_with?('Mysql2::Error: Duplicate entry')
-          puts "Dividend for #{@share.name} on data #{x_date} already exists"
+          puts "Dividend for #{@share.name} on data #{x_date} already exists" unless @silent
           @duplicated = @duplicated + 1
         else
-          puts 'Create dividend failed with ', e
+          puts 'Create dividend failed with ', e unless @silent
           Log.error("Create dividend for #{@symbol} with error  #{e}")
           @errors = @errors + 1
         end

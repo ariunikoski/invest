@@ -45,3 +45,5 @@ yarn-debug.log*
 /[database_name].sql
 /ss.diff
 /bup/*
+
+x.html

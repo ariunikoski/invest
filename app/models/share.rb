@@ -1,3 +1,4 @@
+include TableHelper
 class Share < ApplicationRecord
   has_many :links, as: :linked_to, dependent: :destroy
   has_many :holdings, as: :held_by, dependent: :destroy
@@ -297,11 +298,9 @@ class Share < ApplicationRecord
   def do_all_alerts
     review_expired_ignored_alerts
     act_alerts = active_alerts
-    # TODO turn this into a two way table so I can get PILL_DATA from the alert, then just go over the table
-    do_alert :div_overdue, "DIV OVERDUE", act_alerts
-    do_alert :no_div_last_year, "NO DIV LAST YEAR", act_alerts
-    do_alert :div_up_25, "DIV UP A LOT", act_alerts
-    do_alert :div_down_25, "DIV DOWN A LOT", act_alerts
+    ALERT_TO_PILL.keys.each do |alert_type|
+      do_alert(ALERT_TO_PILL[alert_type], alert_type, act_alerts)
+    end
     # TODO alerts for really good buy and underperforming
   end
 

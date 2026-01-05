@@ -1,3 +1,4 @@
+include TableHelper
 class WeeklyReportService
   # To run: rails runner 'puts WeeklyReportService.run' | mail  -a "Content-Type: text/html; charset=UTF-8"  -s "Test Share Report 1" unikoski@yahoo.com
   # IN order not to clog my email I am also doing: rails runner 'puts WeeklyReportService.run' >x.html 
@@ -115,14 +116,15 @@ class WeeklyReportService
     add_line("")
   end
 
-  def create_table_row(symbol, name, type, status, created, notes)
+  def create_table_row(symbol, name, type, status, created, notes, colour)
+    style = "#{TABLE_ROW_STYLE} color: #{colour};"
     add_raw("    <TR>")
     add_raw("      <TD style='#{TABLE_ROW_STYLE}'>#{symbol}</TD>")
     add_raw("      <TD style='#{TABLE_ROW_STYLE}'>#{name}</TD>")
-    add_raw("      <TD style='#{TABLE_ROW_STYLE}'>#{type}</TD>")
+    add_raw("      <TD style='#{style}'>#{type}</TD>")
     add_raw("      <TD style='#{TABLE_ROW_STYLE}'>#{status}</TD>")
     add_raw("      <TD style=#{TABLE_ROW_STYLE}'>#{created}</TD>")
-    add_raw("      <TD style=#{TABLE_ROW_STYLE}'>#{notes}</TD>")
+    add_raw("      <TD style='#{style}'>#{notes}</TD>")
     add_raw("    </TR>")
   end
 
@@ -136,8 +138,11 @@ class WeeklyReportService
         create_table unless table_created
         table_created = true
 
-        # TODO get text color from PILL_DATA and for notes get tooltip
-        create_table_row(share.symbol, share.name, alert.alert_type, alert.alert_status, alert.created_at, "")
+        alert_key = ALERT_TO_PILL[alert.alert_type]
+        data = PILL_DATA[alert_key]
+        notes = data[:tooltip] ? send(data[:tooltip], share) : nil
+        colour = data[:alert_color] || 'black'
+        create_table_row(share.symbol, share.name, alert.alert_type, alert.alert_status, alert.created_at, notes, colour)
       end
     end
     close_table if table_created

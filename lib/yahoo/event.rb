@@ -18,14 +18,12 @@ module Yahoo
     end
     
     def all_day_handler(from_date, to_date, calendar)
-      # TODO: limit by from_date, to_date
       (@event_start...@event_end).each do |date|
         calendar.add_box(date, nil, nil, @event_summary)
       end
     end
     
     def day_time_handler(from_date, to_date, calendar)
-      # TODO: limit by from_date, to_date
       from_time = @event_start.strftime("%H:%M")
       to_time = @event_end.strftime("%H:%M")
 

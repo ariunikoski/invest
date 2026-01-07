@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_29_150531) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_07_144332) do
   create_table "alerts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.string "alert_type"
@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_29_150531) do
     t.boolean "default"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mail_background_color"
   end
 
   create_table "holdings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

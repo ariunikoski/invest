@@ -1,12 +1,10 @@
-include TableHelper
+include PillData
 class WeeklyReportService
   # To run: rails runner 'puts WeeklyReportService.run' | mail  -a "Content-Type: text/html; charset=UTF-8"  -s "Test Share Report 1" unikoski@yahoo.com
   # IN order not to clog my email I am also doing: rails runner 'puts WeeklyReportService.run' >x.html 
   # in production it should be: RAILS_ENV=production bundle exec rails runner 'puts WeeklyReportService.run' | mail  -a "Content-Type: text/html; charset=UTF-8"  -s "Weekly Share Report 1" unikoski@yahoo.com
   #
-  # TODO Test that server version of load currencies still works
   # TODO on server, ensure that mail is implemented the same 
-  # TODO if there is a filter by alert type also handle new types of alerts
   
   INFO_STYLE = "color :#2e7d32;"
   WARN_STYLE = "color :#ef6c00; font-weight:bold;"
@@ -19,7 +17,6 @@ class WeeklyReportService
 
   def self.run
     runner = WeeklyReportService.new
-    # TODO: Need to run for all holders...
     runner.create_report
     runner.flush
   end
@@ -31,6 +28,10 @@ class WeeklyReportService
   def initialize
     # Example content – replace with your real logic
     @lines = []
+    @log_styles = {}
+    @log_styles['info'] = INFO_STYLE
+    @log_styles['warn'] = WARN_STYLE
+    @log_styles['error'] = ERROR_STYLE
     clear_logs
   end
 
@@ -40,10 +41,6 @@ class WeeklyReportService
 
   def add_line(newline)
     @lines << newline << "<br>"
-    @log_styles = {}
-    @log_styles['info'] = INFO_STYLE
-    @log_styles['warn'] = WARN_STYLE
-    @log_styles['error'] = ERROR_STYLE
   end
 
   def add_paragraph(style, newline)
@@ -64,6 +61,7 @@ class WeeklyReportService
 
   def create_section_header heading_text
     add_paragraph SECTION_HEADER_STYLE, heading_text
+    add_line "<br>"
   end
 
   def get_exchange_rates
@@ -148,6 +146,19 @@ class WeeklyReportService
     close_table if table_created
   end
 
+  def open_holder(holder)
+    add_line ""
+    add_line ""
+    add_line ""
+    add_line "<div style='background-color: #{holder.mail_background_color}'>"
+    add_line "<H1>#{holder.name}</H1>"
+  end
+
+  def close_holder
+    add_line "</div>"
+    clear_logs
+  end
+
   def create_report
     add_line ""
     add_line ""
@@ -156,9 +167,14 @@ class WeeklyReportService
     add_line ""
 
     get_exchange_rates
-    get_prices
-    get_dividends
-    get_alerts
+    Holder.all.each do |holder|
+      open_holder holder
+      Current.holder = holder
+      get_prices
+      get_dividends
+      get_alerts
+      close_holder
+    end
     
     add_line ""
     add_line "Finito at <b>#{Time.zone.now} </b>"

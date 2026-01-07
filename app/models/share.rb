@@ -1,4 +1,4 @@
-include TableHelper
+include PillData
 class Share < ApplicationRecord
   has_many :links, as: :linked_to, dependent: :destroy
   has_many :holdings, as: :held_by, dependent: :destroy
@@ -301,7 +301,6 @@ class Share < ApplicationRecord
     ALERT_TO_PILL.keys.each do |alert_type|
       do_alert(ALERT_TO_PILL[alert_type], alert_type, act_alerts)
     end
-    # TODO alerts for really good buy and underperforming
   end
 
   def do_alert badge_code, alert_type, act_alerts

@@ -345,10 +345,8 @@ function markAlertStatusChange(statusChanger, selectedValue, newDate = null, dat
   row.classList.remove("alert_style_finished")
   row.classList.add("alert_style_updated")
   if (newDate) {
-    console.log(">>> there was a newDate... update ignoreUntil field, and hide the date field ")
     ignoreUntilCol.innerText = newDate
   }
-  console.log(">>> statusChanger", statusChanger)
   statusChanger.value = "NO_CHANGE"
   var xhr = new XMLHttpRequest();
   
@@ -372,23 +370,18 @@ function markAlertStatusChange(statusChanger, selectedValue, newDate = null, dat
 }
 
 function pollForDatePickerVisible(data_key, statusChanger) {
-    console.log(">>> called pollForDatePickerVisible", data_key)
     const dateTextField = document.getElementById(data_key);
     const sibling = dateTextField.nextElementSibling;
-    console.log(">>> sibling", sibling)
     if (!sibling.classList.contains("date-picker-x")) {
       alert("Error: should have got date-picker-x and did not - you will not be able to set the date")
       return
     }
     if (sibling.classList.contains("active")) {
-      console.log(">>> still visible")
       schedulePollForDatePickerVisible(data_key, statusChanger)
       return
     }
-    console.log(">>> not visible - hooray!")
     const theDate = dateTextField.value.trim()
     if (theDate !== "") {
-      console.log(">>> not null - going to update")
       markAlertStatusChange(statusChanger, "IGNORE_UNTIL", theDate, data_key)
     }
     makeInvisible(data_key)

@@ -4,7 +4,6 @@ class WeeklyReportService
   # IN order not to clog my email I am also doing: rails runner 'puts WeeklyReportService.run' >x.html 
   # in production it should be: RAILS_ENV=production bundle exec rails runner 'puts WeeklyReportService.run' | mail  -a "Content-Type: text/html; charset=UTF-8"  -s "Weekly Share Report 1" unikoski@yahoo.com
   #
-  # TODO on server, ensure that mail is implemented the same 
   
   INFO_STYLE = "color :#2e7d32;"
   WARN_STYLE = "color :#ef6c00; font-weight:bold;"

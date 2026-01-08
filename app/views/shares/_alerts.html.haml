@@ -26,7 +26,7 @@
               class: "form-control", onchange: "changeAlertStatus(this)"
               -# = render :partial => 'shared/new_field', :locals => { field_name: "ignore_until_#{alert.id}", klass: 'datepicker'}
               %input{class: "datepicker hidden", type: "text", id: "ignore_until_#{alert.id}_field", name: "ignore_until_#{alert.id}"}
-          %td
+          %td{id: "old_ignore_until_#{alert.id}"}
             #{alert.ignore_until}
           %td
             #{alert.created_at.in_time_zone.strftime("%Y-%m-%d %H:%M:%S")}

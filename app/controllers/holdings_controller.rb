@@ -2,7 +2,7 @@ class HoldingsController < ApplicationController
   skip_before_action :verify_authenticity_token
   
   def create
-    new_holding_params = params.permit(:amount, :cost, :account, :purchase_date)
+    new_holding_params = params.permit(:amount, :cost, :account, :purchase_date, :hin)
     purchase_date =  new_holding_params["purchase_date"]
     new_holding_params[:purchase_date] = Date.strptime(purchase_date,'%d/%m/%y')  if purchase_date && !purchase_date.empty?
     holding = Holding.new(new_holding_params)

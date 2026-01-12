@@ -16,6 +16,8 @@
         =col_header 'P/L'
         =col_header 'P/L %'
         =col_header 'Account'
+        - if needs_hin
+          =col_header 'HIN'
         =col_header 'Actions'
     %tbody
       -@toggle = true
@@ -58,6 +60,9 @@
               #{ holding.amount != 0 ? format_number((p_l* 100)/purchase_cost, 2) : '' }
           %td
             = render :partial => 'shared/field', :locals => { obj: holding, data: holding.account, field_name: 'account' }
+          - if needs_hin
+            %td
+              = render :partial => 'shared/field', :locals => { obj: holding, data: holding.hin, field_name: 'hin' }
           %td.action_col
             = image_tag 'trash_can.png', size: 16, onclick: "deleteHolding(#{holding.id}, '#{holding.amount} in #{holding.account}')"
             = image_tag 'dollars.ico', size: 16, onclick: "sellHolding(#{holding.to_json.html_safe})" 

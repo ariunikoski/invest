@@ -6,6 +6,8 @@
       = render :partial => 'shared/new_field', :locals => { field_name: 'amount', required: true }
       = render :partial => 'shared/new_field', :locals => { field_name: 'cost', required: true }
       = render :partial => 'shared/new_field', :locals => { field_name: 'account', required: true }
+      - if needs_hin
+        = render :partial => 'shared/new_field', :locals => { field_name: 'hin', required: false }
       = render :partial => 'shared/new_field', :locals => { field_name: 'purchase_date', klass: 'datepicker', required: true  }
       = render :partial => 'shared/hidden_field', :locals => { field_name: 'klass', field_value: klass }
       = render :partial => 'shared/hidden_field', :locals => { field_name: 'klass_id', field_value: klass_id }

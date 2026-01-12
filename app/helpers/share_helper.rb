@@ -52,4 +52,8 @@ module ShareHelper
   def badge_text_for(badge_type)
     PILL_DATA[badge_type][:text]
   end
+
+  def needs_hin
+    Current.holder.needs_hin
+  end
 end

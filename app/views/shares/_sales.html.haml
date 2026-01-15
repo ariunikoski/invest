@@ -40,11 +40,11 @@
             - date_string = sale.sale_date ? sale.sale_date.strftime('%2d/%2m/%2y') : nil
             = render :partial => 'shared/field', :locals => { obj: sale, data: date_string, field_name: 'sale_date', klass: 'datepicker' }
           %td.number
-            #{sale.amount}
+            = render :partial => 'shared/field', :locals => { obj: sale, data: sale.amount, field_name: 'amount' }
           %td.number
             #{format_number(sale.holding.cost, 2)}
           %td.number
-            #{format_number(sale.sale_price, 2)}
+            = render :partial => 'shared/field', :locals => { obj: sale, data: sale.sale_price, field_name: 'sale_price' }
           %td.number
             #{format_number(sale.sale_price * sale.amount, 2)}
           %td.number

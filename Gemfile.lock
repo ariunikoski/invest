@@ -292,6 +292,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
+  nokogiri (~> 1.16)
   open-uri
   puma (~> 5.0)
   rails (~> 7.0.4)

@@ -40,8 +40,12 @@ class SharesController < ApplicationController
   
   def load_yahoo_summary
     @share=Share.find(params[:id])
-    loader = Yahoo::Summary.new(@share)
-    loader.load
+    loader = Fmp::Profile.new()
+    res = loader.load(@share.symbol)
+    @share.sector = res[:sector] if res[:sector]
+    @share.industry = res[:industry] if res[:industry]
+    @share.yahoo_summary = res[:summary] if res[:summary]
+    @share.save!
     render partial: 'shares/show'
   end
   

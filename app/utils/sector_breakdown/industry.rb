@@ -9,7 +9,11 @@ module SectorBreakdown
     
     def add_amount(share)
       currency = share.currency
-      amount = share.total_holdings * share.current_price / share.get_amount_divider
+      begin
+        amount = share.total_holdings * share.current_price / share.get_amount_divider
+      rescue => e
+        amount = 0
+      end
       @currencies[currency] = 0 if !@currencies.include?(currency)
       @currencies[currency] = amount + @currencies[currency]
       apply_rate = (currency == 'NIS') ? 1.0 : @rates[currency]

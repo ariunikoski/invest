@@ -48,6 +48,8 @@ gem "haml"
 
 gem 'rest-client', '~> 2.1'
 
+gem 'nokogiri', '~> 1.16'
+
 gem 'httparty'
 gem 'rss'
 gem 'open-uri'

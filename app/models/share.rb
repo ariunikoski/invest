@@ -346,4 +346,9 @@ class Share < ApplicationRecord
     alerts.where(alert_status: ["NEW", "RENEW", "REVIEWED"]).exists?
   end
 
+  def safe_tot_nis
+    self.total_holdings * self.current_price / self.get_amount_divider
+  rescue => e
+    0
+  end
 end

@@ -1,5 +1,9 @@
 module Yahoo
   require 'rest-client'
+  #
+  # NOTE _ THIS NO LONGER WORKS!!!
+  # REPLACE BY Fmp::Profile
+  # 
   class Summary
     def initialize(share)
       @share = share
@@ -20,10 +24,12 @@ module Yahoo
         puts "Summary - Failed to get data for: #{@symbol}, with #{e}"
         return
       end
+
       if response.code != 200
         puts "Summary - Failed to get data for: #{@symbol}, with #{response.code}"
         return
       end
+
       if !response.body.empty?
         data = JSON.parse(response.body)
         sp = data['summaryProfile']

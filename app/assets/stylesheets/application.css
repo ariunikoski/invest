@@ -23,7 +23,7 @@ th {
 tr.fixed-header th {
 	position: sticky;
 	z-index: 200;
-	top: 0;
+	top: 70px;
 }
 
 tbody.fixed-header {
@@ -394,6 +394,8 @@ form.holder_combo {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	border: 1px black, solid;
+	position: sticky;
+	top: 0;
 }
 
 .badge_filter {

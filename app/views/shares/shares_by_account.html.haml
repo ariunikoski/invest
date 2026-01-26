@@ -2,7 +2,7 @@
 .invest_root
   %h1
     Shares By Account
-  = render :partial => 'index_header'
+  = render :partial => 'index_header', :locals => { tools_style: 'Shares'}
   = render :partial => 'new_share'
   - @accounts.each do |acc|
     - account = acc.account

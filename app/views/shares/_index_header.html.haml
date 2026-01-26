@@ -10,11 +10,19 @@
         options_from_collection_for_select(Holder.order(:name), :id, :name, session[:holder_id]),
         prompt: "Current Holder",
         onchange: "this.form.submit();"
-    %button{onclick: "getCurrentPrices()"}
-      Get Current Prices
-    %button{onclick: "showShareInputForm()"}
-      Add new Share
-    %button{onclick: "loadAllDividends()"}
-      Load all dividends
-  = render :partial => 'new_share'
+    -if tools_style == 'Shares'
+      %button{onclick: "getCurrentPrices()"}
+        Get Current Prices
+      %button{onclick: "showShareInputForm()"}
+        Add new Share
+      %button{onclick: "loadAllDividends()"}
+        Load all dividends
+    -if tools_style == 'Breakdown'
+      %button{onclick: "getBreakdownBySectorCondensed()"}
+        Get Condensed Version
+    -if tools_style == 'Breakdown_Condensed'
+      %button{onclick: "getBreakdownBySector()"}
+        Get Detailed Version
+  -if tools_style == 'Shares'
+    = render :partial => 'new_share'
   

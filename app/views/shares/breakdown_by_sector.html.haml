@@ -2,9 +2,8 @@
 .invest_root
   %h1
     Breakdown By Sector
-.tools
-  %button{onclick: "getBreakdownBySectorCondensed()"}
-    Get Condensed Version
+= render :partial => 'index_header', :locals => { tools_style: 'Breakdown' }
+.breakdown
   - @sectors.keys.sort.each do |sector_name|
     = render :partial => 'single_sector_breakdown', :locals => { sector_name: sector_name, sector: @sectors[sector_name] }
   = render :partial => 'single_sector_breakdown', :locals => { sector_name: 'Grand Total', sector: @grand_totals }

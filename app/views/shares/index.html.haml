@@ -8,9 +8,11 @@
   = render :partial => 'index', :locals => { by_account: false, preselect_klass: fh['preselect_klass'], preselect_klass_id: fh['preselect_klass_id'], tab_name: fh['tab_name'] }
   %h2
     Summary
-  Total in nis: #{format_number(@total_total, 2)}
+  - if Current.holder.multi_currency
+    Total in nis: #{format_number(@total_total, 2)}
   - if @rows_reported > 0
     Avg. Yield: #{format_number(@total_ytd/@rows_reported, 2)}
     Avg. Weighted Yield: #{format_number(@total_weighed/@rows_reported, 2)}
-    Total P/L: #{format_number(@total_pl, 2)}
+    - if Current.holder.multi_currency
+      Total P/L: #{format_number(@total_pl, 2)}
 .details_location{id: 'details_location'}

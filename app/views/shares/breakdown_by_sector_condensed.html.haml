@@ -20,8 +20,9 @@
       NIS
     %td.single_space_cell.not_first.number.bold
       USD
-    %td.single_space_cell.not_first.number.bold
-      Total NIS
+    - if Current.holder.multi_currency
+      %td.single_space_cell.not_first.number.bold
+        Total NIS
   - @sectors.keys.sort.each do |sector_name|
     = render :partial => 'single_industry_breakdown', :locals => { industry_name: sector_name, industry: @sectors[sector_name].get_totals, sector_name: sector_name }
   = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Grand Total', industry: @grand_totals.get_totals, sector_name: 'grand_total' }

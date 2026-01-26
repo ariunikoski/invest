@@ -14,8 +14,9 @@
     #{format_number(industry.get_currencies['NIS'], 2)}
   %td.single_space_cell.not_first.number
     #{format_number(industry.get_currencies['USD'], 2)}
-  %td.single_space_cell.not_first.number
-    #{format_number(industry.get_currencies['TOT_NIS'], 2)}
+  - if Current.holder.multi_currency
+    %td.single_space_cell.not_first.number
+      #{format_number(industry.get_currencies['TOT_NIS'], 2)}
 %tr.hidden{id: "#{row_id}"}
   %td
     %table
@@ -27,6 +28,7 @@
             #{share.symbol}
           %td
             #{share.currency}
-          %td.number
-            #{format_number(share.safe_tot_nis ,2)}
+          - if Current.holder.multi_currency
+            %td.number
+              #{format_number(share.safe_tot_nis ,2)}
     

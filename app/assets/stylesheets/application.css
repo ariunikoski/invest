@@ -499,3 +499,8 @@ tr.alert_style_updated {
 td.datepicker_holder {
 	z-index: 100;
 }
+
+tr.zero_holding {
+	font-style: italic;
+	color: gray;
+}

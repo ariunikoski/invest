@@ -29,6 +29,7 @@
       -@share.holdings.each do |holding|
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        -@rowclass = "#{@rowclass} zero_holding" if holding.amount == 0
         - purchase_cost = (holding.cost || 0) * holding.amount
         - current_value = (share.current_price || 0) * holding.amount
         - p_l = current_value - purchase_cost

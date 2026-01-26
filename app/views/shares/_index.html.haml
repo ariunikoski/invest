@@ -11,8 +11,9 @@
         =col_header 'Current Dividend Yield'
         =col_header 'Weighted Dividend Yield'
         =col_header 'Value'
-        =col_header 'Value in NIS'
-        =col_header 'P/L in NIS'
+        - if Current.holder.multi_currency
+          =col_header 'Value in NIS'
+          =col_header 'P/L in NIS'
         =col_header 'P/L %'
         =col_header 'Accounts', 'accounts_filter', 'funnel.gif', 'accounts_col'
         =col_header 'Actions', 'actions_filter', 'funnel.gif'
@@ -45,6 +46,7 @@
         -@total_weighed = @total_weighed + weighed_ytd
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        -@rowclass = "#{@rowclass} zero_holding" if total_holdings == 0
         %tr{class: "#{@rowclass} indexRow", id: "share_#{share.id}", onclick: "getDetails(this, #{share.id})"}
           %td
             = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }
@@ -64,11 +66,12 @@
             #{format_number(weighed_ytd, 2)}
           %td.number
             #{format_number(total_value,2)}
-          %td.number
-            #{format_number(nis_val, 2)}
-          %td.number
-            %span{class: p_l_color}
-              #{format_number(p_l_nis, 2)}
+          - if Current.holder.multi_currency
+            %td.number
+              #{format_number(nis_val, 2)}
+            %td.number
+              %span{class: p_l_color}
+                #{format_number(p_l_nis, 2)}
           %td.number
             %span{class: p_l_color}
               #{format_number(p_l_pcnt, 2)}

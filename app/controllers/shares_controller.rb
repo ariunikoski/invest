@@ -67,7 +67,7 @@ class SharesController < ApplicationController
     get_rates
     @projector = Projector::Projector.new
   end
-    
+  
   def breakdown_by_sector
     get_rates
     calculator = SectorBreakdown::Calculator.new(@rates)
@@ -80,6 +80,11 @@ class SharesController < ApplicationController
     breakdown_by_sector
   end
     
+  def breakdown_by_currency
+    # same logic, different template
+    breakdown_by_sector
+  end
+  
   def export_projected_income
     tt = Time.now
     fname = '../' + tt.strftime("%Y_%m_%d_%T.csv")

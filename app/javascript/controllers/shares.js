@@ -233,6 +233,10 @@ function exportToExcel() {
     xhr.send();
 }
 
+function getBreakdownByCurrency() {
+	location.href = '/breakdown_by_currency'
+}
+
 function getBreakdownBySector() {
 	location.href = '/breakdown_by_sector'
 }

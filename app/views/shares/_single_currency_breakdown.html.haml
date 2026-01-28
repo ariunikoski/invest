@@ -1,0 +1,9 @@
+%tr{ class: ("include_in_pi" if (defined?(include_in_pi) && include_in_pi == true)) }
+  %td.single_space_cell
+    - title = ccode == 'TOT_NIS' ? 'Total in NIS' : ccode
+    #{title}
+  %td.single_space_cell.not_first.number
+    #{format_number(cur_tots[ccode], 2)}
+  %td.single_space_cell.not_first.number
+    - apply_rate = (['NIS', 'TOT_NIS'].include?(ccode)) ?1.0 : @rates[ccode]
+    #{format_number(cur_tots[ccode] * apply_rate, 2)}

@@ -19,10 +19,21 @@
         Load all dividends
     -if tools_style == 'Breakdown'
       %button{onclick: "getBreakdownBySectorCondensed()"}
-        Get Condensed Version
+        Breakdown by Sector Condensed
+      - if Current.holder.multi_currency
+        %button{onclick: "getBreakdownByCurrency()"}
+          Breakdown by Currency
     -if tools_style == 'Breakdown_Condensed'
       %button{onclick: "getBreakdownBySector()"}
-        Get Detailed Version
+        Breakdown by Sector
+      - if Current.holder.multi_currency
+        %button{onclick: "getBreakdownByCurrency()"}
+          Get Currency Breakdown
+    -if tools_style == 'Breakdown_Currency'
+      %button{onclick: "getBreakdownBySector()"}
+        Breakdown by Sector
+      %button{onclick: "getBreakdownBySectorCondensed()"}
+        Breakdown by Sector Condensed
   -if tools_style == 'Shares'
     = render :partial => 'new_share'
   

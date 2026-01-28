@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/shares/load_yahoo_summary/:id', to: 'shares#load_yahoo_summary'
   get 'yahoo_current_prices', to: 'shares#yahoo_current_prices'
   get 'shares_by_account', to: 'shares#shares_by_account'
+  get 'breakdown_by_currency', to: 'shares#breakdown_by_currency'
   get 'breakdown_by_sector', to: 'shares#breakdown_by_sector'
   get 'breakdown_by_sector_condensed', to: 'shares#breakdown_by_sector_condensed'
   get 'projected_income', to: 'shares#projected_income'

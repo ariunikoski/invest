@@ -1,0 +1,24 @@
+= render :partial => 'shared/header', :locals => { current: 'Breakdowns' }
+.invest_root
+  %h1
+    Breakdown By Currency
+= render :partial => 'index_header', :locals => { tools_style: 'Breakdown_Currency' }
+.breakdown
+  .blank_spacer
+  %table.single_space_table
+    %tr
+      %td.single_space_cell.bold
+        Currency
+      %td.single_space_cell.not_first.number.bold
+        Total In Currency
+      %td.single_space_cell.not_first.number.bold
+        Total NIS
+    - cur_tots = @grand_totals.get_totals.get_currencies
+    = render :partial => 'single_currency_breakdown', :locals => { ccode: 'AUD', cur_tots: cur_tots, include_in_pi:true }
+    = render :partial => 'single_currency_breakdown', :locals => { ccode: 'CAD', cur_tots: cur_tots, include_in_pi:true }
+    = render :partial => 'single_currency_breakdown', :locals => { ccode: 'NIS', cur_tots: cur_tots, include_in_pi:true }
+    = render :partial => 'single_currency_breakdown', :locals => { ccode: 'USD', cur_tots: cur_tots, include_in_pi:true }
+    = render :partial => 'single_currency_breakdown', :locals => { ccode: 'TOT_NIS', cur_tots: cur_tots, include_in_pi:false }
+  %div{ data: { pie_chart: true } }
+    %canvas.pie_chart_canvas{ width: 300, height: 300 }
+  

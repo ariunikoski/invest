@@ -23,5 +23,8 @@
         %td.single_space_cell.not_first.number.bold
           Total NIS
     - @sectors.keys.sort.each do |sector_name|
-      = render :partial => 'single_industry_breakdown', :locals => { industry_name: sector_name, industry: @sectors[sector_name].get_totals, sector_name: sector_name }
-    = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Grand Total', industry: @grand_totals.get_totals, sector_name: 'grand_total' }
+      = render :partial => 'single_industry_breakdown', :locals => { industry_name: sector_name, industry: @sectors[sector_name].get_totals, sector_name: sector_name, include_in_pi: true }
+    = render :partial => 'single_industry_breakdown', :locals => { industry_name: 'Grand Total', industry: @grand_totals.get_totals, sector_name: 'grand_total', include_in_pi:false }
+  %div{ data: { pie_chart: true } }
+    %canvas.pie_chart_canvas{ width: 300, height: 300 }
+  

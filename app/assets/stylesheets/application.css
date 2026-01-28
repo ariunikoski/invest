@@ -504,3 +504,14 @@ tr.zero_holding {
 	font-style: italic;
 	color: gray;
 }
+
+.pie_chart_canvas {
+  width: 300px !important;
+  height: 300px !important;
+}
+
+div.breakdown {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+}

@@ -1,5 +1,5 @@
 - row_id = "#{sector_name}_#{industry_name}"
-%tr
+%tr{ class: ("include_in_pi" if (defined?(include_in_pi) && include_in_pi == true)) }
   %td.single_space_cell
     = image_tag 'arrow2_n.gif', size: 16, class: "hidden", onclick: "toggleHiddenRow(this, false, '#{row_id}')"
     = image_tag 'arrow2_s.gif', size: 16, onclick: "toggleHiddenRow(this, true, '#{row_id}')"

@@ -7,15 +7,16 @@
         Industry
       %td.single_space_cell.not_first.number.bold
         AUD
-      %td.single_space_cell.not_first.number.bold
-        CAD
-      %td.single_space_cell.not_first.number.bold
-        NIS
-      %td.single_space_cell.not_first.number.bold
-        USD
       - if Current.holder.multi_currency
         %td.single_space_cell.not_first.number.bold
-          Total NIS
+          CAD
+        %td.single_space_cell.not_first.number.bold
+          NIS
+        %td.single_space_cell.not_first.number.bold
+          USD
+        - if Current.holder.multi_currency
+          %td.single_space_cell.not_first.number.bold
+            Total NIS
     - industries.keys.sort.each do |industry_name|
       - industry = industries[industry_name]
       = render :partial => 'single_industry_breakdown', :locals => { industry_name: industry_name, industry: industry, sector_name: sector_name, include_in_pi: true }

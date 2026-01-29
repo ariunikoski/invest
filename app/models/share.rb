@@ -32,7 +32,7 @@ class Share < ApplicationRecord
   end
   
   def get_amount_divider
-    ['GBP', 'NIS'].include?(currency) ? 100 : 1
+    ['NIS'].include?(currency) ? 100 : 1
   end
   
   def calculate_div_ytd

@@ -19,7 +19,6 @@ function apply_filter() {
 
 	currencyFlags['AUD'] = getFlag('filter_aud')
 	currencyFlags['CAD'] = getFlag('filter_cad')
-	currencyFlags['GBP'] = getFlag('filter_gbp')
 	currencyFlags['NIS'] = getFlag('filter_nis')
 	currencyFlags['USD'] = getFlag('filter_usd')
 	

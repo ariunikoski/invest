@@ -32,11 +32,17 @@ Rails.application.routes.draw do
   
   get 'dashboard', to: 'dashboard#index'
   get 'dashboard/load_email_body', to: 'dashboard#load_email_body'
+  get 'dashboard/create_calendar_event', to: 'dashboard#create_calendar_event'
 
   resources :tokens, only: [:index, :destroy]
 
   get  "/login",  to: "sessions#new"
   post "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+
+  get  "/yahoo_oauth/start",    to: "yahoo_oauth#start"
+  get  "/yahoo_oauth/callback", to: "yahoo_oauth#callback"
+
+  resources :oauth_events, only: [:create]
 
 end

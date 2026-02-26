@@ -20,8 +20,9 @@
     = Time.zone.now.strftime("%A, %B %d, %Y %H:%M")
   .calendar_holder
     .calendar_today
-      = render partial: 'weather_today'
-      = render partial: 'calendar_today'
+      = render partial: 'weather_today', :locals => { city: 'Tel Aviv', second_city: false }
+      = render partial: 'weather_today', :locals => { city: 'Canberra', second_city: true }
+      - #= render partial: 'calendar_today'
     .calendar_month
       = render partial: 'calendar_month'
   .bottom_part

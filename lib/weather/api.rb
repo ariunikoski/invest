@@ -17,7 +17,7 @@ module Weather
   
     def get_weather(city)
       #response = self.class.get("/current.json?key=#{@api_key}&q=#{city}")
-      response = self.class.get("/forecast.json?key=#{@api_key}&q=#{city}&days=2&aqi=yes&alerts=no")
+      response = self.class.get("/forecast.json?key=#{@api_key}&q=#{city}&days=3&aqi=yes&alerts=no")
       if response.success?
         @weather_data = JSON.parse(response.body)
       else

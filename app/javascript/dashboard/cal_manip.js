@@ -10,15 +10,8 @@ function CreateCalendarEvent() {
     const subjectRaw = getValById("cal_manip_subject")
     const subject = encodeURIComponent(subjectRaw)
     const notes = encodeURIComponent(getValById("cal_manip_notes"))
-    console.log('>>> fromDate', fromDate)
-    console.log('>>> fromTime', fromTime)
-    console.log('>>> toTime', toTime)
-    console.log('>>> subject', subject)
-    console.log('>>> notes', notes)
     const fromDateTime = createDateTime(fromDate, fromTime)
     const toDateTime = createDateTime(fromDate, toTime)
-    console.log('>>> fromDateTime', fromDateTime)
-    console.log('>>> toDateTime', toDateTime)
     if (fromDate === "") {
         alert("Date is mandatory")
         return
@@ -106,7 +99,6 @@ function deleteCreatorLink(button) {
 }
 
 function calDateClicked(calField) {
-    console.log(">>> calDateClicked with", calField)
     setTimeout(() => {
       turnOnField(calField, 'cal_manip_from_date', 'cal_manip_from_date_parent', 'cal_manip_from_date_picker', true)
     }, 500);

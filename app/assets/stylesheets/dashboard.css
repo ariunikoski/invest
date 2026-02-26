@@ -255,3 +255,29 @@ div.toast_email_body_toggle {
 .fullwidth {
   width: 100%;
 }
+
+img.small_icon {
+  width: 30px;
+  height: auto;
+}
+
+table.border_collapse {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tr.other_weather {
+  font-size: small;
+  background: lightgray;
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+
+td.other_weather {
+  border-bottom: 1px black solid;
+  border-top: 1px black solid;
+}
+
+.second_city {
+  background: antiquewhite;
+}

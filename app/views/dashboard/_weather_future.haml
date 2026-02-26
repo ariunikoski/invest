@@ -1,0 +1,7 @@
+%tr.other_weather
+  %td.other_weather
+    #{title}
+  %td.other_weather
+    %img{ class: 'small_icon', src: "#{day['condition']['icon']}", alt: 'weather' }
+  %td.other_weather
+    #{day['mintemp_c']} - #{day['maxtemp_c']} #{day['condition']['text']}

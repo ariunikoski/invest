@@ -1,9 +1,10 @@
-.weather_display
+%div{ class: ["weather_display", ("second_city" if second_city)] }
   .section_heading
-    Weather in Tel Aviv
-  - @ww = Weather::Api.new('Tel Aviv')
+    Weather in #{city}
+  - @ww = Weather::Api.new(city)
   - today_weather = @ww.forecast_day(Date.today)
   - tommorrow_weather = @ww.forecast_day(Date.today+1)
+  - day_after_tommorrow_weather = @ww.forecast_day(Date.today+2)
   - if today_weather
     .today_weather
       - day = today_weather['day']
@@ -17,7 +18,9 @@
       .weather_icon_holder
         .weather_icon
           %img{ src: "#{day['condition']['icon']}", alt: 'today' }
-  - if tommorrow_weather
-    - day = tommorrow_weather['day']
-    .tommorrow_weather
-      Tommorrow: #{day['mintemp_c']} - #{day['maxtemp_c']} #{day['condition']['text']}
+  .future_weather
+    %table.border_collapse
+      - if tommorrow_weather
+        = render :partial => 'weather_future', :locals => { day: tommorrow_weather['day'], title: 'Tommorrow' }
+      - if day_after_tommorrow_weather
+        = render :partial => 'weather_future', :locals => { day: day_after_tommorrow_weather['day'], title: 'Day After' }

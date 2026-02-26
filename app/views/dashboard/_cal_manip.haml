@@ -1,0 +1,40 @@
+.cal_manip_root 
+  %table
+    %tbody
+      %tr
+        %td
+          Date: 
+        %td
+          %input{class: "", type: "text", id: "cal_manip_from_date", name: "cal_manip_from_date", onclick: "calDateClicked(this)"}
+          .hidden{id: "cal_manip_from_date_parent"}
+            %input{class: "datepicker", type: "text", id: "cal_manip_from_date_picker", name: "cal_manip_from_date_picker"}
+        %td
+          From Time:
+        %td
+          = render partial: 'time_selector', :locals => { name: :cal_manip_fromTime, default_time: '12:00' }
+        %td
+          To Time: 
+        %td
+          = render partial: 'time_selector', :locals => { name: :cal_manip_toTime, default_time: '13:00' }
+      %tr
+        %td
+          Subject:
+        %td{ colspan: 5 }
+          %input.fullwidth{
+            id: "cal_manip_subject",
+            type: "text",
+            name: "subject",
+            value: "",
+          }
+      %tr
+        %td
+          Notes:
+        %td{ colspan: 5 }
+          %textarea.fullwidth{
+            id: "cal_manip_notes",
+            name: "notes",
+            rows: 3
+          }
+  %button{onclick: "CreateCalendarEvent()"}
+    Create Calendar Event
+  .cal_creators{id: 'cal_creators'}

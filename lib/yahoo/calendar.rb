@@ -26,8 +26,10 @@ module Yahoo
       other_url = "https://calendar.yahoo.com/ws/v3/users/unikoski/calendars/131/events/?dtstart=#{from_date}&dtend=#{to_date}&format=xml&ymreqid=0000000d-0000-00e0-1c0f-d4000001bf00&appId=ycalendar&key=31f05293e5be4d0b947051e3c2956d12"
       puts "Calendar url =  [#{other_url}]"
       doc = get_doc(other_url)
-      extract_xml(doc)
-      handle_events
+      if doc
+        extract_xml(doc)
+        handle_events
+      end
       return 'finito'
     end
     

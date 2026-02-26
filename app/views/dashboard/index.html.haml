@@ -2,6 +2,7 @@
   = stylesheet_link_tag 'dashboard'
   = javascript_include_tag "dashboard/auto_refresh"
   = javascript_include_tag "dashboard/day_click"
+  = javascript_include_tag "dashboard/cal_manip"
   
 %body
   - @cc = Yahoo::Calendar.new
@@ -25,7 +26,9 @@
       = render partial: 'calendar_month'
   .bottom_part
     .bottom_left
-      = render partial: 'emails'
+      - # = render partial: 'emails'
+      = render partial: 'calendar_today'
     .bottom_right
-      = render partial: 'news'
+      - # = render partial: 'news'
+      = render partial: 'cal_manip'
   .footer

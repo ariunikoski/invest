@@ -88,6 +88,7 @@ div.full_cal_display {
   padding: 5px;
   border: 1px solid black;
   flex: 1;
+  height: 100%;
 }
 
 div.full_allday {
@@ -249,4 +250,8 @@ div.toast_email_body {
 div.toast_email_body_toggle {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.fullwidth {
+  width: 100%;
 }

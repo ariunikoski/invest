@@ -8,16 +8,21 @@ module Yahoo
       # https://calendar.yahoo.com/unikoski/31f05293e5be4d0b947051e3c2956d12?od=131
       now = Date.today
       @start_date = nearest_sunday(now)
+      @todays_sunday = @start_date
       @end_date = @start_date + 27
       @events = []
       @boxes = {}
     end
     
     def get_date_range
-      [@start_date, @end_date]
+      [@start_date, @end_date, @todays_sunday]
     end
     
-    def extract_data
+    def extract_data(scroll_to)
+      if scroll_to
+        @start_date = Date.strptime(scroll_to, '%Y%m%d')
+        @end_date = @start_date + 27
+      end
       #url =  'https://calendar.yahoo.com/unikoski/31f05293e5be4d0b947051e3c2956d12?od=131'
       #other_url = 'https://calendar.yahoo.com/ws/v3/users/unikoski/calendars/131/events/?dtstart=20240301&dtend=20240531&format=json&ymreqid=0000000d-0000-00e0-1c0f-d4000001bf00&appId=ycalendar&key=31f05293e5be4d0b947051e3c2956d12'
       from_date = @start_date.strftime("%Y%m%d")

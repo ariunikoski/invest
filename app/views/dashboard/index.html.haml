@@ -6,8 +6,10 @@
   
 %body
   - @cc = Yahoo::Calendar.new
-  - @cc.extract_data
-  - @from_date, @to_date = @cc.get_date_range
+  - @cc.extract_data(params[:scroll_to])
+  - @from_date, @to_date, @todays_sunday = @cc.get_date_range
+  - prev_date = @from_date - 3.weeks
+  - next_date = @to_date - 1.weeks + 1.day
   - @last_month = ''
   - @this_month = Date.today.month
   - @prev_month = @this_month - 1
@@ -17,7 +19,12 @@
   %div{ class: 'toast hidden', id: 'toast' }
     this is the toast....  v3
   .page_header
-    = Time.zone.now.strftime("%A, %B %d, %Y %H:%M")
+    %button.time_scroller{ type: "button", onclick: "scroll_to(#{prev_date.strftime('%Y%m%d')})", title: "scroll back 3 weeks" }
+      %img.time_scroller{ src: asset_path("left_arrow.ico"), alt: "Left" }
+    %span.show_clickable{ onclick: "scroll_to(#{@todays_sunday.strftime('%Y%m%d')})", title: 'scroll to this week' }
+      = Time.zone.now.strftime("%A, %B %d, %Y %H:%M")
+    %button.time_scroller{ type: "button", onclick: "scroll_to(#{next_date.strftime('%Y%m%d')})", title: 'scroll forward 3 weeks' }
+      %img.time_scroller{ src: asset_path("right_arrow.ico"), alt: "Right" }
     %img.refresh-icon{
       src: asset_path("refresh_arrows.ICO"),
       alt: "Refresh",

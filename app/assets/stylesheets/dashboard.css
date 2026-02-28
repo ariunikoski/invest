@@ -290,3 +290,19 @@ img.refresh-icon {
   transform: translateY(-50%);
   cursor: pointer;
 }
+
+button.time_scroller {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+img.time_scroller {
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 14px;
+  width: auto;
+}
+
+span.show_clickable:hover {
+  cursor:pointer;
+}

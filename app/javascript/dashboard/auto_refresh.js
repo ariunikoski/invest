@@ -22,5 +22,15 @@ function refreshClicked() {
     window.location.reload()
 }
 
+function scroll_to(to_here) {
+    refreshWithArg('scroll_to', to_here)
+}
+
+function refreshWithArg(key, value) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(key, value);
+    window.location.href = url.toString();
+}
+
 // Schedule the refresh when the page loads
 window.onload = scheduleRefresh;

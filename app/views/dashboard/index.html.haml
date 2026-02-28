@@ -18,6 +18,11 @@
     this is the toast....  v3
   .page_header
     = Time.zone.now.strftime("%A, %B %d, %Y %H:%M")
+    %img.refresh-icon{
+      src: asset_path("refresh_arrows.ICO"),
+      alt: "Refresh",
+      onclick: "refreshClicked()"
+    }
   .calendar_holder
     .calendar_today
       = render partial: 'weather_today', :locals => { city: 'Tel Aviv', second_city: false }

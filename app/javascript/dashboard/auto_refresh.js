@@ -18,5 +18,9 @@ function scheduleRefresh() {
     // setInterval(refreshPage, 60000);
 }
 
+function refreshClicked() {
+    window.location.reload()
+}
+
 // Schedule the refresh when the page loads
 window.onload = scheduleRefresh;

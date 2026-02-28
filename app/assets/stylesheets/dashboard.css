@@ -39,6 +39,7 @@ div.page_header {
   font-size: large;
   font-weight: bold;
   margin: 10px;
+  position: relative;
 }
 
 div.dayline {
@@ -280,4 +281,12 @@ td.other_weather {
 
 .second_city {
   background: antiquewhite;
+}
+
+img.refresh-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }

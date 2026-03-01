@@ -31,16 +31,19 @@
       onclick: "refreshClicked()"
     }
   .calendar_holder
-    .calendar_today
-      = render partial: 'weather_today', :locals => { city: 'Tel Aviv', second_city: false }
-      = render partial: 'weather_today', :locals => { city: 'Canberra', second_city: true }
-      - #= render partial: 'calendar_today'
-    .calendar_month
+    - calendar_month_class = is_mobile ? 'calendar_month_wide' : 'calendar_month'
+    - if !is_mobile
+      .calendar_today
+        = render partial: 'weather_today', :locals => { city: 'Tel Aviv', second_city: false }
+        = render partial: 'weather_today', :locals => { city: 'Canberra', second_city: true }
+        - #= render partial: 'calendar_today'
+    %div{ class: calendar_month_class }
       = render partial: 'calendar_month'
   .bottom_part
-    .bottom_left
-      - # = render partial: 'emails'
-      = render partial: 'calendar_today'
+    - if !is_mobile
+      .bottom_left
+        - # = render partial: 'emails'
+        = render partial: 'calendar_today'
     .bottom_right
       - # = render partial: 'news'
       = render partial: 'cal_manip'

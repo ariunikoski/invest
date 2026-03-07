@@ -104,7 +104,7 @@ class SharesController < ApplicationController
   end
   
   def load_all_dividends
-    @shares = Share.order(:name)
+    @shares = Share.active.order(:name)
     @shares.each do |share|
       loader = Yahoo::HistoricalData.new(share)
       loader.load
@@ -121,5 +121,11 @@ class SharesController < ApplicationController
   def change_holder
     session[:holder_id] = params[:id]
     redirect_to shares_url
+  end
+
+  def toggle_active
+    share = Share.find(params[:id])
+    share.update(active: params[:active])
+    head :ok
   end
 end

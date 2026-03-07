@@ -18,6 +18,8 @@ class Share < ApplicationRecord
     end
   end
 
+  scope :active, -> { where(active: true) }
+
   def set_holder_from_current
     # Only assign if not already explicitly set
     self.holder ||= Current.holder
@@ -181,6 +183,8 @@ class Share < ApplicationRecord
     hold_badges << :big_investment if calc_nis_val >= 100000
 
     hold_badges << :alerts if has_interesting_alerts?
+
+    hold_badges << :inactive if inactive
     hold_badges
   end
   

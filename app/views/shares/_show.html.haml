@@ -10,6 +10,20 @@
       Load Fmp Summary
     %button{onclick: "deleteShare(#{@share.id});"}
       Delete Share
+    %span.active_prompt
+      Active: 
+    %label.switch
+      %input{
+        type: "checkbox",
+        checked: @share.active,
+        data: {
+          id: @share.id
+        },
+        onchange: "toggleShareActive(this)"
+      }
+      %span.slider
+    %span.update_notification{ id: "update_notification" }
+      Updated!
     =get_links @share
   .details_pills
     - @share.badges.each do |badge|

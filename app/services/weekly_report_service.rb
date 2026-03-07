@@ -80,7 +80,7 @@ class WeeklyReportService
   def get_dividends
     create_section_header "Loading Dividends"
     shares = Share.order(:name)
-    shares.each do |share|
+    shares.active.order(:symbol).each do |share|
       loader = Yahoo::HistoricalData.new(share, true)
       loader.load
       created, duplicated, errors = loader.get_stats
@@ -127,7 +127,7 @@ class WeeklyReportService
 
   def get_alerts
     create_section_header "alerts"
-    shares = Share.order(:name)
+    shares = Share.active.order(:name)
     table_created = false
     shares.each do |share|
       share.do_all_alerts

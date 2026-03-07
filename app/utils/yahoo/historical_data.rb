@@ -51,7 +51,8 @@ module Yahoo
           dividends = nil
         end
         if !dividends
-          mark_error "Could not find 'dividends' in #{data}"
+          puts "Could not find 'dividends' in #{data}"
+          Log.warn "Could not find 'dividends' for #{@symbol} - see application log for more details"
           return
         end
         Log.warn("Zero dividends found!") if handle_dividends(dividends) < 1

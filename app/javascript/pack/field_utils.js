@@ -5,18 +5,14 @@ function turnOnField(source, data_key, field_span_key, input_key, doClick = fals
 	// doClick - true = click on the field, false = focus on it
 	// I am not sure why but if you need to do the click option it works better if wrapped in a timeout - see cal_manip.js for an example
 	let dataVal = document.getElementById(data_key).innerText.replace(/^ /, "")
-	console.log('>>> dataVal = ', dataVal)
 	inputElem = document.getElementById(input_key)
-	console.log('>>> inputElem = ', inputElem)
 	inputElem.value = dataVal
 	if (inputElem.classList.contains('datepicker')) {
 		console.log('adding datepicker')
 		inputElem.DatePickerX.init({
 			mondayFirst: false,
 			format: 'dd/mm/yy'
-			// >>> position: "bottom"
 		})
-		console.log('>>> after DatePickerX.init')
 	}
 	
 	makeInvisible(data_key)
@@ -44,9 +40,7 @@ function makeInvisible(id) {
 }
 
 function addClass(id, className) {
-	console.log('>>> addClass called', id, className)
   var element = document.getElementById(id);
-  console.log('>>> element = ', element)
   element.classList.add(className);
 }
 

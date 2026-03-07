@@ -515,3 +515,68 @@ div.breakdown {
 	align-items: flex-start;
 	gap: 20px;
 }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 15px;
+  vertical-align: text-top;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 15px;
+  top: -2px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+span.hidden {
+	display: none;
+}
+
+span.active_prompt {
+	margin-right: 5px;
+	margin-left: 15px;
+	vertical-align: middle;
+}
+
+span.update_notification {
+	font-style: italic;
+	color: darkgreen;
+	opacity: 0;
+	transition: opacity 2.0s ease;
+}
+
+span.fade_in {
+	opacity: 1;
+}

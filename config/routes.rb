@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   post 'holdings/sell', to: 'holdings#sell'
   post "shares/change_holder", to: "shares#change_holder", as: :shares_change_holder
   post "/alerts/set_alert_status", to: "alerts#set_alert_status", as: :set_alert_status
+  patch "/shares/:id/toggle_active", to: "shares#toggle_active"
 
 
   resources :funds

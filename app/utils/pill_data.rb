@@ -11,7 +11,8 @@ module PillData
 	 div_down: { text: 'div down', color: 'mediumpurple', tooltip: :div_anal, description: 'Dividend YTD down (< 25%)'},
 	 div_down_25: { text: 'div down a lot', color: 'purple', tooltip: :div_anal, text_color: 'white', description: 'Dividend YTD down by 25% or more', alert_text: 'DIV DOWN A LOT', alert_color: 'red'},
 	 comments: { text: 'comments', color: 'lightgray' },
-   alerts: {text: 'alerts', color: 'darkgoldenrod', description: 'Has NEW or RENEW alerts'}
+   alerts: {text: 'alerts', color: 'darkgoldenrod', description: 'Has NEW or RENEW alerts'},
+   inactive: { text: 'inactive', color: 'darkgrey', description: 'No longer actively tracked or updated'}
   }
 
   ALERT_TO_PILL =
@@ -29,6 +30,10 @@ module PillData
   def no_div_last_year(share)
     return nil unless share
     "Last dividend received: #{share.get_most_recent_dividend}"
+  end
+
+  def inactive
+    !active
   end
   
   def div_ytd(share)

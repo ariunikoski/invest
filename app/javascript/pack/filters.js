@@ -10,7 +10,8 @@ const badgeFilterParams = {
 	badge_filter_div_down_a_lot: 'div_down_25',
 	badge_filter_div_down_a_lot_OR_div_down: ['div_down_25', 'div_down'],
 	badge_filter_comments: 'comments',
-	badge_filter_alerts: 'alerts'
+	badge_filter_alerts: 'alerts',
+	badge_filter_inactive: 'inactive'
 }
 
 function apply_filter() {
@@ -27,7 +28,6 @@ function apply_filter() {
 	const accounts_cols = document.querySelectorAll("td[tag='column_accounts']");
 	const badges_cols = document.querySelectorAll("td[tag='column_badges']");
 	const rowFlags = document.querySelectorAll("input[tag='row_flag']");
-	
 	
 	const zero_holdings = getFlag('zero_holdings')
 	const non_zero_holdings = getFlag('non_zero_holdings')

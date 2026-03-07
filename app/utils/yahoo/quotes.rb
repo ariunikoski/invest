@@ -2,7 +2,7 @@ module Yahoo
   require 'rest-client'
   class Quotes
     def initialize(silent = false)
-      @symbols_array = Share.all.map { |share| share.symbol }
+      @symbols_array = Share.active.map { |share| share.symbol }
       @symbols = @symbols_array.join(',')
       #@symbols = "WBD,T"
       @silent = silent

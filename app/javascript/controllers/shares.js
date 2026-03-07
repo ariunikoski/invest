@@ -416,5 +416,28 @@ function changeAlertStatus(statusChanger) {
   }
 }
 
+function toggleShareActive(checkbox) {
+  const shareId = checkbox.dataset.id;
+  const active = checkbox.checked;
+
+  fetch(`/shares/${shareId}/toggle_active`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ active: active })
+  }).then(() => {
+	  //removeClass(id, 'visible')
+	  addClass('update_notification', 'fade_in')
+    setTimeout(() => {
+	    removeClass('update_notification', 'fade_in')
+    }, 2000);
+  });
+}
+
+// TODO: Start using "active" scope in the weekly run
+// TODO: Badge for "inactive"
+// TODO: In shares index, special display status for inactive shares (strikethrough? greyed out?)
+
 document.addEventListener("DOMContentLoaded", populateAccountFilters);
 

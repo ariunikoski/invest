@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_26_165304) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_03_175951) do
   create_table "alerts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.string "alert_type"
@@ -122,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_26_165304) do
     t.string "sector"
     t.string "industry"
     t.bigint "holder_id", null: false
+    t.boolean "active", default: true, null: false
     t.index ["holder_id"], name: "index_shares_on_holder_id"
   end
 

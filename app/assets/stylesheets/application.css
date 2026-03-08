@@ -580,3 +580,7 @@ span.update_notification {
 span.fade_in {
 	opacity: 1;
 }
+
+tr.inactive {
+	text-decoration: line-through;
+}

@@ -435,9 +435,5 @@ function toggleShareActive(checkbox) {
   });
 }
 
-// TODO: Start using "active" scope in the weekly run
-// TODO: Badge for "inactive"
-// TODO: In shares index, special display status for inactive shares (strikethrough? greyed out?)
-
 document.addEventListener("DOMContentLoaded", populateAccountFilters);
 

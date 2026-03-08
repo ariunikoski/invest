@@ -47,6 +47,7 @@
         -@toggle = !@toggle
         -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
         -@rowclass = "#{@rowclass} zero_holding" if total_holdings == 0
+        -@rowclass = "#{@rowclass} inactive" if !share.active
         %tr{class: "#{@rowclass} indexRow", id: "share_#{share.id}", onclick: "getDetails(this, #{share.id})"}
           %td
             = render :partial => 'shared/field', :locals => { obj: share, data: share.name, field_name: 'name' }

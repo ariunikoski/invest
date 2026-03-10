@@ -1,0 +1,60 @@
+
+.history_section
+  %table{border: 1}
+    %thead
+      %tr
+        =col_header 'Date'
+        =col_header 'Event'
+        =col_header 'Event Shares'
+        =col_header 'Total Shares'
+        =col_header 'Dividend/Share'
+        =col_header 'Total Dividend'
+        =col_header 'Estimated NET'
+    -total_dividend = 0
+    -total_net = 0
+    %tbody
+      -@toggle = true
+      - amount_divider = @share.get_amount_divider
+      -@share.get_historicals.events.each do |he|
+        - if he.relevant?
+          -@toggle = !@toggle
+          -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+          %tr{class: @rowclass}
+            %td
+              #{he.date.strftime("%d/%m/%y")}
+            %td
+              #{he.type.to_s}
+            %td.number
+              - if !he.dividend?
+                #{format_number(he.quantity_delta, 0)}
+            %td.number
+              #{format_number(he.current_quantity, 0)}
+            - if he.dividend?
+              %td.number
+                #{format_number(he.source.amount / amount_divider, 2)}
+              %td.number
+                - div_val = he.source.amount * he.current_quantity / amount_divider
+                - total_dividend = total_dividend + div_val
+                #{format_number(div_val, 2)}
+              %td.number
+                - net_val = he.source.amount * he.current_quantity * 0.75 / amount_divider
+                - total_net = total_net + net_val
+                #{format_number(net_val, 2)}
+            - else
+              %td
+              %td
+              %td
+      %tr.holding_total
+        %td
+          Totals
+        %td
+        %td
+        %td
+        %td
+        %td.number
+          #{format_number(total_dividend, 2)}
+        %td.number
+          #{format_number(total_net, 2)}
+                
+                
+            

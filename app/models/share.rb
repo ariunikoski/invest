@@ -355,4 +355,16 @@ class Share < ApplicationRecord
   rescue => e
     0
   end
+
+  def get_historicals
+    @historicals ||= begin
+      events = []
+
+      holdings.each  { |h| events << Historicals::HistoricalEvent.new(date: h.purchase_date, type: :holding, source: h) }
+      sales.each     { |s| events << Historicals::HistoricalEvent.new(date: s.sale_date, type: :sale, source: s) }
+      dividends.each { |d| events << Historicals::HistoricalEvent.new(date: d.x_date, type: :dividend, source: d) }
+
+      Historicals::HistoricalLedger.new(events)
+    end
+  end
 end

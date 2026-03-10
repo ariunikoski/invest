@@ -1,6 +1,6 @@
 .details
   %H1
-    Details For: #{@share.name}
+    Details For: #{@share.name} (#{@share.currency})
   .details_buttons
     %button{onclick: "clearDetails()"}
       Clear
@@ -10,6 +10,8 @@
       Load Fmp Summary
     %button{onclick: "deleteShare(#{@share.id});"}
       Delete Share
+    %button{onclick: "alert('id = #{@share.id}');"}
+      Show Internal Id
     %span.active_prompt
       Active: 
     %label.switch
@@ -43,6 +45,7 @@
       = inner_tab("Dividends", "Sales")
       = inner_tab("Dividends", "Chart")
       = inner_tab("Dividends", "Summary")
+      = inner_tab("Dividends", "History")
       = inner_tab("Dividends", "Alerts")
       = inner_tab("Dividends", "Notes")
     = inner_tab_data("Dividends", "Dividends", 'dividends', { share: @share} )
@@ -50,5 +53,6 @@
     = inner_tab_data("Dividends", "Sales", 'sales', { share: @share} )
     = inner_tab_data("Dividends", "Chart", 'chart', { share: @share} )
     = inner_tab_data("Dividends", "Summary", 'show_summary', { share: @share} )
+    = inner_tab_data("Dividends", "History", 'show_history', { share: @share} )
     = inner_tab_data("Dividends", "Alerts", 'alerts', { share: @share})
     = inner_tab_data("Dividends", "Notes", 'show_notes', { share: @share})

@@ -584,3 +584,20 @@ span.fade_in {
 tr.inactive {
 	text-decoration: line-through;
 }
+
+p.error {
+	padding: 10px;
+	border: 1px black solid;
+	background: red;
+	width: fit-content;
+	font-weight: bolder;
+	margin: 20px;
+}
+
+td.single_click_datefield_cell {
+	display: inline-flex;
+}
+
+label.single_click_datefield_label {
+	margin-right: 10px;
+}

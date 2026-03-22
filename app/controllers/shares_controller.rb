@@ -68,6 +68,42 @@ class SharesController < ApplicationController
     @projector = Projector::Projector.new
   end
   
+  def dividend_report
+    # get_rates
+    #projector = Projector::Projector.new
+    puts '>>> called with', params
+    @divrep_status, @divrep_valid_from_date, @divrep_valid_to_date = check_divrep_params(params)
+    puts '>>> status = ', status
+  end
+ 
+  def check_divrep_params(params)
+    from_str = params[:from_date]
+    to_str   = params[:to_date]
+    @divrep_orig_from_date = from_str
+    @divrep_orig_to_date = to_str
+
+    # 1. Neither supplied
+    return [:none, nil, nil] if from_str.blank? && to_str.blank?
+
+    # 2. One missing
+    return [:missing_from, nil, nil] if from_str.blank? && to_str.present?
+    return [:missing_to, nil, nil]   if from_str.present? && to_str.blank?
+
+    # 3. Validate format + parse
+    begin
+      from_date = Date.strptime(from_str, "%d/%m/%y")
+      to_date   = Date.strptime(to_str, "%d/%m/%y")
+    rescue ArgumentError
+      return [:invalid_date_format, nil, nil]
+    end
+
+    # 4. Validate sequence (from must be strictly before to)
+    return [:invalid_sequence, nil, nil] unless from_date < to_date
+
+    # 5. Success
+    [:valid, from_date, to_date]
+  end
+  
   def breakdown_by_sector
     get_rates
     calculator = SectorBreakdown::Calculator.new(@rates)

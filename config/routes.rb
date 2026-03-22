@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'breakdown_by_sector', to: 'shares#breakdown_by_sector'
   get 'breakdown_by_sector_condensed', to: 'shares#breakdown_by_sector_condensed'
   get 'projected_income', to: 'shares#projected_income'
+  get 'dividend_report', to: 'shares#dividend_report'
   get 'load_all_dividends', to: 'shares#load_all_dividends'
   get 'export_projected_income', to: 'shares#export_projected_income'
   put 'clear_logs', to: 'logs#clear_logs'

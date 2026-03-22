@@ -8,7 +8,6 @@ function turnOnField(source, data_key, field_span_key, input_key, doClick = fals
 	inputElem = document.getElementById(input_key)
 	inputElem.value = dataVal
 	if (inputElem.classList.contains('datepicker')) {
-		console.log('adding datepicker')
 		inputElem.DatePickerX.init({
 			mondayFirst: false,
 			format: 'dd/mm/yy'
@@ -22,6 +21,12 @@ function turnOnField(source, data_key, field_span_key, input_key, doClick = fals
 	} else {
 		document.getElementById(input_key).focus()
 	}
+}
+
+function turnOnDateField(fieldName) {
+    setTimeout(() => {
+      turnOnField(null, fieldName, `${fieldName}_parent`, `${fieldName}_picker`, true)
+    }, 500);
 }
 
 function toggleVisible(event, id) {

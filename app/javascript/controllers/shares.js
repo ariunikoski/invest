@@ -435,5 +435,32 @@ function toggleShareActive(checkbox) {
   });
 }
 
+function getDividendReport() {
+    // If datepicker was opened the date is in *_date_picker - 
+    // If it is in a refresh and date picker was not opened it is in *_date
+    const fromDate = document.getElementById("divrep_from_date_picker")?.value || 
+      document.getElementById("divrep_from_date")?.value || "";
+    const toDate   = document.getElementById("divrep_to_date_picker")?.value || 
+      document.getElementById("divrep_to_date")?.value || "";
+
+    const url = new URL(window.location.href);
+
+    // Update (or add) parameters
+    if (fromDate) {
+        url.searchParams.set("from_date", fromDate);
+    } else {
+        url.searchParams.delete("from_date");
+    }
+
+    if (toDate) {
+        url.searchParams.set("to_date", toDate);
+    } else {
+        url.searchParams.delete("to_date");
+    }
+
+    // Reload with updated parameters
+    window.location.href = url.toString();
+}
+
 document.addEventListener("DOMContentLoaded", populateAccountFilters);
 

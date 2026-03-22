@@ -99,6 +99,7 @@ function deleteCreatorLink(button) {
 }
 
 function calDateClicked(calField) {
+    // Deprecated - do not duplicate this instead use: field_utils.turn_on_datefield
     setTimeout(() => {
       turnOnField(calField, 'cal_manip_from_date', 'cal_manip_from_date_parent', 'cal_manip_from_date_picker', true)
     }, 500);

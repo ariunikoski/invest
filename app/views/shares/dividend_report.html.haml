@@ -3,7 +3,6 @@
   %h1
     Dividend Report
   .date_range 
-    -# TODO - execute button
     %table
       %body
         %tr
@@ -15,19 +14,11 @@
             %button{onclick: "getDividendReport()"}
               Create Report
 .ddd
-  %sp
-    Status = #{@divrep_status}
-  %sp
-    from_date = #{@divrep_valid_from_date}
-  %sp
-    to_date = #{@divrep_valid_to_date}
-  %sp
-    orig_from_date = #{@divrep_orig_from_date}
-  %sp
-    orig_to_date = #{@divrep_orig_to_date}
   %br
   %br TODO: 
-  %br Do the actual report
+  %br Explanaton that NIS is in shekels and not in agurot - not for jacks shares....
+  %br leave date heading fixed and not %overflowing 
+  %br
   - case @divrep_status
   - when :valid
     = render :partial => 'divrep_report_body'

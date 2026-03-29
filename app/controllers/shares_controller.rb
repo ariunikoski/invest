@@ -71,9 +71,7 @@ class SharesController < ApplicationController
   def dividend_report
     # get_rates
     #projector = Projector::Projector.new
-    puts '>>> called with', params
     @divrep_status, @divrep_valid_from_date, @divrep_valid_to_date = check_divrep_params(params)
-    puts '>>> status = ', status
   end
  
   def check_divrep_params(params)

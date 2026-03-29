@@ -20,6 +20,15 @@ module Historicals
       type == :dividend
     end
 
+    def dividend_calculations
+      return {} if !dividend?
+      divider = source.share.get_amount_divider
+      amount = source.amount/divider
+      gross_value = amount * @current_quantity
+      net_value = gross_value * 0.75
+      { divider: divider, amount: amount, gross_value: gross_value, net_value: net_value }
+    end
+
     def quantity_delta
       case type
       when :holding

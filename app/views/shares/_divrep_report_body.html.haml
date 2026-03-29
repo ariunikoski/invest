@@ -1,2 +1,105 @@
-%p This is the body #{@divrep_valid_from_date}
-%p                  #{@divrep_valid_to_date}
+.divep_results
+  %table.divrep{border: 1}
+    %thead
+      %tr.fixed-header-small
+        =col_header 'Name'
+        =col_header 'Symbol'
+        =col_header 'Currency'
+        =col_header 'Gross Income'
+        =col_header 'Estimated Net Income'
+    - @shares = Share.active.order(:name)
+    %tbody.fixed-header
+      -@toggle = true
+      -gross_grand_totals = Hash.new(0)
+      -net_grand_totals = Hash.new(0)
+      - @shares.each do |share|
+        - total_amount = 0
+        - total_gross_value = 0
+        - total_net_value = 0
+        - divider = share.get_amount_divider
+        - hl = share.get_historicals 
+        - divies = hl.dividends_between(@divrep_valid_from_date, @divrep_valid_to_date)
+        - divies.each do |divie|
+          - if divie.relevant?
+            - dets = divie.dividend_calculations
+            - total_amount = total_amount + dets[:amount]
+            - total_gross_value = total_gross_value + dets[:gross_value]
+            - total_net_value = total_net_value + dets[:net_value]
+        -@toggle = !@toggle
+        -@rowclass = (@toggle ? 'rowcol_1' : 'rowcol_2') + ' indexrow'
+        -@rowclass = "#{@rowclass} inactive" if !share.active
+        %tr{class: "#{@rowclass}"}
+          %td.cell_with_image
+            #{share.name}
+            = image_tag 'arrow2_n.gif', size: 16, class: "hidden cell-icon", id: "inner_table_collapse_#{share.symbol}", onclick: "toggleInnerTable('#{share.symbol}', false)"
+            = image_tag 'arrow2_s.gif', size: 16, class: "cell-icon", id: "inner_table_show_#{share.symbol}", onclick: "toggleInnerTable('#{share.symbol}', true)"
+            .inner_table.hidden{id: "inner_table_#{share.symbol}"}
+              %table
+                %thead
+                  %tr
+                    %th
+                      Date
+                    %th
+                      Shares
+                    %th
+                      Dividend/Share
+                    %th
+                      Gross
+                    %th
+                      Estimated Net
+                - divies.each do |divie|
+                  - if divie.relevant?
+                    - dets = divie.dividend_calculations
+                    - gross_grand_totals[share.currency] += dets[:gross_value]
+                    - net_grand_totals[share.currency] += dets[:net_value]
+                    %tr
+                      %td
+                        #{divie.date}
+                      %td.number
+                        #{format_number(divie.current_quantity, 0)}
+                      %td.number
+                        #{format_number(dets[:amount], 2)} 
+                      %td.number
+                        #{format_number(dets[:gross_value], 2)}
+                      %td.number
+                        #{format_number(dets[:net_value], 2)}
+          %td.textontop
+            #{share.symbol}
+          %td.textontop
+            #{share.currency}
+          %td.number.textontop
+            #{format_number(total_gross_value, 2)}
+          %td.number.textontop
+            #{format_number(total_net_value, 2)}
+      - rc = Rates::RatesCache.instance
+      - gross_nis_total = 0
+      - net_nis_total = 0
+      - sorted_keys = gross_grand_totals.keys.map(&:to_s).sort
+      - sorted_keys.each do |key|
+        - gross_adder = gross_grand_totals[key]
+        - net_adder = net_grand_totals[key]
+        - if key != 'NIS'
+          -gross_adder = rc.convert_to_nis(key, gross_adder)
+          -net_adder = rc.convert_to_nis(key, net_adder)
+        - gross_nis_total += gross_adder
+        - net_nis_total += net_adder
+        %tr.totals
+          %td
+            Total 
+          %td
+          %td
+            #{key}
+          %td.number
+            #{format_number(gross_grand_totals[key], 2)}
+          %td.number
+            #{format_number(net_grand_totals[key], 2)}
+      %tr.grandtotal
+        %td
+          Total in NIS
+        %td
+        %td
+          NIS
+        %td.number
+          #{format_number(gross_nis_total, 2)}
+        %td.number
+          #{format_number(net_nis_total, 2)}

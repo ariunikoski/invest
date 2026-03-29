@@ -462,5 +462,18 @@ function getDividendReport() {
     window.location.href = url.toString();
 }
 
+function toggleInnerTable(symbol, show) {
+  const turn_on = `inner_table_${show ? 'collapse' : 'show'}_${symbol}`
+  const turn_off = `inner_table_${show ? 'show' : 'collapse'}_${symbol}`
+  makeVisible(turn_on)
+  makeInvisible(turn_off)
+  const innerTableId = `inner_table_${symbol}`
+  if (show) {
+    makeVisible(innerTableId)
+  } else {
+    makeInvisible(innerTableId)
+  }
+}
+
 document.addEventListener("DOMContentLoaded", populateAccountFilters);
 

@@ -26,6 +26,12 @@ tr.fixed-header th {
 	top: 70px;
 }
 
+tr.fixed-header-small th {
+	position: sticky;
+	z-index: 200;
+	top: 1px;
+}
+
 tbody.fixed-header {
 	overflow-y: auto;
 }
@@ -600,4 +606,33 @@ td.single_click_datefield_cell {
 
 label.single_click_datefield_label {
 	margin-right: 10px;
+}
+
+td.textontop {
+	vertical-align: top;
+}
+
+.cell_with_image {
+  display: flex;
+  justify-content: space-between; /* pushes items apart */
+  align-items: center;            /* vertical alignment */
+  flex-wrap: wrap;
+}
+
+.cell_icon {
+  margin-left: 10px; 
+}
+
+.inner_table {
+	flex-basis: 100%;
+}
+
+tr.totals {
+	background-color: cadetblue;
+	font-weight: bold;
+}
+tr.grandtotal {
+	font-weight: bold;
+	color: darkblue;
+	background-color: cornflowerblue;
 }

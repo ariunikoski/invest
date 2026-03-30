@@ -26,10 +26,10 @@ tr.fixed-header th {
 	top: 70px;
 }
 
-tr.fixed-header-small th {
+tr.fixed-header-divrep th {
 	position: sticky;
 	z-index: 200;
-	top: 1px;
+	top: 109px;
 }
 
 tbody.fixed-header {
@@ -649,4 +649,12 @@ tr.grandtotal {
   color: #000;
   cursor: help;
   vertical-align: text-top;
+}
+
+.divrep-fixed-part {
+	background-color: cadetblue;
+	border: 1px black solid;
+	z-index: 999;
+	position: sticky;
+	top: 0;
 }

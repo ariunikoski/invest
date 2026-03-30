@@ -1,5 +1,5 @@
 = render :partial => 'shared/header', :locals => { current: 'Dividend Report' }
-.invest_root
+.divrep-fixed-part
   %h1
     Dividend Report
     %span.info-icon{ title: "All NIS values in shekels" } i
@@ -15,10 +15,6 @@
             %button{onclick: "getDividendReport()"}
               Create Report
 .ddd
-  %br
-  %br TODO: 
-  %br leave date heading fixed and not %overflowing 
-  %br
   - case @divrep_status
   - when :valid
     = render :partial => 'divrep_report_body'

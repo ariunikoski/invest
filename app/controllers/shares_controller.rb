@@ -69,8 +69,7 @@ class SharesController < ApplicationController
   end
   
   def dividend_report
-    # get_rates
-    #projector = Projector::Projector.new
+    get_rates
     @divrep_status, @divrep_valid_from_date, @divrep_valid_to_date = check_divrep_params(params)
   end
  

@@ -14,6 +14,7 @@ function sortTable(evt, elem) {
   sortDirections[colIndex] = !(sortDirections[colIndex] ?? false);
   const asc = sortDirections[colIndex];
 
+  const fixedFooters = removeFixedFooters(rows) //was first implemented in divrep_report
   rows.sort((a, b) => {
     let A = a.cells[colIndex].innerText.trim();
     let B = b.cells[colIndex].innerText.trim();
@@ -33,6 +34,7 @@ function sortTable(evt, elem) {
 
   // reattach rows in new order
   rows.forEach(row => tbody.appendChild(row));
+  fixedFooters.forEach(row => tbody.appendChild(row));
   
   // update indicators
   getHeaders(elem).forEach((hh, i) => {
@@ -45,6 +47,32 @@ function sortTable(evt, elem) {
       firstSpan.textContent += asc ? " ↑" : " ↓";
     }
   });
+}
+
+function removeFixedFooters(rows) {
+    const removed = [];
+
+    if (!Array.isArray(rows)) return removed;
+
+    // Iterate backwards so splicing doesn't skip elements
+    for (let i = rows.length - 1; i >= 0; i--) {
+        const row = rows[i];
+
+        if (row && row.classList && row.classList.contains("fixedFooter")) {
+            // Keep original encounter order (unshift since we're iterating backwards)
+            removed.unshift(row);
+
+            // Remove from DOM
+            if (row.parentNode) {
+                row.parentNode.removeChild(row);
+            }
+
+            // Remove from the array
+            rows.splice(i, 1);
+        }
+    }
+
+    return removed;
 }
 
 function removeCommas(fromThis){

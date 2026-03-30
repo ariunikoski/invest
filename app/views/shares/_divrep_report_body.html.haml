@@ -7,9 +7,11 @@
         =col_header 'Currency'
         =col_header 'Gross Income'
         =col_header 'Estimated Net Income'
+        =col_header 'Estimated Net NIS'
     - @shares = Share.active.order(:name)
     %tbody.fixed-header
       -@toggle = true
+      - rc = Rates::RatesCache.instance
       -gross_grand_totals = Hash.new(0)
       -net_grand_totals = Hash.new(0)
       - @shares.each do |share|
@@ -71,7 +73,8 @@
             #{format_number(total_gross_value, 2)}
           %td.number.textontop
             #{format_number(total_net_value, 2)}
-      - rc = Rates::RatesCache.instance
+          %td.number.textontop
+            #{format_number((share.currency == 'NIS' ? total_net_value : rc.convert_to_nis(share.currency, total_net_value)), 2)}
       - gross_nis_total = 0
       - net_nis_total = 0
       - sorted_keys = gross_grand_totals.keys.map(&:to_s).sort
@@ -79,11 +82,11 @@
         - gross_adder = gross_grand_totals[key]
         - net_adder = net_grand_totals[key]
         - if key != 'NIS'
-          -gross_adder = rc.convert_to_nis(key, gross_adder)
-          -net_adder = rc.convert_to_nis(key, net_adder)
+          - gross_adder = rc.convert_to_nis(key, gross_adder)
+          - net_adder = rc.convert_to_nis(key, net_adder)
         - gross_nis_total += gross_adder
         - net_nis_total += net_adder
-        %tr.totals
+        %tr.totals.fixedFooter
           %td
             Total 
           %td
@@ -93,7 +96,9 @@
             #{format_number(gross_grand_totals[key], 2)}
           %td.number
             #{format_number(net_grand_totals[key], 2)}
-      %tr.grandtotal
+          %td.number
+            #{format_number((key == 'NIS' ? net_grand_totals[key] : rc.convert_to_nis(key, net_grand_totals[key])), 2)}
+      %tr.grandtotal.fixedFooter
         %td
           Total in NIS
         %td
@@ -101,5 +106,7 @@
           NIS
         %td.number
           #{format_number(gross_nis_total, 2)}
+        %td.number
+          #{format_number(net_nis_total, 2)}
         %td.number
           #{format_number(net_nis_total, 2)}

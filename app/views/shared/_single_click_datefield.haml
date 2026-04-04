@@ -1,5 +1,7 @@
 - if defined?(prompt) && prompt
-  %label.single_click_datefield_label
+  - cls =  defined?(klass) ? klass : ''
+  - cls = "single_click_datefield_label #{cls}"
+  %label{class: cls }
     #{prompt}:
 %input{class: "", type: "text", id: "#{field_name}", name: "#{field_name}", onclick: "turnOnDateField(this.name)", value: "#{field_value}"}
 .hidden{id: "#{field_name}_parent"}

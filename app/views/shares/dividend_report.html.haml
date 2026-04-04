@@ -1,30 +1,20 @@
 = render :partial => 'shared/header', :locals => { current: 'Dividend Report' }
-.divrep-fixed-part
+.invest_root
   %h1
     Dividend Report
     %span.info-icon{ title: "All NIS values in shekels" } i
-  .date_range 
-    %table
-      %body
-        %tr
-          %td.single_click_datefield_cell
-            = render :partial => 'shared/single_click_datefield', :locals => { prompt: 'From Date', field_name: 'divrep_from_date', field_value: @divrep_orig_from_date}
-          %td.single_click_datefield_cell
-            = render :partial => 'shared/single_click_datefield', :locals => { prompt: 'To Date', field_name: 'divrep_to_date', field_value: @divrep_orig_to_date}
-          %td
-            %button{onclick: "getDividendReport()"}
-              Create Report
-.ddd
-  - case @divrep_status
-  - when :valid
-    = render :partial => 'divrep_report_body'
-  - when :none
-    - # first time called - this is fine
-  - when :missing_from
-    %p.error Missing "from date"
-  - when :missing_to
-    %p.error Missing "to date"
-  - when :invalid_sequence
-    %p.error from_date must be before to_date
-  - else
-    %p.error Unknown status "#{@divrep_status}"
+  = render :partial => 'index_header', :locals => { tools_style: 'Divrep' }
+  .ddd
+    - case @divrep_status
+    - when :valid
+      = render :partial => 'divrep_report_body'
+    - when :none
+      - # first time called - this is fine
+    - when :missing_from
+      %p.error Missing "from date"
+    - when :missing_to
+      %p.error Missing "to date"
+    - when :invalid_sequence
+      %p.error from_date must be before to_date
+    - else
+      %p.error Unknown status "#{@divrep_status}"

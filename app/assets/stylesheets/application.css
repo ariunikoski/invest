@@ -26,12 +26,6 @@ tr.fixed-header th {
 	top: 70px;
 }
 
-tr.fixed-header-divrep th {
-	position: sticky;
-	z-index: 200;
-	top: 109px;
-}
-
 tbody.fixed-header {
 	overflow-y: auto;
 }
@@ -657,4 +651,12 @@ tr.grandtotal {
 	z-index: 999;
 	position: sticky;
 	top: 0;
+}
+
+.left-margin-15 {
+	margin-left: 15px;
+}
+
+.left-pad-15 {
+	padding-left: 15px;
 }

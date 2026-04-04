@@ -34,6 +34,11 @@
         Breakdown by Sector
       %button{onclick: "getBreakdownBySectorCondensed()"}
         Breakdown by Sector Condensed
+    -if tools_style == 'Divrep'
+      = render :partial => 'shared/single_click_datefield', :locals => { prompt: 'From Date', field_name: 'divrep_from_date', field_value: @divrep_orig_from_date}
+      = render :partial => 'shared/single_click_datefield', :locals => { klass: 'left-pad-15', prompt: 'To Date', field_name: 'divrep_to_date', field_value: @divrep_orig_to_date}
+      %button.left-margin-15{onclick: "getDividendReport()"}
+        Create Report
   -if tools_style == 'Shares'
     = render :partial => 'new_share'
   

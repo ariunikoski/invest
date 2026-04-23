@@ -47,3 +47,5 @@ yarn-debug.log*
 /bup/*
 
 x.html
+
+/config/credentials/development.key

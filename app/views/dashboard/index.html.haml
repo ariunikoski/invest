@@ -38,7 +38,7 @@
         = render partial: 'weather_today', :locals => { city: 'Canberra', second_city: true }
         - #= render partial: 'calendar_today'
     %div{ class: calendar_month_class }
-      = render partial: 'calendar_month'
+      = render partial: 'calendar_month', :locals => { boxes: boxes }
   .bottom_part
     - if !is_mobile
       .bottom_left

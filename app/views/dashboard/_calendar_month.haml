@@ -37,7 +37,8 @@
           - dayline = "#{@last_month} #{dom}"
         .dayline
           #{dayline}
-        - @box = @cc.get_box_by_date(@curdate)
+        - #  >>> @box = @cc.get_box_by_date(@curdate)
+        - @box = boxes[@curdate]
         - if @box
           - @alldays, @more = @box.get_4_rows
           - @alldays.each do |allday|

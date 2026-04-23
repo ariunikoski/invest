@@ -84,3 +84,9 @@ group :test do
 end
 
 gem 'rspec-rails'
+gem 'icalendar'
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'google-apis-calendar_v3'
+gem 'signet'

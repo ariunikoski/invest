@@ -13,6 +13,38 @@ module InvestServer
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    ######
+    # TODO for Production - something like: 
+    # 2037  export EDITOR="vi"
+    #  jq <~/Downloads/client_secret_308870415185-p70e99cg6o8qb4c0ct4gvgb89c6o72ia.apps.googleusercontent.com.json  >x.x
+    #  rails credentials:edit --environment development
+    #  
+    #  Note - I had to add a "test user" - my gmail - it was a bit hard to find - see APIs and Services and then OAuth Consent Screen
+    #  Note that the line allowing "get" should only be used in development
+    #  Note that to test using the broswer make sure you use the ngrok url and not the localhost
+    #      https://onomatopoetically-noncataclysmic-glenda.ngrok-free.dev/auth/google_oauth2
+    # NOTE - when testing the app you need to be used the ngroka and not localhost
+    puts '>>> redirect_uri = ', Rails.application.credentials.dig(:google, :redirect_uris)
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :google_oauth2,
+        Rails.application.credentials.dig(:google, :client_id),
+        Rails.application.credentials.dig(:google, :client_secret),
+        {
+          redirect_uri: Rails.application.credentials.dig(:google, :redirect_uris),
+          scope: [
+            'email',
+            'profile',
+            'https://www.googleapis.com/auth/calendar',
+          ].join(' '),
+          access_type: 'offline',
+          prompt: 'consent',
+          include_granted_scopes: true
+        }
+      end
+
+      OmniAuth.config.allowed_request_methods = [:get, :post]
+    #
+    ######
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

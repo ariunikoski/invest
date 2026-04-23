@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_03_175951) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_23_065012) do
   create_table "alerts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.string "alert_type"
@@ -58,6 +58,10 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_03_175951) do
     t.string "mail_background_color"
     t.boolean "needs_hin", default: false, null: false
     t.boolean "multi_currency", default: true, null: false
+    t.text "google_access_token"
+    t.text "google_refresh_token"
+    t.datetime "google_token_expires_at"
+    t.string "google_uid"
   end
 
   create_table "holdings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -144,6 +148,10 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_03_175951) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "google_access_token"
+    t.text "google_refresh_token"
+    t.datetime "google_token_expires_at"
+    t.string "google_uid"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 

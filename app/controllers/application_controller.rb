@@ -37,4 +37,12 @@ class ApplicationController < ActionController::Base
     token.update!(last_used_at: Time.current) if token
     @current_user = token&.user
   end
+
+  def ensure_google_connected!
+    creds = Current.get_oauth_credentials
+
+    if creds.google_refresh_token.blank?
+      redirect_to '/auth/google_oauth2' and return
+    end
+  end
 end

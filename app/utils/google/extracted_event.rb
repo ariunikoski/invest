@@ -9,10 +9,27 @@ module Google
       @start_val = event.start.date_time || event.start.date
       @end_val   = event.end.date_time   || event.end.date
       @all_day_event = event.start.date_time.blank?
+      @calendar_id = event.calendar_id
     end
 
     def get_summary
       @summary
+    end
+
+    def get_summary_display
+      if @all_day_event
+        @summary
+      else
+        key = "#{@start_val.strftime('%H:%M')}-#{@end_val.strftime('%H:%M')}"
+        "#{key} #{@summary}"
+      end
+    end
+
+    def get_event_pill_background
+      background = "primary"
+      background = "australian" if @calendar_id.include?("australian")
+      background = "israel" if @calendar_id.include?("judaism")
+      "event_pill_#{background}"
     end
 
     def get_allday_event

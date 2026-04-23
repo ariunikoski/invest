@@ -23,8 +23,19 @@ table.calendar {
   table-layout: fixed;
 }
 
-div.allday {
+div.event_pill_primary {
   background: gold;
+}
+
+div.event_pill_australian {
+  background: deepskyblue;
+}
+
+div.event_pill_israel {
+  background: orangered;
+}
+
+div.event_pill {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

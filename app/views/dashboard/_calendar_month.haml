@@ -40,10 +40,11 @@
         - #  >>> @box = @cc.get_box_by_date(@curdate)
         - @box = boxes[@curdate]
         - if @box
-          - @alldays, @more = @box.get_4_rows
-          - @alldays.each do |allday|
-            .allday
-              #{allday}
+          - @events, @more = @box.get_4_rows
+          - @events.each do |event|
+            - event_pill_background = event.get_event_pill_background
+            %div{ class: "#{event_pill_background} event_pill" }
+              #{event.get_summary_display}
           - if @more
             .moreline
               more

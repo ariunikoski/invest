@@ -17,23 +17,44 @@ module Google
       puts ">>> time_max: #{time_max}"
       with_fresh_token do |service|
         Log.info(">>> inside with_fresh_token body")
-        results = nil
-        begin
-          results = service.list_events(
-            'primary',
-            time_min: time_min,
-            time_max: time_max,
-            single_events: true,
-            order_by: 'startTime'
-          )
-        rescue => e
-          puts 'Google Client Failure with: ', e. status_code, e.body
+        results = []
+        ['primary', 'en.australian#holiday@group.v.calendar.google.com', 'en-gb.judaism#holiday@group.v.calendar.google.com'].each do |name|
+          results.concat(get_list(service, name, time_min, time_max))
         end
+        # >>> begin
+          # >>> results.concat(service.list_events(
+            # >>> 'primary',
+            # >>> time_min: time_min,
+            # >>> time_max: time_max,
+            # >>> single_events: true,
+            # >>> order_by: 'startTime'
+          # >>> ).items)
+        # >>> rescue => e
+          # >>> puts 'Google Client Failure with: ', e. status_code, e.body
+        # >>> end
         results
       end
     end
   
     private
+  
+    def get_list(service, name, time_min, time_max)
+      begin
+        items = service.list_events(
+          name,
+          time_min: time_min,
+          time_max: time_max,
+          single_events: true,
+          order_by: 'startTime'
+        ).items
+        items.each do |it|
+          it.define_singleton_method(:calendar_id) { name }
+        end
+        items
+      rescue => e
+        puts 'Google Client Failure with: ', name, e.status_code, e.body
+      end
+    end
   
     def with_fresh_token
       Log.info(">>> with_fresh_token started")

@@ -18,11 +18,11 @@ class DashboardController < ApplicationController
     @events = get_events
     puts '>>> post events commences'
     #debug_events(@events.items, true)
-    @events.items.each do |item|
+    @events.each do |item|
       # TODO - next/prev buttons
       # TODO - create calendar event 
       # TODO - todays calendar box empty
-      # TODO - consider adding aussie/israel holiday calendars
+      # TODO - handleDayClick doesnt work - it should show the "more" days (could it show the descriptions as well??)
       # TODO - dpnt see taks or appointments...
       # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?

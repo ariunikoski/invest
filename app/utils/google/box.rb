@@ -7,20 +7,19 @@ module Google
     end
     
     def add_event(event) 
-      summary = event.get_summary
-      event.get_allday_event ? add_allday(summary) : add_timed(summary, event.get_start_time, event.get_end_time)
+      event.get_allday_event ? add_allday(event) : add_timed(event, event.get_start_time, event.get_end_time)
     end
     
     def add_allday(summary)
       @alldays << summary
     end
     
-    def add_timed(summary, from_time, to_time)
+    def add_timed(event, from_time, to_time)
       key = "#{from_time.strftime('%H:%M')}-#{to_time.strftime('%H:%M')}"
       while @timed.include?(key) do
         key = key + '.'
       end
-      @timed[key] = summary
+      @timed[key] = event
     end
  
     def get_alldays
@@ -46,7 +45,7 @@ module Google
         if rows.length < 4
           #awk = key.split('-')
           #rows << "#{awk[0]} #{@timed[key]}"
-          rows << "#{key} #{@timed[key]}"
+          rows << @timed[key]
         else
           more = true
         end
@@ -56,9 +55,9 @@ module Google
         
         
     def dump
-      @alldays.each { |allday| puts allday }
+      @alldays.each { |allday| puts allday.summary }
       @timed.keys.sort.each do |key|
-        puts "#{key} #{@timed[key]}"
+        puts "#{key} #{@timed[key].summary}"
       end
     end
   end #class

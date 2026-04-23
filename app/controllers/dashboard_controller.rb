@@ -17,27 +17,45 @@ class DashboardController < ApplicationController
     boxes = {}
     @events = get_events
     puts '>>> post events commences'
-    debug_events(@events.items, true)
+    #debug_events(@events.items, true)
     @events.items.each do |item|
-      # TODO - still have bug that i need to keep logging in all the time - perhaps needs to be stored in session data?
-      #  - looks like i have to go to the database solution, however currently the bad migration puts it on user, and instead i need it on
-      #  - holder. Then Current.get_oauth_credentials can return Holder.find_by(default: true) and then search for references to get_oauth_credentials
-      #  - and adjst accordingly - most places wont need change, maybe to add save! after its updated. Also, get read of oauth_credentials as not needed
       # TODO - next/prev buttons
       # TODO - create calendar event 
       # TODO - todays calendar box empty
-      # TODO - MULTIDATE doesnt appear - look at the xxx debugs first to learn how to distinguish....
       # TODO - consider adding aussie/israel holiday calendars
       # TODO - dpnt see taks or appointments...
       # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?
-      event = Google::ExtractedEvent.new(item)
-      date_key = event.get_date_key
-      boxes[date_key] = Google::Box.new(date_key) if !boxes.include?(date_key)
-      boxes[date_key].add_event(event)
-      #event.debug_print
+      expanded_events = expand_events(item)
+      expanded_events.each do |ee_item|
+        date_key = ee_item.get_date_key
+        boxes[date_key] = Google::Box.new(date_key) if !boxes.include?(date_key)
+        boxes[date_key].add_event(ee_item)
+        #event.debug_print
+      end
     end
     render 'index', locals: { is_mobile: is_mobile?, boxes: boxes }
+  end
+
+  def expand_events(google_event)
+    expanded = []
+    if google_event.start.date_time
+      # Not an all day event...
+      first_day = google_event.start.date_time.to_date
+      last_day = google_event.end.date_time.to_date
+    else
+      first_day = google_event.start.date
+      last_day = google_event.end.date - 1
+    end
+    test_date = first_day
+    while test_date <= last_day
+    #puts ">>> looking at: #{google_event.summary.inspect} #{first_day} #{last_day}"
+      ne = Google::ExtractedEvent.new(google_event)
+      ne.set_start_date(test_date) if test_date > first_day
+      expanded << ne
+      test_date = test_date + 1
+    end
+    expanded
   end
 
   def get_events

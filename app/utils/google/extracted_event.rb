@@ -31,6 +31,16 @@ module Google
       @start_val.to_date
     end
 
+    def set_start_date(new_start_date)
+      if @all_day_event
+        @start_val = new_start_date
+      else
+        puts ">>> before date change #{@start_val} new is #{new_start_date} #{new_start_date.day}"
+        @start_val = @start_val.change(year: new_start_date.year, month: new_start_date.month, day: new_start_date.day)
+        puts ">>> AFTER date change #{@start_val}"
+      end
+    end
+
     def debug_print
       puts '-' * 60
       puts "event_id #{@event_id}"

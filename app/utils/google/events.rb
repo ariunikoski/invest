@@ -52,7 +52,7 @@ module Google
     end
   
     def oauth_client
-      Log.info(">>> oauth_client called")
+      Log.info(">>> oauth_client called client_id: #{Rails.application.credentials.dig(:google, :client_id)}, client_secret: #{Rails.application.credentials.dig(:google, :client_secret)}")
       Signet::OAuth2::Client.new(
         client_id: Rails.application.credentials.dig(:google, :client_id),
         client_secret: Rails.application.credentials.dig(:google, :client_secret),
@@ -63,7 +63,7 @@ module Google
     end
   
     def token_expired?
-      Log.info(">>> checking if token expired - expires at: #{@oauth_credentials.google_token_expires_at} and not is #{Time.current}")
+      Log.info(">>> checking if token expired - expires at: #{@oauth_credentials.google_token_expires_at} and now is #{Time.current}")
       @oauth_credentials.google_token_expires_at.nil? || Time.current >= @oauth_credentials.google_token_expires_at
     end
   
@@ -72,9 +72,10 @@ module Google
       client.refresh!
   
       Log.info(">>> updating oauth_credentials - expires in #{client.expires_in.seconds} seconds")
-      @oauth_credentials.google_access_token = client.access_token,
+      @oauth_credentials.google_access_token = client.access_token
       @oauth_credentials.google_token_expires_at = Time.current + client.expires_in.seconds
       @oauth_credentials.save!
+      @oauth_credentials = Current.get_oauth_credentials
       Log.info(">>> after update expires at is: #{Current.get_oauth_credentials.google_token_expires_at}")
     end
   end

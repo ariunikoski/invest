@@ -5,6 +5,7 @@
   = javascript_include_tag "dashboard/cal_manip"
   
 %body
+  - # TODO at some point move much of this logic to a helper and get rid of Yahoo::Calender or at least @cc >>>
   - @cc = Yahoo::Calendar.new
   - @cc.extract_data(params[:scroll_to])
   - @from_date, @to_date, @todays_sunday = @cc.get_date_range
@@ -43,7 +44,7 @@
     - if !is_mobile
       .bottom_left
         - # = render partial: 'emails'
-        = render partial: 'calendar_today'
+        = render partial: 'calendar_one_day', :locals => { day: Date.today, boxes: boxes }
     .bottom_right
       - # = render partial: 'news'
       = render partial: 'cal_manip'

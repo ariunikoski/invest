@@ -1,0 +1,23 @@
+.full_cal_display
+  .section_heading
+    - day_text = day == Date.today ? "Today's Calendar" : day.strftime("%d/%m/%Y")
+    #{day_text}
+  - today_box = boxes[day]
+  - if today_box
+    - today_box.get_alldays.each do |event|
+      - event_pill_background = event.get_event_pill_background
+      %div{ class: "#{event_pill_background} full_allday" }
+        #{event.get_summary}
+        .embedded_description 
+          = event.get_description&.html_safe
+    - timed = today_box.get_timed
+    - timed.keys.sort.each do |key|
+      - event = timed[key]
+      - event_pill_background = event.get_event_pill_background
+      %div{ class: "#{event_pill_background} full_allday" }
+        %span.hours_key
+          #{key}
+        %span
+          #{event.get_summary}
+        .embedded_description 
+          = event.get_description&.html_safe

@@ -108,7 +108,6 @@ div.full_cal_display {
 }
 
 div.full_allday {
-  background: gold;
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 5px;
@@ -221,7 +220,7 @@ td.article {
 }
 
 div.toast {
-  background: lightsalmon;
+  background: lightblue;
   border: 1px black solid;
   width: 600px;
   margin-left: calc(50% - 300px);
@@ -320,4 +319,9 @@ img.time_scroller {
 
 span.show_clickable:hover {
   cursor:pointer;
+}
+
+div.embedded_description {
+  padding-left: 10px;
+  padding-right: 10px;
 }

@@ -25,6 +25,10 @@ module Google
       end
     end
 
+    def get_description
+      @description
+    end
+
     def get_event_pill_background
       background = "primary"
       background = "australian" if @calendar_id.include?("australian")

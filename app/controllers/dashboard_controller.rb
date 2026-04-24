@@ -21,11 +21,11 @@ class DashboardController < ApplicationController
     @events.each do |item|
       # TODO - next/prev buttons
       # TODO - create calendar event 
-      # TODO - todays calendar box empty
-      # TODO - handleDayClick doesnt work - it should show the "more" days (could it show the descriptions as well??)
       # TODO - dpnt see taks or appointments...
       # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?
+      # TODO - look for other TODOs
+      # TODO - clean up debuggers
       expanded_events = expand_events(item)
       expanded_events.each do |ee_item|
         date_key = ee_item.get_date_key

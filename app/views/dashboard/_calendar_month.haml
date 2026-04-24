@@ -28,7 +28,8 @@
         - td_class = "#{td_class} next_month"
       -if @curdate < Date.today
         - td_class = "#{td_class} past_tense"
-      %td{ class: td_class, id: "#{@curdate}", onclick: "handleDayClick('#{@curdate}')" }
+      - hidden_id = "hidden_full_#{@curdate.strftime('%Y%m%d')}"
+      %td{ class: td_class, id: "#{@curdate}", onclick: "handleDayClick('#{hidden_id}')" }
         - abbreviation = @curdate.strftime("%b")
         - dom = @curdate.day
         - dayline = "#{dom}"
@@ -47,5 +48,7 @@
               #{event.get_summary_display}
           - if @more
             .moreline
-              more
+              more 
+          .hidden{ id: hidden_id }
+            = render partial: 'calendar_one_day', :locals => { day: @curdate, boxes: boxes }
         - @curdate = @curdate + 1

@@ -6,13 +6,14 @@ window.handleDayClick = function(forDate) {
   var root = document.createElement('div')
   root.appendChild(createDateLine(forDate))
   var toast = document.getElementById('toast')
-  toast.innerHTML = '';
+  toast.innerHTML = ""
+  root.innerHTML = parentDiv.innerHTML;
  
   toast.appendChild(root)
  
-  for (var i = 0; i < alldayDivs.length; i++) {
-    root.appendChild(createCalendarLine(alldayDivs[i].textContent.replace(/[\r\n]+$/, '')))
-  }
+  // >>> for (var i = 0; i < alldayDivs.length; i++) {
+  // >>>   root.appendChild(createCalendarLine(alldayDivs[i].textContent.replace(/[\r\n]+$/, '')))
+  // >>> }
   
   root.appendChild(createCloseButton(toast))
   toast.classList.remove('hidden')

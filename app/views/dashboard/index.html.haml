@@ -6,9 +6,9 @@
   
 %body
   - # TODO at some point move much of this logic to a helper and get rid of Yahoo::Calender or at least @cc >>>
-  - @cc = Yahoo::Calendar.new
-  - @cc.extract_data(params[:scroll_to])
-  - @from_date, @to_date, @todays_sunday = @cc.get_date_range
+  - # >>> @cc = Yahoo::Calendar.new
+  - # >>> @cc.extract_data(params[:scroll_to])
+  - # >>> @from_date, @to_date, @todays_sunday = @cc.get_date_range
   - prev_date = @from_date - 3.weeks
   - next_date = @to_date - 1.weeks + 1.day
   - @last_month = ''

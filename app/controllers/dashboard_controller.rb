@@ -116,11 +116,11 @@ class DashboardController < ApplicationController
   def calc_date_range(scroll_to)
     now = Date.today
     start_date = nearest_sunday(now)
+    todays_sunday = start_date
     if scroll_to
       start_date = Date.strptime(scroll_to, '%Y%m%d')
     end
     from_date = start_date.strftime("%Y%m%d")
-    todays_sunday = @start_date
     end_date = start_date + 27
     [start_date, end_date, todays_sunday]
   end

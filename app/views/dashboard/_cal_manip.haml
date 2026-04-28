@@ -10,17 +10,19 @@
           .hidden{id: "cal_manip_from_date_parent"}
             %input{class: "datepicker", type: "text", id: "cal_manip_from_date_picker", name: "cal_manip_from_date_picker"}
         %td
-          From Time:
-        %td
+          %input{ id: "cal_manip_all_day", type: "checkbox", value: false, name: "all_day", onchange: "calAllDayClicked(this)"}
+        %td.notallday
+          All Day:
+        %td.notallday
           = render partial: 'time_selector', :locals => { name: :cal_manip_fromTime, default_time: '12:00' }
-        %td
+        %td.notallday
           To Time: 
-        %td
+        %td.notallday
           = render partial: 'time_selector', :locals => { name: :cal_manip_toTime, default_time: '13:00' }
       %tr
         %td
           Subject:
-        %td{ colspan: 5 }
+        %td{ colspan: 7 }
           %input.fullwidth{
             id: "cal_manip_subject",
             type: "text",
@@ -30,7 +32,7 @@
       %tr
         %td
           Notes:
-        %td{ colspan: 5 }
+        %td{ colspan: 7 }
           %textarea.fullwidth{
             id: "cal_manip_notes",
             name: "notes",

@@ -10,15 +10,18 @@ function CreateCalendarEvent() {
     const subjectRaw = getValById("cal_manip_subject")
     const subject = encodeURIComponent(subjectRaw)
     const notes = encodeURIComponent(getValById("cal_manip_notes"))
+    const allDay = document.getElementById("cal_manip_all_day").checked
     const fromDateTime = createDateTime(fromDate, fromTime)
     const toDateTime = createDateTime(fromDate, toTime)
     if (fromDate === "") {
         alert("Date is mandatory")
         return
     }
-    const linkText = `${fromDate} ${fromTime}-${toTime} ${subjectRaw}`
+    console.log(">>> getValById cal_man_all_day returned",document.getElementById("cal_manip_all_day"))
+    window.location.href = `/create_event?title=${subject}&st=${fromDateTime}&et=${toDateTime}&desc=${notes}&allday=${allDay}`
+    // >>> const linkText = `${fromDate} ${fromTime}-${toTime} ${subjectRaw}`
     //addCreatorLink(container, "https://calendar.yahoo.com/?v=60&view=m&type=20&title=With Button&st=20260211T100000Z&et=20260211T103000Z&desc=Bazinga Florence", "with button")
-    addCreatorLink(container, `https://calendar.yahoo.com/?v=60&view=m&type=20&title=${subject}&st=${fromDateTime}&et=${toDateTime}&desc=${notes}`, linkText)
+    // >>> addCreatorLink(container, `https://calendar.yahoo.com/?v=60&view=m&type=20&title=${subject}&st=${fromDateTime}&et=${toDateTime}&desc=${notes}`, linkText)
 }
 
 function getValById(thisId) {
@@ -53,6 +56,7 @@ function createDateTime(dateVal, timeVal) {
 }
 
 function addCreatorLink(container, url, description) {
+    /* NO LONGER IN USE - WAS PART OF YAHOO */
     if (!container) return;
 
     // Create wrapper
@@ -91,6 +95,7 @@ function addCreatorLink(container, url, description) {
 }
 
 function deleteCreatorLink(button) {
+    /* NO LONGER IN USE - WAS PART OF YAHOO */
     if (!button) return;
     const wrapper = button.parentElement;
     if (wrapper) {
@@ -103,4 +108,19 @@ function calDateClicked(calField) {
     setTimeout(() => {
       turnOnField(calField, 'cal_manip_from_date', 'cal_manip_from_date_parent', 'cal_manip_from_date_picker', true)
     }, 500);
+}
+
+function calAllDayClicked(allDay) {
+    console.log(`>>> value is: ${allDay.checked}`)
+    const elements = document.querySelectorAll(".notallday");
+    console.log(">>> elements = ", elements)
+
+    elements.forEach(function(el) {
+        if (allDay.checked) {
+            el.classList.add('hidden_but_takes_space');
+        } else {
+            el.classList.remove('hidden_but_takes_space');
+        }
+        console.log(">>> after change = ", el)
+});
 }

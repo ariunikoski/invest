@@ -236,6 +236,10 @@ div.hidden {
   display: none;
 }
 
+td.hidden_but_takes_space {
+  visibility: hidden;
+}
+
 div.toast_dateline {
   display: flex;
   justify-content: center;

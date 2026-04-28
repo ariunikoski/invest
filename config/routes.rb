@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   
   get 'dashboard', to: 'dashboard#index'
   get 'dashboard/load_email_body', to: 'dashboard#load_email_body'
+  get 'create_event', to: 'dashboard#create_event'
 
   resources :tokens, only: [:index, :destroy]
 

@@ -6,21 +6,16 @@ class DashboardController < ApplicationController
     
     # Render the index view
     @from_date, @to_date, @todays_sunday = calc_date_range(params[:scroll_to])
-    #- prev_date = @from_date - 3.weeks
-    #- next_date = @to_date - 1.weeks + 1.day
-    #- @last_month = ''
-    #- @this_month = Date.today.month
-    #- @prev_month = @this_month - 1
-    #- @prev_month = 12 if @prev_month == 0
-    #- @next_month = @this_month + 1
-    #- @next_month = 1 if @next_month == 13
     boxes = {}
     @events = get_events
     puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
-      # TODO - next/prev buttons
       # TODO - create calendar event 
+      #     - create_event should trap and report errors
+      #     - create_event when it redirects should force open the toast with a message saying event was/was not created
+      #     - set hourglass whilte running
+      #     - in display, strip off trailing periods from key
       # TODO - dpnt see taks or appointments...
       # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?
@@ -138,5 +133,26 @@ class DashboardController < ApplicationController
     nearest_sunday = date - days_to_subtract
 
     return nearest_sunday
+  end
+
+  def create_event
+    ce = Google::CreateEvent.new
+    if params[:allday] == "true"
+      ce.create_event(
+        summary: params[:title],
+        description: params[:desc].gsub("\n", "<br>"),
+        all_day: true,
+        start_time: params[:st]
+      )
+    else
+      ce.create_event(
+        summary: params[:title],
+        description: params[:desc].gsub("\n", "<br>"),
+        all_day: false,
+        start_time: params[:st],
+        end_time: params[:et]
+      )
+    end
+    redirect_to action: :index
   end
 end

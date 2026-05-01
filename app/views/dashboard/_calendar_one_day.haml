@@ -16,7 +16,8 @@
       - event_pill_background = event.get_event_pill_background
       %div{ class: "#{event_pill_background} full_allday" }
         %span.hours_key
-          #{key}
+          - key_str = key.sub(/\.+\z/, "")
+          #{key_str}
         %span
           #{event.get_summary}
         .embedded_description 

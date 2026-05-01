@@ -5,6 +5,8 @@
   = javascript_include_tag "dashboard/cal_manip"
   
 %body
+  .spinner{id: 'spinner'}
+    %img{src: "#{asset_path('ajax-loader.gif')}"}
   - # TODO at some point move much of this logic to a helper and get rid of Yahoo::Calender or at least @cc >>>
   - # >>> @cc = Yahoo::Calendar.new
   - # >>> @cc.extract_data(params[:scroll_to])

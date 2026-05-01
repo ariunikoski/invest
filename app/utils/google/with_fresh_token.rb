@@ -12,7 +12,7 @@ module Google
   
       if token_expired?
         Log.info(">>> token apparently expired - about to call refresh")
-        refresh!(client)
+        return unless refresh!(client) 
       end
   
       Log.info(">>> calling calendar service")
@@ -40,14 +40,29 @@ module Google
   
     def refresh!(client)
       Log.info(">>> refresh! called")
-      client.refresh!
-  
-      Log.info(">>> updating oauth_credentials - expires in #{client.expires_in.seconds} seconds")
-      @oauth_credentials.google_access_token = client.access_token
-      @oauth_credentials.google_token_expires_at = Time.current + client.expires_in.seconds
+      success = true
+      begin
+        client.refresh!
+      rescue => e
+        success = false
+        puts "Failed to do refresh with ", e
+      end
+          
+      if success
+        Log.info(">>> updating oauth_credentials - expires in #{client.expires_in.seconds} seconds")
+        @oauth_credentials.google_access_token = client.access_token
+        @oauth_credentials.google_token_expires_at = Time.current + client.expires_in.seconds
+      else
+        Log.info(">>> Failed to refresh")
+        @oauth_credentials.google_access_token = nil
+        @oauth_credentials.google_token_expires_at = nil
+        @oauth_credentials.google_refresh_token = nil
+        @oauth_credentials.google_uid = nil
+      end
       @oauth_credentials.save!
       @oauth_credentials = Current.get_oauth_credentials
       Log.info(">>> after update expires at is: #{Current.get_oauth_credentials.google_token_expires_at}")
+      success
     end
   end
 end

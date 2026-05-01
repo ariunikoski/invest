@@ -18,6 +18,7 @@ function CreateCalendarEvent() {
         return
     }
     console.log(">>> getValById cal_man_all_day returned",document.getElementById("cal_manip_all_day"))
+    showSpinner()
     window.location.href = `/create_event?title=${subject}&st=${fromDateTime}&et=${toDateTime}&desc=${notes}&allday=${allDay}`
     // >>> const linkText = `${fromDate} ${fromTime}-${toTime} ${subjectRaw}`
     //addCreatorLink(container, "https://calendar.yahoo.com/?v=60&view=m&type=20&title=With Button&st=20260211T100000Z&et=20260211T103000Z&desc=Bazinga Florence", "with button")

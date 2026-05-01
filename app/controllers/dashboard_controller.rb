@@ -2,20 +2,23 @@ class DashboardController < ApplicationController
   before_action :ensure_google_connected!
 
   def index
-    # Your logic here if needed
-    
     # Render the index view
     @from_date, @to_date, @todays_sunday = calc_date_range(params[:scroll_to])
     boxes = {}
     @events = get_events
+    return unless ensure_google_connected!  #get_events may have required refresh that failed
     puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
       # TODO - create calendar event 
       #     - create_event should trap and report errors
       #     - create_event when it redirects should force open the toast with a message saying event was/was not created
-      #     - set hourglass whilte running
-      #     - in display, strip off trailing periods from key
+      #       - in autorefrsh.js (or new js) add onload that checks for non-empty did toast_on_load
+      #       - close button for toast_on_load should also clear out the div
+      #       - in creating haml, create the div - will need to pass args to index.haml - how to do this with redirect? - perhaps a 
+      #       - new js rather than autorefresh that will include the clearing of the toast 
+      #        - not really sure if clearing is necessary but a good idea
+      # TODO - need to check totime > from time
       # TODO - dpnt see taks or appointments...
       # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?

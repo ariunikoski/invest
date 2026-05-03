@@ -23,14 +23,40 @@ function refreshClicked() {
 }
 
 function scroll_to(to_here) {
-    refreshWithArg('scroll_to', to_here)
+    refreshWithArgs({
+        scroll_to: to_here,
+        notice: null,
+        notice_level: null
+    })
 }
 
-function refreshWithArg(key, value) {
+function refreshWithArgs(args) {
     const url = new URL(window.location.href);
-    url.searchParams.set(key, value);
+
+    // Support:
+    // 1. Object: { name: value }
+    // 2. Array: [ [name, value], ... ]
+    // 3. Map
+
+    let pairs = [];
+
+    if (args instanceof Map) {
+        pairs = Array.from(args.entries());
+    } else if (Array.isArray(args)) {
+        pairs = args;
+    } else if (args && typeof args === "object") {
+        pairs = Object.entries(args);
+    }
+
+    for (const [name, value] of pairs) {
+        if (value === null) {
+            url.searchParams.delete(name);
+        } else {
+            url.searchParams.set(name, value);
+        }
+    }
+
     window.location.href = url.toString();
 }
-
 // Schedule the refresh when the page loads
 window.onload = scheduleRefresh;

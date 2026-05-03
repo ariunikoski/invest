@@ -3,7 +3,6 @@ module Google
   class Client
     def initialize
       puts 'Google::Client.initialize'
-      @oauth_credentials = Current.get_oauth_credentials
     end
 
     def service
@@ -17,11 +16,12 @@ module Google
     private
   
     def authorization
+      oauth_credentials = Current.get_oauth_credentials
       Signet::OAuth2::Client.new(
         client_id: ENV['GOOGLE_CLIENT_ID'],
         client_secret: ENV['GOOGLE_CLIENT_SECRET'],
-        access_token: @oauth_credentials.google_access_token,
-        refresh_token: @oauth_credentials.google_refresh_token,
+        access_token: oauth_credentials.google_access_token,
+        refresh_token: oauth_credentials.google_refresh_token,
         token_credential_uri: 'https://oauth2.googleapis.com/token'
       )
     end

@@ -42,7 +42,8 @@ module InvestServer
         }
       end
 
-      OmniAuth.config.allowed_request_methods = [:get, :post]
+      # >>> OmniAuth.config.allowed_request_methods = [:get, :post]
+      OmniAuth.config.allowed_request_methods = [:post]
     #
     ######
     # Configuration for the application, engines, and railties goes here.

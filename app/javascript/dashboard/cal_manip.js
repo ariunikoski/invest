@@ -123,5 +123,9 @@ function calAllDayClicked(allDay) {
             el.classList.remove('hidden_but_takes_space');
         }
         console.log(">>> after change = ", el)
-});
+    });
+}
+
+function closeToast() {
+    makeInvisible('toast')
 }

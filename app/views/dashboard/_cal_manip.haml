@@ -11,8 +11,10 @@
             %input{class: "datepicker", type: "text", id: "cal_manip_from_date_picker", name: "cal_manip_from_date_picker"}
         %td
           %input{ id: "cal_manip_all_day", type: "checkbox", value: false, name: "all_day", onchange: "calAllDayClicked(this)"}
+        %td.inline_checkbox_label
+          All Day
         %td.notallday
-          All Day:
+          From Time: 
         %td.notallday
           = render partial: 'time_selector', :locals => { name: :cal_manip_fromTime, default_time: '12:00' }
         %td.notallday

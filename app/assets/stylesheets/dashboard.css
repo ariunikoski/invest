@@ -231,6 +231,16 @@ div.toast {
   padding: 10px;
 }
 
+div.notice_level_info {
+  background-color: lawngreen;
+}
+
+
+div.notice_level_error {
+  background-color: red;
+  font-weight: bold;
+}
+
 /* REMOVE AFTER MERGE */
 div.hidden {
   display: none;
@@ -328,4 +338,9 @@ span.show_clickable:hover {
 div.embedded_description {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+td.inline_checkbox_label {
+  padding-left: 0px;
+  padding-right: 20px;
 }

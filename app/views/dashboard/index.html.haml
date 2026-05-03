@@ -19,8 +19,14 @@
   - @prev_month = 12 if @prev_month == 0
   - @next_month = @this_month + 1
   - @next_month = 1 if @next_month == 13
-  %div{ class: 'toast hidden', id: 'toast' }
-    this is the toast....  v3
+  - notice_exists = !params[:notice].blank?
+  - toast_class = "toast " + (notice_exists ? "notice_level_#{params[:notice_level]}" : "hidden")
+  %div{ class: toast_class, id: 'toast' }
+    #{params[:notice]}
+    - if notice_exists 
+      .close_button_div
+        %button{ type: "button", onclick: "closeToast()" }
+          Close
   .page_header
     %button.time_scroller{ type: "button", onclick: "scroll_to(#{prev_date.strftime('%Y%m%d')})", title: "scroll back 3 weeks" }
       %img.time_scroller{ src: asset_path("left_arrow.ico"), alt: "Left" }

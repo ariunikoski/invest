@@ -10,17 +10,8 @@ class DashboardController < ApplicationController
     puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
-      # TODO - create calendar event 
-      #     - create_event should trap and report errors
-      #     - create_event when it redirects should force open the toast with a message saying event was/was not created
-      #       - in autorefrsh.js (or new js) add onload that checks for non-empty did toast_on_load
-      #       - close button for toast_on_load should also clear out the div
-      #       - in creating haml, create the div - will need to pass args to index.haml - how to do this with redirect? - perhaps a 
-      #       - new js rather than autorefresh that will include the clearing of the toast 
-      #        - not really sure if clearing is necessary but a good idea
       # TODO - need to check totime > from time
       # TODO - dpnt see taks or appointments...
-      # TODO - can i get rid of the cause of the warning (mo longer need get...get?)
       # TODO - in space below weather - some international clocks?
       # TODO - look for other TODOs
       # TODO - clean up debuggers
@@ -140,22 +131,30 @@ class DashboardController < ApplicationController
 
   def create_event
     ce = Google::CreateEvent.new
-    if params[:allday] == "true"
-      ce.create_event(
-        summary: params[:title],
-        description: params[:desc].gsub("\n", "<br>"),
-        all_day: true,
-        start_time: params[:st]
-      )
-    else
-      ce.create_event(
-        summary: params[:title],
-        description: params[:desc].gsub("\n", "<br>"),
-        all_day: false,
-        start_time: params[:st],
-        end_time: params[:et]
-      )
+    notice_mess = "Created event #{params[:title]} (#{DateTime.parse(params[:st]).strftime("%d/%m/%Y")})"
+    notice_level = :info
+    begin
+      if params[:allday] == "true"
+        ce.create_event(
+          summary: params[:title],
+          description: params[:desc].gsub("\n", "<br>"),
+          all_day: true,
+          start_time: params[:st]
+        )
+      else
+        ce.create_event(
+          summary: params[:title],
+          description: params[:desc].gsub("\n", "<br>"),
+          all_day: false,
+          start_time: params[:st],
+          end_time: params[:et]
+        )
+      end
+    rescue => e
+      puts "Failed to created event with", e
+      notice_mess = "Failed to create event with #{e}"
+      notice_level = :info
     end
-    redirect_to action: :index
+    redirect_to action: :index, notice: notice_mess, notice_level: notice_level
   end
 end

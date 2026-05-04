@@ -39,7 +39,8 @@
 
 /* NIGHT OVERLAY (this is the key fix) */
 .clock-slide.night .clock-face {
-  background: radial-gradient(circle at 30% 30%, #d6deea 20%, #a9b7c9 100%);
+  /* background: radial-gradient(circle at 30% 30%, #d6deea 20%, #a9b7c9 100%); */
+  background: radial-gradient(circle at 30% 30%, black 20%, black 100%); 
 }
 
 /* subtle overlay tint to ensure visibility even if gradients are overridden */
@@ -75,7 +76,8 @@
 .hour-hand {
   width: 4px;
   height: 18px;
-  background: #2d3748;
+  /* background: #2d3748; */
+  background: green;
   border-radius: 2px;
 }
 

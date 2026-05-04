@@ -13,6 +13,10 @@ function CreateCalendarEvent() {
     const allDay = document.getElementById("cal_manip_all_day").checked
     const fromDateTime = createDateTime(fromDate, fromTime)
     const toDateTime = createDateTime(fromDate, toTime)
+    if (!allDay && !isFromBeforeTo(fromTime, toTime)) {
+        alert("From Time must be before To Time")
+        return
+    }
     if (fromDate === "") {
         alert("Date is mandatory")
         return
@@ -127,5 +131,19 @@ function calAllDayClicked(allDay) {
 }
 
 function closeToast() {
+    removeClass('toast', 'notice_level_info')
+    removeClass('toast', 'notice_level_error')
     makeInvisible('toast')
+}
+
+function isFromBeforeTo(fromVal, toVal) {
+    if (!fromVal || !toVal) return false; // handle empty values
+
+    const [fh, fm] = fromVal.split(":").map(Number);
+    const [th, tm] = toVal.split(":").map(Number);
+
+    const fromMinutes = fh * 60 + fm;
+    const toMinutes = th * 60 + tm;
+
+    return fromMinutes < toMinutes;
 }

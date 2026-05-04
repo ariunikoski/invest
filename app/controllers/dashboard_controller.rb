@@ -10,7 +10,6 @@ class DashboardController < ApplicationController
     puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
-      # TODO - dpnt see taks or appointments...
       # TODO - in space below weather - some international clocks?
       # TODO - look for other TODOs
       # TODO - clean up debuggers

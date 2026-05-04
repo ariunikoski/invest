@@ -1,0 +1,13 @@
+/ app/views/shared/_world_clocks.html.haml
+
+.world-clock-strip
+  - clocks = { "Canberra" => "Australia/Canberra", "Chicago"  => "America/Chicago" }
+  -# clocks = { "Canberra" => "Australia/Canberra", "Chicago/St Louis"  => "America/Chicago", "Ottawa"   => "America/Toronto", "Tel Aviv" => "Asia/Jerusalem" }
+
+  - clocks.each do |city, tz|
+    .clock-item{ data: { tz: tz } }
+      .clock-face
+        .hand.hour-hand
+        .hand.minute-hand
+      .label= city
+      .time-label

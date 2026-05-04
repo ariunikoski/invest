@@ -1,6 +1,8 @@
 %head
   = stylesheet_link_tag 'dashboard'
+  = stylesheet_link_tag 'clocks'
   = javascript_include_tag "dashboard/auto_refresh"
+  = javascript_include_tag "dashboard/clocks"
   = javascript_include_tag "dashboard/day_click"
   = javascript_include_tag "dashboard/cal_manip"
   
@@ -45,6 +47,7 @@
       .calendar_today
         = render partial: 'weather_today', :locals => { city: 'Tel Aviv', second_city: false }
         = render partial: 'weather_today', :locals => { city: 'Canberra', second_city: true }
+        = render partial: 'clocks'
         - #= render partial: 'calendar_today'
     %div{ class: calendar_month_class }
       = render partial: 'calendar_month', :locals => { boxes: boxes }

@@ -120,13 +120,16 @@ span.hours_key {
 }
 
 div.weather_display {
-  padding: 5px;
   border: 1px solid black;
 }
 
 div.today_weather {
   display: flex;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 div.tommorrow_weather {

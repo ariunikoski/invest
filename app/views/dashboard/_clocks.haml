@@ -1,13 +1,15 @@
-/ app/views/shared/_world_clocks.html.haml
+.world-clock-rotator
+  - clocks = [["Canberra", "Australia/Canberra"], ["Chicago/St Louis",  "America/Chicago"], ["Ottawa",   "America/Toronto"], ["Tel Aviv", "Asia/Jerusalem"]]
 
-.world-clock-strip
-  - clocks = { "Canberra" => "Australia/Canberra", "Chicago"  => "America/Chicago" }
-  -# clocks = { "Canberra" => "Australia/Canberra", "Chicago/St Louis"  => "America/Chicago", "Ottawa"   => "America/Toronto", "Tel Aviv" => "Asia/Jerusalem" }
-
-  - clocks.each do |city, tz|
-    .clock-item{ data: { tz: tz } }
+  - clocks.each_with_index do |(city, tz), i|
+    .clock-slide{ data: { tz: tz }, class: (i == 0 ? "active" : "") }
       .clock-face
+        - 12.times do |i|
+          .tick{ style: "transform: rotate(#{i * 30}deg);" }
+
         .hand.hour-hand
         .hand.minute-hand
-      .label= city
-      .time-label
+
+      .clock-info
+        .label= city
+        .time-label

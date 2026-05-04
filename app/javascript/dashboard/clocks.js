@@ -1,5 +1,11 @@
 (() => {
-  let timer = null;
+  let timeTimer = null;
+  let rotateTimer = null;
+  let currentIndex = 0;
+
+  // EASY CONFIGURATION
+  const ROTATION_INTERVAL = 4000; // ms (change this)
+  const FADE_DURATION = 600;      // should match CSS transition
 
   function getTimeParts(tz) {
     const now = new Date();
@@ -11,8 +17,7 @@
       hour12: false
     }).formatToParts(now);
 
-    let hour = 0;
-    let minute = 0;
+    let hour = 0, minute = 0;
 
     parts.forEach(p => {
       if (p.type === "hour") hour = parseInt(p.value, 10);
@@ -22,12 +27,14 @@
     return { hour, minute };
   }
 
-  function updateClocks() {
-    document.querySelectorAll(".clock-item").forEach(card => {
+  function updateTimes() {
+    document.querySelectorAll(".clock-slide").forEach(card => {
       const tz = card.dataset.tz;
       const { hour, minute } = getTimeParts(tz);
 
-      // Analog rotation
+      const isNight = (hour < 7 || hour >= 22);
+      card.classList.toggle("night", isNight);
+
       const hour12 = hour % 12;
       const hourDeg = (hour12 * 30) + (minute * 0.5);
       const minuteDeg = minute * 6;
@@ -45,7 +52,6 @@
           `translateX(-50%) rotate(${minuteDeg}deg)`;
       }
 
-      // Digital time (HH:MM, 24h)
       const hh = String(hour).padStart(2, "0");
       const mm = String(minute).padStart(2, "0");
 
@@ -53,22 +59,34 @@
       if (timeLabel) {
         timeLabel.textContent = `${hh}:${mm}`;
       }
-
-      // Day / night shading
-      const isNight = (hour < 6 || hour >= 18);
-      card.classList.toggle("night", isNight);
     });
   }
 
-  function startClocks() {
-    if (timer) clearInterval(timer);
+  function rotateClocks() {
+    const slides = document.querySelectorAll(".clock-slide");
+    if (slides.length === 0) return;
 
-    updateClocks();
+    slides[currentIndex].classList.remove("active");
 
-    // update once per minute
-    timer = setInterval(updateClocks, 60000);
+    currentIndex = (currentIndex + 1) % slides.length;
+
+    slides[currentIndex].classList.add("active");
   }
 
-  document.addEventListener("DOMContentLoaded", startClocks);
-  document.addEventListener("turbo:load", startClocks);
+  function start() {
+    // avoid duplicates (Turbo-safe)
+    if (timeTimer) clearInterval(timeTimer);
+    if (rotateTimer) clearInterval(rotateTimer);
+
+    updateTimes();
+
+    // update every minute
+    timeTimer = setInterval(updateTimes, 60000);
+
+    // rotate clocks
+    rotateTimer = setInterval(rotateClocks, ROTATION_INTERVAL);
+  }
+
+  document.addEventListener("DOMContentLoaded", start);
+  document.addEventListener("turbo:load", start);
 })();

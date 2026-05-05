@@ -20,7 +20,6 @@ module InvestServer
     #  rails credentials:edit --environment development
     #  
     #  Note - I had to add a "test user" - my gmail - it was a bit hard to find - see APIs and Services and then OAuth Consent Screen
-    #  Note that the line allowing "get" should only be used in development
     #  Note that to test using the broswer make sure you use the ngrok url and not the localhost
     #      https://onomatopoetically-noncataclysmic-glenda.ngrok-free.dev/auth/google_oauth2
     # NOTE - when testing the app you need to be used the ngroka and not localhost

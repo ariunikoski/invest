@@ -9,10 +9,6 @@
 %body
   .spinner{id: 'spinner'}
     %img{src: "#{asset_path('ajax-loader.gif')}"}
-  - # TODO at some point move much of this logic to a helper and get rid of Yahoo::Calender or at least @cc >>>
-  - # >>> @cc = Yahoo::Calendar.new
-  - # >>> @cc.extract_data(params[:scroll_to])
-  - # >>> @from_date, @to_date, @todays_sunday = @cc.get_date_range
   - prev_date = @from_date - 3.weeks
   - next_date = @to_date - 1.weeks + 1.day
   - @last_month = ''
@@ -21,11 +17,13 @@
   - @prev_month = 12 if @prev_month == 0
   - @next_month = @this_month + 1
   - @next_month = 1 if @next_month == 13
-  - notice_exists = !params[:notice].blank?
-  - toast_class = "toast " + (notice_exists ? "notice_level_#{params[:notice_level]}" : "hidden")
+  - notice_exists = !session[:notice].blank?
+  - toast_class = "toast " + (notice_exists ? "notice_level_#{session[:notice_level]}" : "hidden")
   %div{ class: toast_class, id: 'toast' }
-    #{params[:notice]}
+    #{session[:notice]}
     - if notice_exists 
+      - session[:notice] = nil
+      - session[:notice_level] = nil
       .close_button_div
         %button{ type: "button", onclick: "closeToast()" }
           Close

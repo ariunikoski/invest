@@ -2,16 +2,17 @@ class DashboardController < ApplicationController
   before_action :ensure_google_connected!
 
   def index
-    # Render the index view
-    @from_date, @to_date, @todays_sunday = calc_date_range(params[:scroll_to])
+    # Render the index view - the trick with params_were_scrubbed means that the params
+    # won't appear in the url of the returned value
+    @from_date, @to_date, @todays_sunday = calc_date_range(session[:scroll_to])
+    session[:scroll_to] = nil
+    return redirect_to dashboard_path if params_were_scrubbed
     boxes = {}
     @events = get_events
     return unless ensure_google_connected!  #get_events may have required refresh that failed
     puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
-      # TODO - in space below weather - some international clocks?
-      # TODO - look for other TODOs
       # TODO - clean up debuggers
       expanded_events = expand_events(item)
       expanded_events.each do |ee_item|
@@ -22,6 +23,13 @@ class DashboardController < ApplicationController
       end
     end
     render 'index', locals: { is_mobile: is_mobile?, boxes: boxes }
+  end
+
+  def params_were_scrubbed
+    session[:notice] = params[:notice] if !params[:notice].blank?
+    session[:notice_level] = params[:notice_level] if !params[:notice_level].blank?
+    session[:scroll_to] = params[:scroll_to] if !params[:scroll_to].blank?
+    return !params[:notice].blank? || !params[:scroll_to].blank?
   end
 
   def expand_events(google_event)

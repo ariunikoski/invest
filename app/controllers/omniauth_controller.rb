@@ -1,7 +1,6 @@
 class OmniauthController < ApplicationController
   def create
     puts 'OmniauthController.create'
-    Log.info ' >>> OmniauthController.create'
     auth = request.env['omniauth.auth']
 
     oauth_credentials = Current.get_oauth_credentials

@@ -3,7 +3,6 @@ module Google
     def initialize(event)
       @event_id = event.id
       @summary = event.summary || ""
-      puts ">>> Added summary of #{@summary}"
       @status = event.status
       @description = event.description
       @start_val = event.start.date_time || event.start.date
@@ -56,9 +55,7 @@ module Google
       if @all_day_event
         @start_val = new_start_date
       else
-        puts ">>> before date change #{@start_val} new is #{new_start_date} #{new_start_date.day}"
         @start_val = @start_val.change(year: new_start_date.year, month: new_start_date.month, day: new_start_date.day)
-        puts ">>> AFTER date change #{@start_val}"
       end
     end
 

@@ -40,13 +40,10 @@ class ApplicationController < ActionController::Base
 
   def ensure_google_connected!
     creds = Current.get_oauth_credentials
-    puts ">>> ensure_google_connected! called", creds.google_refresh_token
 
     if creds.google_refresh_token.blank?
-      puts ">>> refresh token was blank"
       redirect_to '/auth/google_oauth2' and return false
     end
-    puts '>>> refresh_token was not blank'
     true
   end
 end

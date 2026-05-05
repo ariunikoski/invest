@@ -23,7 +23,6 @@ module InvestServer
     #  Note that to test using the broswer make sure you use the ngrok url and not the localhost
     #      https://onomatopoetically-noncataclysmic-glenda.ngrok-free.dev/auth/google_oauth2
     # NOTE - when testing the app you need to be used the ngroka and not localhost
-    puts '>>> redirect_uri = ', Rails.application.credentials.dig(:google, :redirect_uris)
     Rails.application.config.middleware.use OmniAuth::Builder do
       provider :google_oauth2,
         Rails.application.credentials.dig(:google, :client_id),
@@ -41,7 +40,6 @@ module InvestServer
         }
       end
 
-      # >>> OmniAuth.config.allowed_request_methods = [:get, :post]
       OmniAuth.config.allowed_request_methods = [:post]
     #
     ######

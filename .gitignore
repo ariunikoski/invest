@@ -41,6 +41,7 @@ yarn-debug.log*
 /�
 /.byebug_history
 /x.x
+/y.y
 /exp.sql
 /[database_name].sql
 /ss.diff
@@ -49,3 +50,5 @@ yarn-debug.log*
 x.html
 
 /config/credentials/development.key
+
+/config/credentials/production.key

@@ -10,10 +10,8 @@ class DashboardController < ApplicationController
     boxes = {}
     @events = get_events
     return unless ensure_google_connected!  #get_events may have required refresh that failed
-    puts '>>> post events commences'
     #debug_events(@events.items, true)
     @events.each do |item|
-      # TODO - clean up debuggers
       expanded_events = expand_events(item)
       expanded_events.each do |ee_item|
         date_key = ee_item.get_date_key
@@ -44,7 +42,6 @@ class DashboardController < ApplicationController
     end
     test_date = first_day
     while test_date <= last_day
-    #puts ">>> looking at: #{google_event.summary.inspect} #{first_day} #{last_day}"
       ne = Google::ExtractedEvent.new(google_event)
       ne.set_start_date(test_date) if test_date > first_day
       expanded << ne
@@ -54,7 +51,6 @@ class DashboardController < ApplicationController
   end
 
   def get_events
-    puts '>>> get_events commences'
     service = Google::Events.new
     service.events_between(@from_date, @to_date)
   end

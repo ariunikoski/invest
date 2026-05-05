@@ -1,13 +1,14 @@
 .world-clock-rotator {
   position: relative;
-  width: 260px;
+  width: 150px;
   height: 80px;
   background: #ffffff;
   border: 1px solid #e3e8ef;
-  border-radius: 12px;
   padding: 10px 14px;
   overflow: hidden;
   font-family: system-ui, sans-serif;
+  max-width: 150px;
+  min-height: 60px;
 }
 
 /* slides stacked on top of each other */

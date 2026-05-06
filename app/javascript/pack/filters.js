@@ -26,6 +26,8 @@ function apply_filter() {
 	const currenciesFiltered = hasAnyFalse(currencyFlags)
 	setFilterInUse('currencyFilterImg', currenciesFiltered)
 	
+	const name_cols = document.querySelectorAll("div[tag='column_name']"); // >>>
+
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
 	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
 	const accounts_cols = document.querySelectorAll("td[tag='column_accounts']");
@@ -40,24 +42,35 @@ function apply_filter() {
 	setFilterInUse('badgesFilterImg', hasAnyNotOfValue(badgeFilters, 'Anything'))
 
 	const accountFilters = getAccountFilterStates();
-	setFilterInUse('accountFilterImg', hasAnyFalse(accountFilters))
+	const accountFilterInUse = hasAnyFalse(accountFilters)
+	setFilterInUse('accountFilterImg', accountFilterInUse)
 	
+	let rowsFiltered = 0
 	for (let ii = 0; ii < currency_cols.length; ii++) {
 		let hideThis = false
-		hideThis = applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags)
+		// currency filters are not applied if all flags set - otherwise we lose historical GBP
+		if (currenciesFiltered) hideThis = applyCurrencyFilter(hideThis, ii, currency_cols, currencyFlags)
 		hideThis = applyRowFlagFilter(hideThis, ii, rowFlags, flag_style)
 		hideThis = applyHoldingsFilter(hideThis, ii, holdings_cols, zero_holdings, non_zero_holdings)
 		hideThis = applyBadgesFilter(hideThis, ii, badges_cols, badgeFilters)
-		hideThis = applyAccountsFilter(hideThis, ii, accounts_cols, accountFilters)
+		// account filters are not applied if all flags are set, because otherwise we lose shares that have no 
+		// holdings at all
+		if (accountFilterInUse) hideThis = applyAccountsFilter(hideThis, ii, accounts_cols, accountFilters)
 		
 		const elem = currency_cols[ii]
 		const row = elem.closest('tr')
 		if (hideThis) {
+			rowsFiltered++
   			row.classList.add('hidden');
 		} else {
 			row.classList.remove('hidden')
 		}
 	}
+	let rowsFilteredText = 'No rows filtered out'
+	if (rowsFiltered > 0) {
+		rowsFilteredText = `${rowsFiltered} rows filtered out`
+	}
+	document.getElementById('displayRowsFiltered').innerText = rowsFilteredText
 }
 
 function setFilterInUse(imgId, filterInUse) {

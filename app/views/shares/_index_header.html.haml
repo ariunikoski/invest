@@ -17,6 +17,8 @@
         Add new Share
       %button{onclick: "loadAllDividends()"}
         Load all dividends
+      %div{ id: 'displayRowsFiltered', class: "rows_filtered_display"}
+        No rows filtered out
     -if tools_style == 'Breakdown'
       %button{onclick: "getBreakdownBySectorCondensed()"}
         Breakdown by Sector Condensed

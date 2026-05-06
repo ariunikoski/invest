@@ -73,11 +73,11 @@ function handleInputChar(event, objId, table_name, field_name, data_key, field_s
 
 function updateField(objId, table_name, field_name, data_key, field_span_key, input_key) {
 	const origDataVal = document.getElementById(input_key).value
-	const dataVal = origDataVal.replace(/\n/g,"<p>")
+	const dataVal = origDataVal.replace(/\n/g,"<p>").replace(/"/g, "'")
 	
 	var xhr = new XMLHttpRequest();
   
-    var url = `${table_name.toLowerCase()}s/${objId}?${table_name}={"${field_name}":"${dataVal}"}`
+    var url = `${table_name.toLowerCase()}s/${objId}?${table_name}={"${field_name}":"${encodeURIComponent(dataVal)}"}`
     xhr.open("PUT", url, true);
     
     xhr.onreadystatechange = function () {

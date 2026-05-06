@@ -304,6 +304,15 @@ div.checkbox_section {
 
 img.filter {
 	float: right;
+	border: 3px solid;
+}
+
+img.filter_on {
+	border-color: yellowgreen;
+}
+
+img.filter_off {
+	border-color: coral;
 }
 
 img.arrow_16 {

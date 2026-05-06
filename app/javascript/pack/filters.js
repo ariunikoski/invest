@@ -17,11 +17,14 @@ const badgeFilterParams = {
 function apply_filter() {
 	const currencyFlags = {}
 	const flag_style = document.getElementById('actions_filter').dataset.rowFlagFilterVal;
+	setFilterInUse('actionsFilterImg', flag_style !== 'all')
 
 	currencyFlags['AUD'] = getFlag('filter_aud')
 	currencyFlags['CAD'] = getFlag('filter_cad')
 	currencyFlags['NIS'] = getFlag('filter_nis')
 	currencyFlags['USD'] = getFlag('filter_usd')
+	const currenciesFiltered = hasAnyFalse(currencyFlags)
+	setFilterInUse('currencyFilterImg', currenciesFiltered)
 	
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
 	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
@@ -31,8 +34,13 @@ function apply_filter() {
 	
 	const zero_holdings = getFlag('zero_holdings')
 	const non_zero_holdings = getFlag('non_zero_holdings')
+    setFilterInUse('holdingsFilterImg', !zero_holdings || !non_zero_holdings)
+
 	const badgeFilters = getBadgeFilters();
+	setFilterInUse('badgesFilterImg', hasAnyNotOfValue(badgeFilters, 'Anything'))
+
 	const accountFilters = getAccountFilterStates();
+	setFilterInUse('accountFilterImg', hasAnyFalse(accountFilters))
 	
 	for (let ii = 0; ii < currency_cols.length; ii++) {
 		let hideThis = false
@@ -50,6 +58,25 @@ function apply_filter() {
 			row.classList.remove('hidden')
 		}
 	}
+}
+
+function setFilterInUse(imgId, filterInUse) {
+	const elem = document.getElementById(imgId)
+	if (filterInUse) {
+		elem.classList.remove('filter_off')
+		elem.classList.add('filter_on')
+	} else {
+		elem.classList.remove('filter_on')
+		elem.classList.add('filter_off')
+	}
+}
+
+function hasAnyNotOfValue(obj, value) {
+    return Object.values(obj).some(v => v !== value);
+}
+
+function hasAnyFalse(obj) {
+    return Object.values(obj).some(v => v === false);
 }
 
 function getAccountFilterStates() {

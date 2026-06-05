@@ -26,8 +26,6 @@ function apply_filter() {
 	const currenciesFiltered = hasAnyFalse(currencyFlags)
 	setFilterInUse('currencyFilterImg', currenciesFiltered)
 	
-	const name_cols = document.querySelectorAll("div[tag='column_name']"); // >>>
-
 	const currency_cols = document.querySelectorAll("div[tag='column_currency']");
 	const holdings_cols = document.querySelectorAll("td[tag='holdings']");
 	const accounts_cols = document.querySelectorAll("td[tag='column_accounts']");

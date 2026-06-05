@@ -11,35 +11,35 @@
         prompt: "Current Holder",
         onchange: "this.form.submit();"
     -if tools_style == 'Shares'
-      %button{onclick: "getCurrentPrices()"}
+      %button.silver3d{onclick: "getCurrentPrices()"}
         Get Current Prices
-      %button{onclick: "showShareInputForm()"}
+      %button.silver3d{onclick: "showShareInputForm()"}
         Add new Share
-      %button{onclick: "loadAllDividends()"}
+      %button.silver3d{onclick: "loadAllDividends()"}
         Load all dividends
       %div{ id: 'displayRowsFiltered', class: "rows_filtered_display"}
         No rows filtered out
     -if tools_style == 'Breakdown'
-      %button{onclick: "getBreakdownBySectorCondensed()"}
+      %button.silver3d{onclick: "getBreakdownBySectorCondensed()"}
         Breakdown by Sector Condensed
       - if Current.holder.multi_currency
-        %button{onclick: "getBreakdownByCurrency()"}
+        %button.silver3d{onclick: "getBreakdownByCurrency()"}
           Breakdown by Currency
     -if tools_style == 'Breakdown_Condensed'
-      %button{onclick: "getBreakdownBySector()"}
+      %button.silver3d{onclick: "getBreakdownBySector()"}
         Breakdown by Sector
       - if Current.holder.multi_currency
-        %button{onclick: "getBreakdownByCurrency()"}
+        %button.silver3d{onclick: "getBreakdownByCurrency()"}
           Get Currency Breakdown
     -if tools_style == 'Breakdown_Currency'
-      %button{onclick: "getBreakdownBySector()"}
+      %button.silver3d{onclick: "getBreakdownBySector()"}
         Breakdown by Sector
-      %button{onclick: "getBreakdownBySectorCondensed()"}
+      %button.silver3d{onclick: "getBreakdownBySectorCondensed()"}
         Breakdown by Sector Condensed
     -if tools_style == 'Divrep'
       = render :partial => 'shared/single_click_datefield', :locals => { prompt: 'From Date', field_name: 'divrep_from_date', field_value: @divrep_orig_from_date}
       = render :partial => 'shared/single_click_datefield', :locals => { klass: 'left-pad-15', prompt: 'To Date', field_name: 'divrep_to_date', field_value: @divrep_orig_to_date}
-      %button.left-margin-15{onclick: "getDividendReport()"}
+      %button.silver3d.left-margin-15{onclick: "getDividendReport()"}
         Create Report
   -if tools_style == 'Shares'
     = render :partial => 'new_share'

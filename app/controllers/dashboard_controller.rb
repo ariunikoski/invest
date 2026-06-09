@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_action :ensure_google_connected!
+  before_action :ensure_google_connected!, except: :reset
 
   def index
     # Render the index view - the trick with params_were_scrubbed means that the params
@@ -158,5 +158,17 @@ class DashboardController < ApplicationController
       notice_level = :info
     end
     redirect_to action: :index, notice: notice_mess, notice_level: notice_level
+  end
+
+  def reset
+    oauth_credentials = Current.get_oauth_credentials
+
+    oauth_credentials.google_uid = nil
+    oauth_credentials.google_access_token = nil
+    oauth_credentials.google_refresh_token = nil
+    oauth_credentials.google_token_expires_at = nil
+    oauth_credentials.save!
+    redirect_to action: :index
+
   end
 end

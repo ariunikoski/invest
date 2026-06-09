@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'load_rates', to: 'exchange_rates#load_rates'
   
   get 'dashboard', to: 'dashboard#index'
+  get 'dashboard/reset', to: 'dashboard#reset'
   get 'dashboard/load_email_body', to: 'dashboard#load_email_body'
   get 'create_event', to: 'dashboard#create_event'
 

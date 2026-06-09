@@ -16,5 +16,6 @@ class Holder < ApplicationRecord
       errors.add(:default, "can only be true for one holder")
     end
   end
+
 end
 

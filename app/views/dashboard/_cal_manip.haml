@@ -16,11 +16,11 @@
         %td.notallday
           From Time: 
         %td.notallday
-          = render partial: 'time_selector', :locals => { name: :cal_manip_fromTime, default_time: '12:00' }
+          = render partial: 'time_selector', :locals => { name: :cal_manip_fromTime, default_time: '12:00', on_change: 'updateToTime()'}
         %td.notallday
           To Time: 
         %td.notallday
-          = render partial: 'time_selector', :locals => { name: :cal_manip_toTime, default_time: '13:00' }
+          = render partial: 'time_selector', :locals => { name: :cal_manip_toTime, default_time: '13:00', on_change: 'markToTimeModified()'}
       %tr
         %td
           Subject:

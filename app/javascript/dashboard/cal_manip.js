@@ -1,3 +1,48 @@
+let toTimeModified = false;
+
+function markToTimeModified() {
+  toTimeModified = true;
+}
+
+function updateToTime() {
+  const from = document.getElementById("cal_manip_fromTime");
+  const to   = document.getElementById("cal_manip_toTime");
+
+  if (!from.value) return;
+
+  const fromMin = timeToMinutes(from.value);
+  const toMin   = to.value ? timeToMinutes(to.value) : null;
+
+  const shouldUpdate =
+    !toTimeModified ||
+    !to.value ||
+    toMin <= fromMin;
+
+  if (!shouldUpdate) return;
+
+  let newTo = fromMin + 60;
+
+  if (newTo > 23 * 60 + 59) newTo = 23 * 59 + 59;
+
+  to.value = minutesToTime(newTo);
+}
+
+function timeToMinutes(timeStr) {
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  return hours * 60 + minutes;
+}
+
+function minutesToTime(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  return (
+    String(hours).padStart(2, '0') +
+    ':' +
+    String(minutes).padStart(2, '0')
+  );
+}
+
 function CreateCalendarEvent() {
     const container = document.getElementById("cal_creators");
     if (!container) {
@@ -21,6 +66,7 @@ function CreateCalendarEvent() {
         alert("Date is mandatory")
         return
     }
+    let toTimeModified = false;
     showSpinner()
     window.location.href = `/create_event?title=${subject}&st=${fromDateTime}&et=${toDateTime}&desc=${notes}&allday=${allDay}`
     // const linkText = `${fromDate} ${fromTime}-${toTime} ${subjectRaw}`

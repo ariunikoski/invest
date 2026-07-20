@@ -3,9 +3,12 @@ class SessionsController < ApplicationController
 
 
   def new
+    session[:holder_id] = nil
     # will auto render views/sessions/new.html.haml
   end
+
   def create
+    session[:holder_id] = nil
     user = User.find_by(username: params[:username])
     if user&.authenticate(params[:password])
       friendly_name = DeviceNameService.friendly_name(request.user_agent)
@@ -24,10 +27,17 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    @current_user = nil
+    session[:holder_id] = nil
     token = Token.find_by(value: cookies.signed[:auth_token])
     token&.destroy
     cookies.delete(:auth_token)
-    redirect_to login_path, notice: "Logged out"
+    #redirect_to login_path, notice: "Logged out"
+    render :new
   end
 
+  def user_logout
+    flash.now[:alert] = "You logged out"
+    destroy
+  end
 end

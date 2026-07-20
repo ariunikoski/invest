@@ -57,4 +57,12 @@ module ShareHelper
   def needs_hin
     Current.holder.needs_hin
   end
+
+  def get_current_user_name
+    Rails.configuration.require_authentication ?  current_user.username : 'no_user_auth_configured'
+  end
+
+  def show_holder_dropdown?
+    Rails.configuration.require_authentication ?  !current_user.restricted_to_holder : true
+  end
 end

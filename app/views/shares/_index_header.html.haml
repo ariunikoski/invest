@@ -3,13 +3,16 @@
   .env_line
     %span.env_text{style: "color: #{Rails.env == 'development' ? 'black' : 'red'}"}
       #{Rails.env}
+    %span.user_text{onclick: 'ask_to_logout()'}
+      (#{get_current_user_name})
   .tools_line
-    = form_with url: shares_change_holder_path, method: :post, local: true, class: "holder_combo" do
-      = label_tag :id, "Current Holder:"
-      = select_tag :id,
-        options_from_collection_for_select(Holder.order(:name), :id, :name, session[:holder_id]),
-        prompt: "Current Holder",
-        onchange: "this.form.submit();"
+    - if show_holder_dropdown?
+      = form_with url: shares_change_holder_path, method: :post, local: true, class: "holder_combo" do
+        = label_tag :id, "Current Holder:"
+        = select_tag :id,
+          options_from_collection_for_select(Holder.order(:name), :id, :name, session[:holder_id]),
+          prompt: "Current Holder",
+          onchange: "this.form.submit();"
     -if tools_style == 'Shares'
       %button.silver3d{onclick: "getCurrentPrices()"}
         Get Current Prices

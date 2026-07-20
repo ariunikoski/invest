@@ -52,3 +52,4 @@ x.html
 /config/credentials/development.key
 
 /config/credentials/production.key
+/db/migrate/20260620124548_create_isi_user.rb

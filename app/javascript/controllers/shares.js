@@ -475,5 +475,13 @@ function toggleInnerTable(symbol, show) {
   }
 }
 
+function ask_to_logout() {
+  const logout = confirm("Do you want to logout?")
+  if (logout) {
+    const newUrl = window.location.origin + "/user_logout";
+    window.location.href = newUrl;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", populateAccountFilters);
 

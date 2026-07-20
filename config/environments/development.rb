@@ -70,4 +70,7 @@ Rails.application.configure do
   config.verify_email_ssl = false
 
   config.hosts << "onomatopoetically-noncataclysmic-glenda.ngrok-free.dev"
+
+  # AUTHENTIATION
+  config.require_authentication = true
 end

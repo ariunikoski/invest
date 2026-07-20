@@ -44,4 +44,6 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   get '/auth/:provider/callback', to: 'omniauth#create'
+
+  get '/user_logout', to: 'sessions#user_logout'
 end

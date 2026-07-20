@@ -474,17 +474,24 @@ div.accounts_filter_list {
 }
 
 div.env_line {
-	text-align: center;
+	display: grid;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	font-size: x-large;
 }
 
 span.env_text {
+	grid-column: 2;
+	justify-self: center;
 	background: white;
 	padding-left: 5px;
 	padding-right: 5px;
 	border: 1px black solid;
+}
+
+span.user_text {
+	grid-column: 3;
+	justify-self: end;
 }
 
 tr.alert_style_new {
@@ -727,4 +734,9 @@ div.rows_filtered_display {
         inset 0 -1px 0 rgba(0,0,0,0.1),
         0 1px 0 #8a8a8a,
         0 2px 6px rgba(0,0,0,0.25);
+}
+
+p.alert {
+	font-weight: bold;
+	color: red;
 }

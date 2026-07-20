@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_23_065012) do
+ActiveRecord::Schema[7.0].define(version: 2026_06_20_124548) do
   create_table "alerts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.string "alert_type"
@@ -152,6 +152,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_23_065012) do
     t.text "google_refresh_token"
     t.datetime "google_token_expires_at"
     t.string "google_uid"
+    t.bigint "restricted_to_holder_id"
+    t.index ["restricted_to_holder_id"], name: "index_users_on_restricted_to_holder_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -160,4 +162,5 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_23_065012) do
   add_foreign_key "sales", "holdings"
   add_foreign_key "sales", "shares"
   add_foreign_key "tokens", "users"
+  add_foreign_key "users", "holders", column: "restricted_to_holder_id"
 end

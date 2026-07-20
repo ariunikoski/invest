@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # AUTHENTICATION
   before_action :require_authentication, if: -> { Rails.configuration.require_authentication }
   skip_before_action :require_authentication, only: [:set_time_zone]
+  helper_method :current_user
 
 
   before_action :set_current_holder
@@ -14,14 +15,20 @@ class ApplicationController < ActionController::Base
   def set_current_holder
     if session[:holder_id].present?
       Current.holder = Holder.find_by(id: session[:holder_id])
+    elsif current_user && current_user.restricted_to_holder
+      set_current_holder_from_value current_user.restricted_to_holder
     else
       # fallback if not set or invalid
       default_holder = Holder.find_by(default: true)
       if default_holder
-        Current.holder = default_holder
-        session[:holder_id] = default_holder.id
+        set_current_holder_from_value(default_holder)
       end
     end
+  end
+
+  def set_current_holder_from_value value
+    Current.holder = value
+    session[:holder_id] = value.id
   end
 
   # AUTHENTICATION

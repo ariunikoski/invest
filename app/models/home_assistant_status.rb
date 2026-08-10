@@ -1,0 +1,2 @@
+class HomeAssistantStatus < ApplicationRecord
+end

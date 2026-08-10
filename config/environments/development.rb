@@ -72,5 +72,5 @@ Rails.application.configure do
   config.hosts << "onomatopoetically-noncataclysmic-glenda.ngrok-free.dev"
 
   # AUTHENTIATION
-  config.require_authentication = true
+  config.require_authentication = false
 end

@@ -1,0 +1,23 @@
+%h1 Home Assistant Status
+
+- if @records.empty?
+  %p No status records found.
+- else
+  %table
+    %thead
+      %tr
+        %th Timestamp
+        %th Status
+        %th Status Message
+        %th Smart Home Status
+        %th Connected Message
+        %th Disconnected Message
+    %tbody
+      - @records.each do |record|
+        %tr
+          %td= record.created_at.strftime("%Y-%m-%d %H:%M:%S")
+          %td= record.status
+          %td= record.status_message
+          %td= record.smart_home_status
+          %td= record.connected_message
+          %td= record.disconnected_message

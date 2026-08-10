@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_06_20_124548) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_10_065736) do
   create_table "alerts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "share_id", null: false
     t.string "alert_type"
@@ -76,6 +76,16 @@ ActiveRecord::Schema[7.0].define(version: 2026_06_20_124548) do
     t.integer "amount_sold"
     t.string "hin"
     t.index ["held_by_type", "held_by_id"], name: "index_holdings_on_held_by"
+  end
+
+  create_table "home_assistant_statuses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "status"
+    t.text "status_message"
+    t.string "smart_home_status"
+    t.text "connected_message"
+    t.text "disconnected_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "links", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

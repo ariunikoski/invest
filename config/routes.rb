@@ -46,4 +46,11 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'omniauth#create'
 
   get '/user_logout', to: 'sessions#user_logout'
+
+  resources :home_assistant_status, only: [:create, :index] do
+  collection do
+    get :last, action: :get_last_record
+  end
+end
+
 end

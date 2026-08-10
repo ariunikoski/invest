@@ -1,5 +1,5 @@
 class HomeAssistantStatusController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, :require_authentication
   before_action :authenticate_home_assistant, only: [:create]
 
   def authenticate_home_assistant

@@ -1,0 +1,7 @@
+%div.health-status
+  %span.health_status_prompt
+    #{status_type.capitalize}:
+  %span.health-ball.health-ok.hidden{ id: "#{status_type}_health_ok" }
+  %span.health-ball.health-ko.hidden{ id: "#{status_type}_health_ko" }
+  %span.health-ball.health-working{ id: "#{status_type}_health_working" }
+  %span{ id: "#{status_type}_health_text" }

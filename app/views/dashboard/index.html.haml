@@ -53,6 +53,7 @@
     - if !is_mobile
       .bottom_left
         - # = render partial: 'emails'
+        = render partial: 'home_assistant_status', :locals => {}
         = render partial: 'calendar_one_day', :locals => { day: Date.today, boxes: boxes }
     .bottom_right
       - # = render partial: 'news'

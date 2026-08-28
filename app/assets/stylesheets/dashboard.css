@@ -389,6 +389,7 @@ td.inline_checkbox_label {
   gap: 8px;
   min-height: stretch;
   align-items: center;
+  width: calc(50% - 21px);
 }
 
 .health-statuses {
@@ -415,4 +416,14 @@ td.inline_checkbox_label {
 
 .health_status_prompt {
   font-weight: bold;
+  width: 70px;
+}
+
+.health_status_text {
+  text-overflow: ellipsis;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  width: calc(100% - 98px);
+  overflow: hidden;
+  cursor: pointer;
 }

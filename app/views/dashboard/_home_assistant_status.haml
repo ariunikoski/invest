@@ -1,6 +1,6 @@
 %div.health-statuses
-  %span.home_assistant_prompt
-    Home Assistant: 
+  -# %span.home_assistant_prompt
+  -#   Home Assistant: 
   .health_row
-    = render :partial => "health_status", :locals => { status_type: "ha" }
-    = render :partial => "health_status", :locals => { status_type: "smart" }
+    = render :partial => "health_status", :locals => { status_type: "ha", title: "Home Assistant" }
+    = render :partial => "health_status", :locals => { status_type: "smart", title: "Smart Devices" }

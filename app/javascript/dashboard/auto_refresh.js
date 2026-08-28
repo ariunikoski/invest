@@ -102,8 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {``
     // Check immediately when the page loads
     checkHomeAssistantStatus();
     // Then check every 5 minutes
-    //setInterval(checkHomeAssistantStatus, 5 * 60 * 1000);
-    setInterval(checkHomeAssistantStatus, 30000);
+    setInterval(checkHomeAssistantStatus, 5 * 60 * 1000);
 });    
 
 

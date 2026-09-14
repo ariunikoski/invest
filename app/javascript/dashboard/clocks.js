@@ -64,10 +64,10 @@
   function getIsraelDifference(tz) {
     const now = new Date();
 
-    const cityOffset = getTimezoneOffset(tz, now);
+   const cityOffset = getTimezoneOffset(tz, now);
     const israelOffset = getTimezoneOffset(ISRAEL_TZ, now);
 
-    return cityOffset - israelOffset;
+    return Math.round(cityOffset - israelOffset);
   }
 
   function formatDifference(minutes) {

@@ -1,5 +1,5 @@
 .world-clock-rotator
-  - clocks = [["Canberra", "Australia/Canberra"], ["Chicago/St Louis",  "America/Chicago"], ["Ottawa",   "America/Toronto"], ["Tel Aviv", "Asia/Jerusalem"]]
+  - clocks = [["Amsterdam", "Europe/Amsterdam"], ["Canberra", "Australia/Canberra"], ["Chicago/St Louis",  "America/Chicago"], ["Ottawa",   "America/Toronto"], ["Tel Aviv", "Asia/Jerusalem"]]
 
   - clocks.each_with_index do |(city, tz), i|
     .clock-slide{ data: { tz: tz }, class: (i == 0 ? "active" : "") }
@@ -13,3 +13,4 @@
       .clock-info
         .label= city
         .time-label
+        .difference-label

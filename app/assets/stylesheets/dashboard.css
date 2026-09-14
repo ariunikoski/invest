@@ -427,3 +427,9 @@ td.inline_checkbox_label {
   overflow: hidden;
   cursor: pointer;
 }
+
+.difference-label {
+  font-size: 13px;
+  color: blue;
+  margin-top: 2px;
+}

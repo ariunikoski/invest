@@ -7,6 +7,8 @@
   const ROTATION_INTERVAL = 4000; // ms (change this)
   const FADE_DURATION = 600;      // should match CSS transition
 
+  const ISRAEL_TZ = "Asia/Jerusalem";
+
   function getTimeParts(tz) {
     const now = new Date();
 
@@ -26,6 +28,66 @@
 
     return { hour, minute };
   }
+
+    function getTimezoneOffset(tz, date = new Date()) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).formatToParts(date);
+
+    const values = {};
+
+    parts.forEach(p => {
+      if (p.type !== "literal") {
+        values[p.type] = parseInt(p.value, 10);
+      }
+    });
+
+    const asUTC = Date.UTC(
+      values.year,
+      values.month - 1,
+      values.day,
+      values.hour,
+      values.minute,
+      values.second
+    );
+
+    return (asUTC - date.getTime()) / 60000;
+  }
+
+  function getIsraelDifference(tz) {
+    const now = new Date();
+
+    const cityOffset = getTimezoneOffset(tz, now);
+    const israelOffset = getTimezoneOffset(ISRAEL_TZ, now);
+
+    return cityOffset - israelOffset;
+  }
+
+  function formatDifference(minutes) {
+    if (minutes === 0) {
+      return "Same time";
+    }
+
+    const sign = minutes > 0 ? "+" : "-";
+    const absoluteMinutes = Math.abs(minutes);
+
+    const hours = Math.floor(absoluteMinutes / 60);
+    const mins = absoluteMinutes % 60;
+
+    if (mins === 0) {
+      return `${sign}${hours}h`;
+    }
+
+    return `${sign}${hours}h ${mins}m`;
+  }
+
 
   function updateTimes() {
     document.querySelectorAll(".clock-slide").forEach(card => {
@@ -58,6 +120,17 @@
       const timeLabel = card.querySelector(".time-label");
       if (timeLabel) {
         timeLabel.textContent = `${hh}:${mm}`;
+      }
+
+      // Difference from Israel
+      const difference = getIsraelDifference(tz);
+
+      const differenceLabel =
+        card.querySelector(".difference-label");
+
+      if (differenceLabel) {
+        differenceLabel.textContent =
+          formatDifference(difference);
       }
     });
   }

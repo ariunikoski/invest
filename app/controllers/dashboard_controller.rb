@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
     boxes = {}
     @events = get_events
     return unless ensure_google_connected!  #get_events may have required refresh that failed
-    #debug_events(@events.items, true)
+    #debug_events(@events, true)
     @events.each do |item|
       expanded_events = expand_events(item)
       expanded_events.each do |ee_item|
@@ -80,6 +80,8 @@ class DashboardController < ApplicationController
       puts "  organizer: #{e.organizer&.email}"
       puts "  attendees count: #{e.attendees&.size || 0}"
   
+      puts "  html_link: #{e.html_link}"
+
       if e.attendees&.any?
         e.attendees.each do |a|
           puts "    - #{a.email} (#{a.response_status})"

@@ -1,0 +1,13 @@
+- event_pill_background = event.get_event_pill_background
+%div{ class: "#{event_pill_background} full_allday" }
+  - if timed_key
+    %span.hours_key
+      - key_str = timed_key.sub(/\.+\z/, "")
+      #{key_str}
+  %span
+    - if event_pill_background == 'event_pill_primary'
+      = link_to event.get_summary, event.get_html_link, onclick: "window.open(this.href, 'google_calendar', 'width=1000,height=800'); return false;"
+    - else
+      #{event.get_summary}
+  .embedded_description 
+    = event.get_description&.html_safe

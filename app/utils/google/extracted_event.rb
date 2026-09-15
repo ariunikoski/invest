@@ -9,10 +9,15 @@ module Google
       @end_val   = event.end.date_time   || event.end.date
       @all_day_event = event.start.date_time.blank?
       @calendar_id = event.calendar_id
+      @html_link = event.html_link
     end
 
     def get_summary
       @summary
+    end
+
+    def get_html_link
+      @html_link
     end
 
     def get_summary_display
@@ -68,6 +73,7 @@ module Google
       puts "end_val #{@end_val}"
       puts "all_day_event #{@all_day_event}"
       puts "date key: #{get_date_key}"
+      puts "html_link: #{get_html_link}"
     end
   end
 end

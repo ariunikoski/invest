@@ -14,9 +14,9 @@ module InvestServer
     config.load_defaults 7.0
 
     ######
-    #  export EDITOR="vi"
     #  jq <~/Downloads/client_secret_308870415185-p70e99cg6o8qb4c0ct4gvgb89c6o72ia.apps.googleusercontent.com.json  >x.x
-    #  rails credentials:edit --environment development
+    #  RR=`which rails`
+    #  eval EDITOR="vi" "$RR credentials:edit --environment development"
     #  
     #  In production I had to add to the .bashrc the line:
     #  export RAILS_MASTER_KEY=<contents of config/credentials/production.key>
@@ -29,6 +29,9 @@ module InvestServer
     #  Note that to test using the broswer make sure you use the ngrok url and not the localhost
     #      https://onomatopoetically-noncataclysmic-glenda.ngrok-free.dev/auth/google_oauth2
     # NOTE - when testing the dashboard app you need to be used the ngrok and not localhost
+    # 
+    # For the definitions within google go to: https://console.cloud.google.com/auth/clients?project=calendardashboard-492606
+    # 
     Rails.application.config.middleware.use OmniAuth::Builder do
       provider :google_oauth2,
         Rails.application.credentials.dig(:google, :client_id),
